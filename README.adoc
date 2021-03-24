@@ -1,0 +1,258 @@
+= EL PROJECTE GRANDE - DESIGN DOCUMENT
+KATARZYNA GRABOWSKA, JOANNA RZESZÓTKO-DONIEC, JAKUB ZIELIŃSKI, PIOTR WÓJCIK
+14.03/2021
+:project_name: El Grande
+:imagesdir: ./images
+:journey: https://journey.code.cool/v2/project/curriculum/project/el-proyecte-grande-design/team/general
+
+
+image::birds_rainbow-lorakeets.png[Birds,200,100]
+
+== OVERALL DESCRIPTION
+
+Web application {project_name} that matches principals and contractors according to their requirements for task to do, location and date / term. The application allows you to: +
+
+. *find the right person for the urgent job right now*
+. *inform what are your skills, when you are available and earn some money*
+. *pay no fee!*
+
+Application enables companies or individuals to find temporary employees to complete specific task  / in unexpected situations. In parallel people who are looking for side job can find best suited job opportunity and earn additional money. To optimize searching process there is also the possibility of matching employers with potential candidates based on criteria they have set up in their profiles.
+
+Application {project_name} can be used on every computer connected to the Internet and also on smartphones.
+
+=== REQUIREMENTS
+
+{journey}[description from Journey]
+
+=== CONTENT
+* <<main_page>>
+** <<head>>
+** <<brief_job_offer_layout>>
+** <<brief_contractor_offer_layout>>
+* <<job_offers>>
+* <<contractor_offers>>
+* <<single_job_offer>>
+* <<single_contractor_offer>>
+* <<user_page>>
+** <<private_user_page>>
+** <<public_user_page>>
+* <<register_page>>
+* <<login_page>>
+* <<premium_option>>
+
+* <<authors>>
+
+
+
+[#main_page]
+=== MAIN PAGE OF {project_name}
+
+On the main page there are 4 section:
+
+* heading
+* section with buttons: Add job offer / Offer your skills
+//* section with buttons: I am an employer / I am a contractor
+* section with 5 latest job offers in brief layout with a header "View all"
+* section with 5 latest contractors' offers in brief layout with a header "View all"
+
+
+When user is not logged in and clicks _Add job offer_  or _Offer your skills_ he is asked to log in the portal or register.
+
+When user is logged in and clicks _Add job offer_ or _Offer your skills_ the appropriate form to add job offer or add availability is displayed.
+
+When user chooses to see all job offers, he is redirected to page with a list of brief layouts of the first 20 job offers.  When user wants to see all contractors' offers he is provided with a page with a list of brief layouts of availability offers.
+
+
+[#head]
+==== HEADING
+Heading is shared by all pages of the service. It contains components:
+
+* portal name and logo
+* avatar (will display image if added to profile), if clicked will display:
+** if user is logged in:
+*** logout
+*** view offers I posted
+*** view matched offers
+*** view offers I replied to
+** if user is not logged in:
+*** register
+*** login or  name of logged user
+
+
+[#brief_job_offer_layout]
+==== BRIEF JOB OFFER LAYOUT
+
+A brief layout of job offer contains: start date, end date, location, kind of job, payment, if it was specified, and employer's short name or logo.
+
+
+[#brief_contractor_offer_layout]
+==== BRIEF CONTRACTOR'S OFFER LAYOUT
+
+A brief layout of contractor offer contains: date, location, kind of services, expected payment, if it was specified and the short name of contractor.
+
+[#job_offers]
+=== JOB OFFERS
+
+The page displays a list of the 20 latest offers in brief layout. There is a pagination at the bottom and above list of offered jobs. Every page displays 20 offers.
+
+There is a section that allows user to filter offers according to:
+
+* key word
+* range of dates
+* location
+* kind of job (industry name)
+* availability
+* experience
+* total hours of work
+* employee name (from profile)
+
+It is possible to combine different filtering criteria to get the most suitable results.
+
+User can also browse offers in a dedicated map tool that shows offers on a map.
+
+
+[#contractor_offers]
+=== CONTRACTOR'S OFFERS
+
+The page displays a list of the 20 latest offers in brief layout. There is a pagination at the bottom and above list of offered contractors' availability. Every page displays 20 offers.
+
+There is a section that allows user to filter offers according to:
+
+* key word
+* industry
+* range of dates
+* location
+* kind of job (industry name)
+* availability
+* experience required
+* total hours of work
+* contractor's name
+
+
+It is possible to combine different filtering criteria to get the most suitable results.
+
+User can also browse offers in a dedicated map tool that shows offers on a map.
+
+
+[#single_job_offer]
+=== SINGLE JOB OFFER
+
+Single job offer display following job offer details:
+
+* industry
+* title
+* description
+* range of dates when work can be performed (from - to)
+* preferred work schedule (day of the week and time of the day)
+* location
+* required experience (yes/no)
+* required skills (optional: only if added when creating the offer)
+* total hours of work (optional - displayed only if added to offer)
+* salary (optional - displayed only if added to offer)
+* supporting documents - images or files (optional - displayed only if added to offer)
+
+Additionally, the offer contains:
+
+* link to the employer profile
+* link to the list of current employer's offers
+* "Get in touch" button - when clicked the message is sent to offer Owner
+
+
+[#single_contractor_offer]
+=== SINGLE CONTRACTOR OFFER
+
+Single job offer contains following job offer details:
+
+* industry
+* title
+* description
+* range of dates when work can be performed (from - to)
+* preferred work schedule (day of the week and time of the day)
+* location
+* required experience (yes/no)
+* skills (optional: only if added when creating the offer)
+* total hours of work that employee is willing to work (optional - displayed only if added to offer)
+* expected salary (optional - displayed only if added to offer)
+* supporting documents - images or files (optional - displayed only if added to offer)
+
+Additionally, the offer contains:
+
+* link to the public contractor's profile
+* link to the list of current contractor's offers
+* "Get in touch" button - when clicked the message is sent to offer Owner
+
+
+[#user_page]
+=== USER PAGE
+
+The application {project_name} allows the user to fill in and update his public profile and manage his own advertisements as well as rate other  users in case they cooperated together.
+
+[#private_user_page]
+==== PRIVATE PAGE
+
+The private user profile consist of sections: general information, own offers, offers that he answered, rating other users.
+The user has also possibility to choose the default main page after logging (a list of job offers or a list of contractors' offers ).
+General information to set in user profile: name, short name, logo, types of offered services, experience, images that show sample of previous finished work.
+User can also add other users to favourite list and manage this list.
+
+[#public_user_page]
+==== PUBLIC PROFILE
+
+The public profile of user displays: name, logo, public contact details, [.line-through]#key-words of offered services#, short description, experience, images upload by user, rating, link to current list of added offers.  If the user is a contractor and simultaneously an employer , there is a link to second profile.
+
+
+[#register_page]
+=== REGISTER PAGE
+
+* registration page available from the home page and from all pages for unregistered users via the button in the corner of the page
+* page on the new route with the form
+* fields: email address, password, repeat password, telephone number, regulations acceptance (checkbox) with a hyperlink to the page with the regulations
+* there is a validation of the entered password (lowercase, uppercase, digits, special character, min 8 characters)
+* after pressed registration button the data from the form goes to the database, the password is hashed
+* after clicking the registration button, a popup appears with a 6-digit code to no (code sent by text message / randomly generated in the terminal)
+* after entering the correct code, the account is considered verified, in the case of an incorrect code, the information about the error and a repeated attempt is displayed
+* after successful registration user will be redirected to the user profile page
+
+==== Technologies:
+* @PostMapping(“/register”)
+* postgreSql / pgAdmin - saving the user to the database
+* table register_user (id, email, password[hash], phone_number)
+* return (“/user”)
+
+[#login_page]
+=== LOGIN PAGE
+
+* login page available from the home page and from all pages available to unregistered users via the button in the corner of the page
+* after going to the login page, there is a form with the login and password
+* after a successful date, the user is redirected to the home page
+* in case of incorrect login data, an error message is displayed
+
+
+==== Technologies:
+* @PostMapping(“/login”)
+* postgreSql / pgAdmin - checking if user exist in database
+* return (“/”)
+
+[#premium_option]
+===  PREMIUM OPTION PAGE
+
+Highlighting the advertisement (job offerer): option 3-7-14 days. For every matched the advertisement is moved to the top of the page, which goes to the home page.
+
+==== Technologies:
+* creating a “/ premium_options” route with a choice of additional plans
+* creating a "/ payment" route with payment methods (credit card, paypal)
+
+
+[#authors]
+=== AUTHORS
+[%hardbreaks]
+Katarzyna Grabowska
+Joanna Rzeszótko-Doniec
+Jakub Zieliński
+Piotr Wójcik
+
+
+
+
+
+
