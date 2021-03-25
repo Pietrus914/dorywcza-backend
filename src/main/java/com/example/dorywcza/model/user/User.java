@@ -20,7 +20,7 @@ public class User {
 
     @NotNull
     private String email;
-    @NotFound
+    @NotNull
     private String password;
     private String phone_number;
     private boolean verified;

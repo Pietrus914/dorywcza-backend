@@ -30,6 +30,7 @@ public class UserProfile {
     private String description;
     @OneToOne
     private Experience experience;
+//    @Column(name = "image_id")
     @OneToOne
     private Image avatar;
 
