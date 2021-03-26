@@ -10,17 +10,9 @@ import java.util.Optional;
 @RestController
 public class ServiceOfferController {
     private final ServiceOfferService serviceOfferService;
-    private final ServiceDataRangeService serviceDataRangeService;
-    private final ServiceJobSalaryService serviceJobSalaryService;
-    private final ServiceLocationService serviceLocationService;
-    private final ServiceScheduleService serviceScheduleService;
 
-    public ServiceOfferController(ServiceOfferService serviceOfferService, ServiceDataRangeService serviceDataRangeService, ServiceJobSalaryService serviceJobSalaryService, ServiceLocationService serviceLocationService, ServiceScheduleService serviceScheduleService) {
+    public ServiceOfferController(ServiceOfferService serviceOfferService) {
         this.serviceOfferService = serviceOfferService;
-        this.serviceDataRangeService = serviceDataRangeService;
-        this.serviceJobSalaryService = serviceJobSalaryService;
-        this.serviceLocationService = serviceLocationService;
-        this.serviceScheduleService = serviceScheduleService;
     }
 
     @GetMapping("/service-offers")
@@ -38,10 +30,16 @@ public class ServiceOfferController {
 
     @PostMapping("/add-service-offer")
     public ServiceOffer addServiceOffer(@RequestBody ServiceOffer serviceOffer) {
-        serviceDataRangeService.addServiceDataRange(serviceOffer.getServiceDateRange());
-        serviceJobSalaryService.addServiceJobSalary(serviceOffer.getServiceJobSalary());
-        serviceLocationService.addServiceLocation(serviceOffer.getServiceLocation());
-        serviceScheduleService.addServiceSchedule(serviceOffer.getServiceSchedule());
         return serviceOfferService.addServiceOffer(serviceOffer);
+    }
+
+    @PostMapping("/update-service-offer/{id}")
+    public ServiceOffer updateServiceOffer(@RequestBody ServiceOffer serviceOffer, @PathVariable Long id) {
+        return serviceOfferService.updateServiceOffer(serviceOffer, id);
+    }
+
+    @DeleteMapping("/service-offers/{id}")
+    public void deleteServiceOffer(@PathVariable Long id) {
+        serviceOfferService.deleteServiceOffer(id);
     }
 }

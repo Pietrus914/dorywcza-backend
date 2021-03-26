@@ -26,4 +26,24 @@ public class ServiceOfferService {
     public ServiceOffer addServiceOffer(ServiceOffer serviceOffer) {
         return serviceOfferRepository.save(serviceOffer);
     }
+
+    public ServiceOffer updateServiceOffer(ServiceOffer serviceOffer, Long id) {
+        if (findById(id).isEmpty()) {
+            throw  new RuntimeException();
+        }
+//        else {
+//            ServiceOffer serviceOfferTemp = serviceOfferRepository.getOne(id);
+//            serviceOffer.getServiceSchedule().setId(serviceOfferTemp.getServiceSchedule().getId());
+//            serviceOffer.getServiceJobSalary().setId(serviceOfferTemp.getServiceJobSalary().getId());
+//            serviceOffer.getServiceLocation().setId(serviceOfferTemp.getServiceLocation().getId());
+//            serviceOffer.getServiceDateRange().setId(serviceOfferTemp.getServiceDateRange().getId());
+//        }
+        serviceOffer.setId(id);
+
+        return serviceOfferRepository.save(serviceOffer);
+    }
+
+    public void deleteServiceOffer(Long id) {
+        serviceOfferRepository.deleteById(id);
+    }
 }
