@@ -5,10 +5,7 @@ import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 
 import java.util.Objects;
@@ -25,17 +22,17 @@ public class ServiceOffer {
     private int userId;
     private String industry;
     private String title;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @NotNull
     private ServiceDateRange serviceDateRange;
     private boolean hasExperience;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @NotNull
     private ServiceJobSalary serviceJobSalary;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @NotNull
     private ServiceLocation serviceLocation;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @NotNull
     private ServiceSchedule serviceSchedule;
 
