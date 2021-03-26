@@ -1,4 +1,4 @@
-package com.example.dorywcza.model.config;
+package com.example.dorywcza.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
