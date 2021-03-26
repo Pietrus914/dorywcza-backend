@@ -19,7 +19,7 @@ public class ServiceOfferService {
         return serviceOfferRepository.findAll();
     }
 
-    public Optional<ServiceOffer> findById(int id) {
+    public Optional<ServiceOffer> findById(Long id) {
         return serviceOfferRepository.findById(id);
     }
 

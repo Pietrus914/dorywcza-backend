@@ -21,7 +21,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class ServiceOffer {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private int id;
+    private Long id;
     private int userId;
     private String industry;
     private String title;

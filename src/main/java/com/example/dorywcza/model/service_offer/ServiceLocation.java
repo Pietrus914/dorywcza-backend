@@ -17,7 +17,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class ServiceLocation {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private int id;
+    private Long id;
     private double xPosition;
     private double yPosition;
 

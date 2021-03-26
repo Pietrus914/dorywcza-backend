@@ -17,7 +17,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class ServiceJobSalary {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private int id;
+    private Long id;
     private int min;
     private int max;
     private String salaryUnit;

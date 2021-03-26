@@ -17,7 +17,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class ServiceDateRange {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private int id;
+    private Long id;
     private Date startDate;
     private Date endDate;
 

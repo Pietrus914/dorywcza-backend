@@ -29,7 +29,7 @@ public class ServiceOfferController {
     }
 
     @GetMapping("/service-offers/{id}")
-    public Optional<ServiceOffer> findById(@PathVariable int id) {
+    public Optional<ServiceOffer> findById(@PathVariable Long id) {
         return serviceOfferService.findById(id);
     }
 

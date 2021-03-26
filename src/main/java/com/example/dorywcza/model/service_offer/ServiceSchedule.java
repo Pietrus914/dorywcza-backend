@@ -17,7 +17,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 public class ServiceSchedule {
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    private int id;
+    private Long id;
     private boolean mondayMorning;
     private boolean mondayAfternoon;
     private boolean mondayEvening;
