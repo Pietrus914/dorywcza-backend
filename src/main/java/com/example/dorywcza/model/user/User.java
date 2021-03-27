@@ -22,6 +22,7 @@ public class User {
     private String email;
     @NotNull
     private String password;
+    private String passwordConfirm;
     private String phone_number;
     private boolean verified;
     private int overallRating;
@@ -29,8 +30,15 @@ public class User {
     @Transient
     UserProfile userProfile;
 
+    @Transient
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
     public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
+
+
 }
