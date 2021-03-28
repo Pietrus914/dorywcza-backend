@@ -3,6 +3,7 @@ package com.example.dorywcza.model.user;
 
 import com.example.dorywcza.model.Address;
 import com.example.dorywcza.model.Image;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,17 +20,19 @@ public class UserProfile {
     private Long id;
 
     @OneToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
     private String first_name;
     private String last_name;
     private String user_name;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
     private String description;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Experience experience;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Image avatar;
 
 

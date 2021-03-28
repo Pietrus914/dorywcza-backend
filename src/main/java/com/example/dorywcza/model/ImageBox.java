@@ -1,8 +1,8 @@
 package com.example.dorywcza.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,7 +16,8 @@ public class ImageBox {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "box", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "imageBox", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Image> images;
 
     public ImageBox() {

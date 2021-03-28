@@ -1,11 +1,9 @@
 package com.example.dorywcza.model.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import org.hibernate.annotations.NotFound;
-import org.springframework.data.repository.cdi.Eager;
 
 import javax.persistence.*;
 
@@ -26,7 +24,8 @@ public class User {
     private boolean verified;
     private int overallRating;
 
-    @Transient
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
     UserProfile userProfile;
 
     public User(String email, String password) {
