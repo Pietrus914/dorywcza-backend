@@ -1,14 +1,19 @@
 package com.example.dorywcza.model.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import org.hibernate.annotations.NotFound;
-import org.springframework.data.repository.cdi.Eager;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
+@SQLDelete(sql =
+        "UPDATE user " +
+                "SET deleted = true " +
+                "WHERE id = ?")
+@Where(clause = "deleted = false")
 @Data
 @NoArgsConstructor
 @Entity
@@ -26,11 +31,17 @@ public class User {
     private boolean verified;
     private int overallRating;
 
-    @Transient
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
     UserProfile userProfile;
+
+    @Column(name = "deleted")
+    private boolean deleted;
 
     public User(String email, String password) {
         this.email = email;
         this.password = password;
+        this.deleted = false;
     }
+
 }

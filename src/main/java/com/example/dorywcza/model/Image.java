@@ -1,6 +1,7 @@
 package com.example.dorywcza.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,10 +18,8 @@ public class Image {
 
     private File image;
     @ManyToOne
-//    @JoinTable(name = "image_image_box_id",
-//            joinColumns = @JoinColumn(name = "image_id", referencedColumnName = "id"),
-//            inverseJoinColumns = @JoinColumn(name = "image_box_id", referencedColumnName = "id"))
     @JoinColumn(name = "image_box_id", nullable = false)
-    private ImageBox box;
+    @JsonBackReference
+    private ImageBox imageBox;
 
 }
