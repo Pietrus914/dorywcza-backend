@@ -20,6 +20,11 @@ public class ServiceOfferController {
         return serviceOfferService.findAll();
     }
 
+    @GetMapping("/service-offers/sh")
+    public List<ServiceOffer> findAllBy() {
+        return serviceOfferService.findAllByService();
+    }
+
     @GetMapping("/service-offers/{id}")
     public Optional<ServiceOffer> findById(@PathVariable Long id) {
         return serviceOfferService.findById(id);
