@@ -28,6 +28,13 @@ public class UserService {
     }
 
     public void addUser(User user) {
+        user.setId(null);
+        userRepository.save(user);
+    }
+
+    public void updateUser(User user, Long id){
+        if (!userRepository.existsById(id)) throw new RuntimeException("User Not Found");
+        user.setId(id);
         userRepository.save(user);
     }
 }
