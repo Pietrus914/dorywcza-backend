@@ -35,5 +35,6 @@ public class SalaryTimeUnit {
     @EqualsAndHashCode.Exclude
     private Set<JobSalary> jobSalaries;
 
+
 }
 

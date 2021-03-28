@@ -33,5 +33,4 @@ public class JobSalary {
     @JsonIgnore
     private JobOffer jobOffer;
 
-
 }

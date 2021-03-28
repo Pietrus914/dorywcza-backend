@@ -2,6 +2,7 @@ package com.example.dorywcza.model.job_offer;
 
 import com.example.dorywcza.model.Industry;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,7 +31,10 @@ import java.util.Date;
     private String description;
 
 //    Date when  JobOffer is created or updated is automatically updated in database
+
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="CET")
     private Date dateCreated;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="CET")
     private Date dateUpdated;
 
     @PrePersist
@@ -45,14 +49,15 @@ import java.util.Date;
 
 //    Job start & end date stored in DATES_RANGE table
     @Column(name="START_DATE", table = "DATES_RANGE")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="CET")
     private Date startDate;
     @Column(name="END_DATE", table = "DATES_RANGE")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="CET")
     private Date endDate;
 
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "INDUSTRY_ID")
-    @JsonBackReference
     @EqualsAndHashCode.Exclude
     private Industry industry;
 

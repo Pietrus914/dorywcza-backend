@@ -1,6 +1,7 @@
 package com.example.dorywcza.model;
 
 import com.example.dorywcza.model.job_offer.JobOffer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,7 +26,7 @@ public class Industry {
     private long id;
     private String name;
     @OneToMany(mappedBy = "industry")
-    @JsonManagedReference
+    @JsonIgnore
     @EqualsAndHashCode.Exclude
     private Set<JobOffer> jobOffers;
 

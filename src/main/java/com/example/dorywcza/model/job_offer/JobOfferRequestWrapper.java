@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JobOfferCombo {
+public class JobOfferRequestWrapper {
 
     private JobOffer jobOffer;
     private Long industryId;

@@ -1,9 +1,7 @@
 package com.example.dorywcza.controller;
 
-import com.example.dorywcza.model.SalaryTimeUnit;
 import com.example.dorywcza.model.job_offer.JobOffer;
-import com.example.dorywcza.model.job_offer.JobOfferCombo;
-import com.example.dorywcza.model.job_offer.JobSalary;
+import com.example.dorywcza.model.job_offer.JobOfferRequestWrapper;
 import com.example.dorywcza.service.job_offer_service.JobOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +29,7 @@ public class JobOfferController {
     }
 
     @PostMapping("/jobs")
-    public void saveJobOffer(@RequestBody JobOfferCombo jobOfferCombo) {
-        jobOfferService.saveJobOffer(jobOfferCombo);
+    public void saveJobOffer(@RequestBody JobOfferRequestWrapper jobOfferRequestWrapper) {
+        jobOfferService.saveJobOffer(jobOfferRequestWrapper);
     }
 }
