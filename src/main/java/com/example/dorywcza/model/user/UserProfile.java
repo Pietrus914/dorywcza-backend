@@ -35,8 +35,5 @@ public class UserProfile {
     @OneToOne(cascade = CascadeType.ALL)
     private Image avatar;
 
-
-    public UserProfile(Long id) {
-        this.id = id;
-    }
+    
 }

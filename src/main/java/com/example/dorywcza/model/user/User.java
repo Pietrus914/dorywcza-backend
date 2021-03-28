@@ -4,9 +4,16 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
+@SQLDelete(sql =
+        "UPDATE user " +
+                "SET deleted = true " +
+                "WHERE id = ?")
+@Where(clause = "deleted = false")
 @Data
 @NoArgsConstructor
 @Entity
@@ -28,8 +35,13 @@ public class User {
     @JsonManagedReference
     UserProfile userProfile;
 
+    @Column(name = "deleted")
+    private boolean deleted;
+
     public User(String email, String password) {
         this.email = email;
         this.password = password;
+        this.deleted = false;
     }
+
 }

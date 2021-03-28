@@ -16,9 +16,9 @@ INSERT INTO address (street) VALUES ( 'SunnyStreet' );
 INSERT INTO address (street) VALUES ( 'StormyStreet' );
 INSERT INTO address (street) VALUES ( 'RainyStreet' );
 
-INSERT INTO User (email, password, overall_rating, verified) VALUES ( 'mark@gmail.com' , 'mark_pass', 25, false );
-INSERT INTO User (email, password, overall_rating, verified) VALUES ( 'kazik@gmail.com' , 'kazik_pass', 25, false );
-INSERT INTO User (email, password, overall_rating, verified) VALUES ( 'mati@gmail.com' , 'mati_pass', 25, false );
+INSERT INTO User (deleted, email, password, overall_rating, verified) VALUES ( false, 'mark@gmail.com' , 'mark_pass', 25, false );
+INSERT INTO User (deleted, email, password, overall_rating, verified) VALUES ( false, 'kazik@gmail.com' , 'kazik_pass', 25, false );
+INSERT INTO User (deleted, email, password, overall_rating, verified) VALUES ( false, 'mati@gmail.com' , 'mati_pass', 25, false );
 
 INSERT INTO user_profile (user_id, first_name, last_name, address_id, description, experience_id, avatar_id)
 VALUES ( 1, 'Mark', 'Markowski', 1, 'brave', 1, 1 );

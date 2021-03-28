@@ -1,6 +1,7 @@
 package com.example.dorywcza.model;
 
 import com.example.dorywcza.model.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,8 +18,10 @@ public class Rating {
     private int score;
     private String review;
     @OneToOne
+    @JsonBackReference
     private User reviewedByUser;
     @OneToOne
+    @JsonBackReference
     private User user;
 
 }
