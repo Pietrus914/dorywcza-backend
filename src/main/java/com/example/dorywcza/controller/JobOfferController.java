@@ -29,7 +29,7 @@ public class JobOfferController {
     }
 
     @PostMapping("/jobs")
-    public void saveJobOffer(@RequestBody JobOfferRequestWrapper jobOfferRequestWrapper) {
-        jobOfferService.saveJobOffer(jobOfferRequestWrapper);
+    public JobOffer saveJobOffer(@RequestBody JobOfferRequestWrapper jobOfferRequestWrapper) {
+        return jobOfferService.saveJobOffer(jobOfferRequestWrapper);
     }
 }

@@ -36,7 +36,7 @@ public class JobOfferService {
         return repository.findAll();
     }
 
-    public void saveJobOffer(JobOfferRequestWrapper jobOfferRequestWrapper){
+    public JobOffer saveJobOffer(JobOfferRequestWrapper jobOfferRequestWrapper){
         JobOffer jobOffer = jobOfferRequestWrapper.getJobOffer();
         Long industryId = jobOfferRequestWrapper.getIndustryId();
         Long salaryTimeUnitId = jobOfferRequestWrapper.getSalaryTimeUnitId();
@@ -47,6 +47,6 @@ public class JobOfferService {
         jobOffer.setIndustry(industry);
         jobOffer.setJobSalary(jobSalary);
 
-        repository.save(jobOffer);
+        return repository.save(jobOffer);
     }
 }

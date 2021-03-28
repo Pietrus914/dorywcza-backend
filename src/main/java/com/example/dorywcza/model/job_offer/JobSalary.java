@@ -1,9 +1,7 @@
 package com.example.dorywcza.model.job_offer;
 
 import com.example.dorywcza.model.SalaryTimeUnit;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,7 +23,7 @@ public class JobSalary {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "SALARY_TIME_UNIT_ID")
-    @JsonBackReference
+//    @JsonBackReference
     private SalaryTimeUnit salaryTimeUnit;
 
 
