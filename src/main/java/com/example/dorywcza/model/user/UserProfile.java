@@ -36,6 +36,7 @@ public class UserProfile {
     private Image avatar;
 
 
-
-
+    public UserProfile(Long id) {
+        this.id = id;
+    }
 }
