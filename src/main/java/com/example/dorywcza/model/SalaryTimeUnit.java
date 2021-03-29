@@ -1,6 +1,6 @@
 package com.example.dorywcza.model;
 
-import com.example.dorywcza.model.job_offer.JobSalary;
+import com.example.dorywcza.model.offer.Salary;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +16,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "SALARY_TIME_UNIT")
 public class SalaryTimeUnit {
 
 
@@ -27,11 +26,10 @@ public class SalaryTimeUnit {
     private String name;
 
 
-    @OneToMany(mappedBy = "salaryTimeUnit", cascade = CascadeType.ALL)
-//    @JsonManagedReference
+    @OneToMany(mappedBy = "salaryTimeUnit")
     @JsonIgnore
     @EqualsAndHashCode.Exclude
-    private Set<JobSalary> jobSalaries;
+    private Set<Salary> jobSalaries;
 
 
 }

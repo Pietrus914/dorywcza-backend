@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class JobOfferController {
@@ -25,6 +26,8 @@ public class JobOfferController {
 
     @GetMapping("/jobs")
     public List<JobOffer> findAll(){
+        System.out.println(jobOfferService.findAll().get(0).getIndustry().getServiceOffers().size());
+        Set<JobOffer> jobOffers = jobOfferService.findAll().get(0).getIndustry().getJobOffers();
         return jobOfferService.findAll();
     }
 
