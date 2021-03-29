@@ -10,6 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -22,11 +26,17 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @AutoConfigureMockMvc
 @SpringBootTest
 class UserControllerTest {
+
+    private String TOKEN_ATTR_NAME = "org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN";
+    private HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
+    private CsrfToken csrfToken = httpSessionCsrfTokenRepository.generateToken(new MockHttpServletRequest());
+
 
     @Autowired
     private UserService userService;
@@ -67,6 +77,28 @@ class UserControllerTest {
     }
 
     @Test
-    void getUser() {
+    void givenNewUserWithoutProfile_whenAdding_ShouldReturnExpectedUser() throws Exception {
+
+        User newUser = new User("emailTest@gmail.com", "testpassword");
+        String newUserInJson = objectMapper.writeValueAsString(newUser);
+
+        MvcResult mvcResult;
+        mvcResult = this.mockMvc.perform(
+                MockMvcRequestBuilders.post("/user")
+                        .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+                        .param(csrfToken.getParameterName(), csrfToken.getToken())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(newUserInJson))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        User returnedUser = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), User.class);
+
+        assertAll(
+                () -> assertEquals(newUser, returnedUser)
+        );
+
+
     }
 }

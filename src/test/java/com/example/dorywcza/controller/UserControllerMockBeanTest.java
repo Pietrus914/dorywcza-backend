@@ -89,7 +89,7 @@ class UserControllerMockBeanTest {
     }
 
     @Test
-    void givenNewUserWithoutProfile_whenAdding_ShouldReturnUserListWithAdditionalElement() throws Exception {
+    void givenNewUserWithoutProfile_whenAdding_ShouldReturnExpectedUser() throws Exception {
 
         User newUser = new User("emailTest@gmail.com", "testpassword");
         User expectedUser = new User("fromService", "fromServicePassword");
