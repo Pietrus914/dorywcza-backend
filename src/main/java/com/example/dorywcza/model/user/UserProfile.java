@@ -17,10 +17,10 @@ import java.util.Objects;
 public class UserProfile {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne
+    @MapsId
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;

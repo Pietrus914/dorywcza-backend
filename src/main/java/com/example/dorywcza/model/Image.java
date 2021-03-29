@@ -18,7 +18,7 @@ public class Image {
 
     private File image;
     @ManyToOne
-    @JoinColumn(name = "image_box_id", nullable = false)
+    @JoinColumn(name = "image_box_id")
     @JsonBackReference
     private ImageBox imageBox;
 

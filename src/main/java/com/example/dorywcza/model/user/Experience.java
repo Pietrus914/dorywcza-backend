@@ -16,7 +16,7 @@ public class Experience {
     private Long id;
 
     private String description;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private ImageBox imageBox;
 
 
