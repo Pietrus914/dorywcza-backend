@@ -14,4 +14,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**")
                 .antMatchers("/h2-console/**");
     }
+
 }
+
