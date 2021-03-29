@@ -37,7 +37,7 @@ public class ServiceOfferController {
 
     @PostMapping("/add-service-offer")
     public ServiceOffer addServiceOffer(@RequestBody ServiceOffer serviceOffer) {
-        serviceOffer.setIndustry(industryService.findByIdId(1l).get());
+//        serviceOffer.setIndustry(industryService.findByIdId(1l).get());
         return serviceOfferService.addServiceOffer(serviceOffer);
     }
 

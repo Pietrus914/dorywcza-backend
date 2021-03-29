@@ -17,9 +17,9 @@ public class ServiceOffer extends Offer {
 
 
     public ServiceOffer(String title, String description, int userId, boolean hasExperience,
-                        OfferLocation offerLocation, DateRange dateRange,
+                        OfferLocation offerLocation, DateRange dateRange, Industry industry,
                         Salary salary, OfferSchedule offerSchedule) {
-        super(title, description, userId, hasExperience, offerLocation, dateRange,  salary, offerSchedule);
+        super(title, description, userId, hasExperience, offerLocation, dateRange, industry,  salary, offerSchedule);
 
     }
 }

@@ -26,7 +26,7 @@ public class SalaryTimeUnit {
     private String name;
 
 
-    @OneToMany(mappedBy = "salaryTimeUnit", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "salaryTimeUnit")
     @JsonIgnore
     @EqualsAndHashCode.Exclude
     private Set<Salary> jobSalaries;

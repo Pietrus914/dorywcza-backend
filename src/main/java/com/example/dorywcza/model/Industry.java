@@ -30,7 +30,7 @@ public class Industry {
     private String name;
     private Long parentId;
 
-    @OneToMany(mappedBy = "industry", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "industry")
     @JsonIgnore
     @EqualsAndHashCode.Exclude
     private Set<JobOffer> jobOffers;

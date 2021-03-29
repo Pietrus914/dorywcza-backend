@@ -49,7 +49,7 @@ public class Offer {
     @NotNull
     private DateRange dateRange;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "INDUSTRY_ID")
     @EqualsAndHashCode.Exclude
     private Industry industry;
@@ -65,7 +65,7 @@ public class Offer {
 
 
     public Offer(String title, String description, int userId, boolean hasExperience, OfferLocation offerLocation,
-                 DateRange dateRange,  Salary salary, OfferSchedule offerSchedule) {
+                 DateRange dateRange, Industry industry,  Salary salary, OfferSchedule offerSchedule) {
         this.title = title;
         this.description = description;
         this.userId = userId;
@@ -73,7 +73,7 @@ public class Offer {
         this.salary = salary;
         this.offerLocation = offerLocation;
         this.dateRange = dateRange;
-
+        this.industry = industry;
         this.offerSchedule = offerSchedule;
 
     }

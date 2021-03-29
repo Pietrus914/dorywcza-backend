@@ -13,7 +13,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 public class JobOffer extends Offer {
 

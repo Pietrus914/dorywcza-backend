@@ -20,7 +20,7 @@ public class Salary {
     private Long minSalary;
     private Long maxSalary;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "SALARY_TIME_UNIT_ID")
     private SalaryTimeUnit salaryTimeUnit;
 
