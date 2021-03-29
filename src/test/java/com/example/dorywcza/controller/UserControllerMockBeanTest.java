@@ -9,14 +9,19 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -28,6 +33,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @WebMvcTest(UserController.class)
 class UserControllerMockBeanTest {
 
+    private String TOKEN_ATTR_NAME = "org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository.CSRF_TOKEN";
+    private HttpSessionCsrfTokenRepository httpSessionCsrfTokenRepository = new HttpSessionCsrfTokenRepository();
+    private CsrfToken csrfToken = httpSessionCsrfTokenRepository.generateToken(new MockHttpServletRequest());
+
+
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -37,7 +47,11 @@ class UserControllerMockBeanTest {
     private UserService userService;
 
 
-
+    private List<User> expectedList = new ArrayList<>(List.of(
+            new User("test1@gmail.com","password" ),
+            new User("test2@gmail.com","password2"),
+            new User("test3@gmail.com","password3")
+    ));
 //    @Before
 //    public void setUp(){
 //        Mockito.when(userService.findAll())
@@ -51,13 +65,6 @@ class UserControllerMockBeanTest {
 
     @Test
     void given3UsersInDatabase_whenGetAll_shouldReturnListOf3Users() throws Exception {
-
-        List<User> expectedList = new ArrayList<>(List.of(
-                        new User("test1@gmail.com","password" ),
-                        new User("test2@gmail.com","password2"),
-                        new User("test3@gmail.com","password3")
-                ));
-
 
         given(userService.findAll()).willReturn(expectedList);
 
@@ -78,6 +85,35 @@ class UserControllerMockBeanTest {
                 () -> assertEquals(expectedSize,returnedUserList.size()),
                 ()-> assertEquals(expectedEmails, returnedUserList.stream().map(User::getEmail).collect(Collectors.toList())),
                 () -> assertEquals(expectedList, returnedUserList ));
+
+    }
+
+    @Test
+    void givenNewUserWithoutProfile_whenAdding_ShouldReturnUserListWithAdditionalElement() throws Exception {
+
+        User newUser = new User("emailTest@gmail.com", "testpassword");
+        User expectedUser = new User("fromService", "fromServicePassword");
+        String newUserInJson = objectMapper.writeValueAsString(newUser);
+
+        given(userService.addUser(newUser)).willReturn(expectedUser);
+
+        MvcResult mvcResult;
+        mvcResult = this.mockMvc.perform(
+                MockMvcRequestBuilders.post("/user")
+                .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+                .param(csrfToken.getParameterName(), csrfToken.getToken())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(newUserInJson))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        User returnedUser = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), User.class);
+
+        assertAll(
+                () -> assertEquals(expectedUser, returnedUser)
+        );
+
 
     }
 }

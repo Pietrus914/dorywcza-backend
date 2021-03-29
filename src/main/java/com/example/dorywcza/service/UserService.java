@@ -32,14 +32,14 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public void addUser(User user) {
+    public User addUser(User user) {
         user.setId(null);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
-    public void updateUser(User user, Long id) {
+    public User updateUser(User user, Long id) {
         if (!userRepository.existsById(id)) throw new RuntimeException("User Not Found");
         user.setId(id);
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 }

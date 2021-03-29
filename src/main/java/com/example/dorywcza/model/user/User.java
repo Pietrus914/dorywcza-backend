@@ -50,11 +50,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return verified == user.verified && overallRating == user.overallRating && deleted == user.deleted && Objects.equals(id, user.id) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(phone_number, user.phone_number) && Objects.equals(userProfile, user.userProfile);
+        return verified == user.verified && overallRating == user.overallRating && deleted == user.deleted && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(phone_number, user.phone_number) && Objects.equals(userProfile, user.userProfile);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, email, password, phone_number, verified, overallRating, userProfile, deleted);
+        return Objects.hash(email, password, phone_number, verified, overallRating, userProfile, deleted);
     }
 }
