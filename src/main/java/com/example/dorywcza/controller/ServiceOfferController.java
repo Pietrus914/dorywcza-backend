@@ -10,9 +10,11 @@ import java.util.Optional;
 @RestController
 public class ServiceOfferController {
     private final ServiceOfferService serviceOfferService;
+    private final IndustryService industryService;
 
-    public ServiceOfferController(ServiceOfferService serviceOfferService) {
+    public ServiceOfferController(ServiceOfferService serviceOfferService, IndustryService industryService) {
         this.serviceOfferService = serviceOfferService;
+        this.industryService = industryService;
     }
 
     @GetMapping("/service-offers")
@@ -20,10 +22,10 @@ public class ServiceOfferController {
         return serviceOfferService.findAll();
     }
 
-    @GetMapping("/service-offers/sh")
-    public List<ServiceOffer> findAllBy() {
-        return serviceOfferService.findAllByService();
-    }
+//    @GetMapping("/service-offers/sh")
+//    public List<ServiceOffer> findAllBy() {
+//        return serviceOfferService.findAllByService();
+//    }
 
     @GetMapping("/service-offers/{id}")
     public Optional<ServiceOffer> findById(@PathVariable Long id) {
@@ -35,6 +37,7 @@ public class ServiceOfferController {
 
     @PostMapping("/add-service-offer")
     public ServiceOffer addServiceOffer(@RequestBody ServiceOffer serviceOffer) {
+        serviceOffer.setIndustry(industryService.findByIdId(1l).get());
         return serviceOfferService.addServiceOffer(serviceOffer);
     }
 

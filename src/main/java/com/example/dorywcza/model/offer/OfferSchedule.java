@@ -1,4 +1,4 @@
-package com.example.dorywcza.model.service_offer;
+package com.example.dorywcza.model.offer;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @NoArgsConstructor
 @Entity
-public class ServiceSchedule {
+public class OfferSchedule {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
@@ -40,7 +40,7 @@ public class ServiceSchedule {
     private boolean sundayAfternoon;
     private boolean sundayEvening;
 
-    public ServiceSchedule(boolean mondayMorning, boolean mondayAfternoon, boolean mondayEvening, boolean tuesdayMorning, boolean tuesdayAfternoon, boolean tuesdayEvening, boolean wednesdayMorning, boolean wednesdayAfternoon, boolean wednesdayEvening, boolean thursdayMorning, boolean thursdayAfternoon, boolean thursdayEvening, boolean fridayMorning, boolean fridayAfternoon, boolean fridayEvening, boolean saturdayMorning, boolean saturdayAfternoon, boolean saturdayEvening, boolean sundayMorning, boolean sundayAfternoon, boolean sundayEvening) {
+    public OfferSchedule(boolean mondayMorning, boolean mondayAfternoon, boolean mondayEvening, boolean tuesdayMorning, boolean tuesdayAfternoon, boolean tuesdayEvening, boolean wednesdayMorning, boolean wednesdayAfternoon, boolean wednesdayEvening, boolean thursdayMorning, boolean thursdayAfternoon, boolean thursdayEvening, boolean fridayMorning, boolean fridayAfternoon, boolean fridayEvening, boolean saturdayMorning, boolean saturdayAfternoon, boolean saturdayEvening, boolean sundayMorning, boolean sundayAfternoon, boolean sundayEvening) {
         this.mondayMorning = mondayMorning;
         this.mondayAfternoon = mondayAfternoon;
         this.mondayEvening = mondayEvening;
@@ -68,7 +68,7 @@ public class ServiceSchedule {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ServiceSchedule that = (ServiceSchedule) o;
+        OfferSchedule that = (OfferSchedule) o;
         return mondayMorning == that.mondayMorning && mondayAfternoon == that.mondayAfternoon && mondayEvening == that.mondayEvening && tuesdayMorning == that.tuesdayMorning && tuesdayAfternoon == that.tuesdayAfternoon && tuesdayEvening == that.tuesdayEvening && wednesdayMorning == that.wednesdayMorning && wednesdayAfternoon == that.wednesdayAfternoon && wednesdayEvening == that.wednesdayEvening && thursdayMorning == that.thursdayMorning && thursdayAfternoon == that.thursdayAfternoon && thursdayEvening == that.thursdayEvening && fridayMorning == that.fridayMorning && fridayAfternoon == that.fridayAfternoon && fridayEvening == that.fridayEvening && saturdayMorning == that.saturdayMorning && saturdayAfternoon == that.saturdayAfternoon && saturdayEvening == that.saturdayEvening && sundayMorning == that.sundayMorning && sundayAfternoon == that.sundayAfternoon && sundayEvening == that.sundayEvening;
     }
 

@@ -19,9 +19,9 @@ public class ServiceOfferService {
         return serviceOfferRepository.findAll();
     }
 
-    public List<ServiceOffer> findAllByService() {
-        return serviceOfferRepository.findAllByServiceScheduleMondayAfternoon(false);
-    }
+//    public List<ServiceOffer> findAllByService() {
+//        return serviceOfferRepository.findAllByServiceScheduleMondayAfternoon(false);
+//    }
 
     public Optional<ServiceOffer> findById(Long id) {
         return serviceOfferRepository.findById(id);
@@ -37,10 +37,9 @@ public class ServiceOfferService {
         }
         else {
             ServiceOffer serviceOfferTemp = serviceOfferRepository.getOne(id);
-            serviceOffer.getServiceSchedule().setId(serviceOfferTemp.getServiceSchedule().getId());
-            serviceOffer.getServiceJobSalary().setId(serviceOfferTemp.getServiceJobSalary().getId());
-            serviceOffer.getServiceLocation().setId(serviceOfferTemp.getServiceLocation().getId());
-            serviceOffer.getServiceDateRange().setId(serviceOfferTemp.getServiceDateRange().getId());
+            serviceOffer.getOfferSchedule().setId(serviceOfferTemp.getOfferSchedule().getId());
+            serviceOffer.getOfferLocation().setId(serviceOfferTemp.getOfferLocation().getId());
+            serviceOffer.getDateRange().setId(serviceOfferTemp.getDateRange().getId());
         }
         serviceOffer.setId(id);
 

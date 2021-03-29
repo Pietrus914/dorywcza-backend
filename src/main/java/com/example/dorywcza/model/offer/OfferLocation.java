@@ -1,4 +1,4 @@
-package com.example.dorywcza.model.service_offer;
+package com.example.dorywcza.model.offer;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,14 +14,14 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @NoArgsConstructor
 @Entity
-public class ServiceLocation {
+public class OfferLocation {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     private double xPosition;
     private double yPosition;
 
-    public ServiceLocation(double xPosition, double yPosition) {
+    public OfferLocation(double xPosition, double yPosition) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
     }
@@ -30,7 +30,7 @@ public class ServiceLocation {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ServiceLocation that = (ServiceLocation) o;
+        OfferLocation that = (OfferLocation) o;
         return Double.compare(that.xPosition, xPosition) == 0 && Double.compare(that.yPosition, yPosition) == 0;
     }
 

@@ -1,5 +1,6 @@
-package com.example.dorywcza.model.service_offer;
+package com.example.dorywcza.model.offer;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,14 +15,16 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @NoArgsConstructor
 @Entity
-public class ServiceDateRange {
+public class DateRange {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "CET")
     private Date startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "CET")
     private Date endDate;
 
-    public ServiceDateRange(Date startDate, Date endDate) {
+    public DateRange(Date startDate, Date endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }
