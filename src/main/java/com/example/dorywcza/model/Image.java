@@ -2,14 +2,16 @@ package com.example.dorywcza.model;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.Objects;
+
 
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 public class Image {
     @Id
@@ -17,9 +19,24 @@ public class Image {
     private Long id;
 
     private File image;
-    @ManyToOne
-    @JoinColumn(name = "image_box_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn(name = "image_box_id")
     @JsonBackReference
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private ImageBox imageBox;
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Image image1 = (Image) o;
+        return Objects.equals(image, image1.image);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(image);
+    }
 }

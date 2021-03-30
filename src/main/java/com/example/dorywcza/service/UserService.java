@@ -5,10 +5,13 @@ import com.example.dorywcza.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@PersistenceContext(type = PersistenceContextType.EXTENDED)
 public class UserService {
 
     @Autowired

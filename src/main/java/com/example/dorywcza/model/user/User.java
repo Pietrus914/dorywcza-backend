@@ -2,8 +2,7 @@ package com.example.dorywcza.model.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -15,7 +14,8 @@ import java.util.Objects;
                 "SET deleted = true " +
                 "WHERE id = ?")
 @Where(clause = "deleted = false")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 public class User {
@@ -34,6 +34,8 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     UserProfile userProfile;
 
     @Column(name = "deleted")
@@ -57,4 +59,5 @@ public class User {
     public int hashCode() {
         return Objects.hash(email, password, phone_number, verified, overallRating, userProfile, deleted);
     }
+
 }
