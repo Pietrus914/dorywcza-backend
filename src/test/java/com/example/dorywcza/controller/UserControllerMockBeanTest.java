@@ -52,16 +52,6 @@ class UserControllerMockBeanTest {
             new User("test2@gmail.com","password2"),
             new User("test3@gmail.com","password3")
     ));
-//    @Before
-//    public void setUp(){
-//        Mockito.when(userService.findAll())
-//                .thenReturn(new ArrayList<>(List.of(
-//                        new User("test1@gmail.com","password" ),
-//                        new User("test2@gmail.com","password2"),
-//                        new User("test3@gmail.com","password3")
-//                )));
-//
-//    }
 
     @Test
     void given3UsersInDatabase_whenGetAll_shouldReturnListOf3Users() throws Exception {

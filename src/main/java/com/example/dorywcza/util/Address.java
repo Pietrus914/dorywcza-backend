@@ -1,4 +1,4 @@
-package com.example.dorywcza.model;
+package com.example.dorywcza.util;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

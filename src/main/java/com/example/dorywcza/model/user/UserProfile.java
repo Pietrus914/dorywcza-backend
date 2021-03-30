@@ -1,8 +1,8 @@
 package com.example.dorywcza.model.user;
 
 
-import com.example.dorywcza.model.Address;
-import com.example.dorywcza.model.Image;
+import com.example.dorywcza.util.Address;
+import com.example.dorywcza.util.Image;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
@@ -51,6 +51,4 @@ public class UserProfile {
     public int hashCode() {
         return Objects.hash(first_name, last_name, user_name, address, description, experience, avatar);
     }
-
-
 }

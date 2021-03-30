@@ -1,6 +1,6 @@
 package com.example.dorywcza.controller;
 
-import com.example.dorywcza.model.Address;
+import com.example.dorywcza.util.Address;
 import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.model.user.UserProfile;
 import com.example.dorywcza.service.UserService;
@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @AutoConfigureMockMvc
@@ -77,6 +76,7 @@ class UserControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void givenNewUserWithoutProfile_whenAdding_ShouldReturnExpectedUser() throws Exception {
 
         User newUser = new User("emailTest@gmail.com", "testpassword");
@@ -103,6 +103,7 @@ class UserControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void givenUserWithProfile_whenUpdateUser_ShouldReturnUpdatedUser() throws Exception {
 
         User userToUpdate = userService.findById(1L).get();
