@@ -5,7 +5,7 @@ import com.example.dorywcza.model.Industry;
 import com.example.dorywcza.model.SalaryTimeUnit;
 import com.example.dorywcza.model.job_offer.JobOffer;
 import com.example.dorywcza.model.job_offer.JobOfferRequestWrapper;
-import com.example.dorywcza.model.job_offer.JobSalary;
+import com.example.dorywcza.model.offer.Salary;
 import com.example.dorywcza.repository.job_offer_repository.JobOfferRepository;
 import com.example.dorywcza.service.IndustryService;
 import com.example.dorywcza.service.SalaryTimeUnitService;
@@ -40,12 +40,12 @@ public class JobOfferService {
         JobOffer jobOffer = jobOfferRequestWrapper.getJobOffer();
         Long industryId = jobOfferRequestWrapper.getIndustryId();
         Long salaryTimeUnitId = jobOfferRequestWrapper.getSalaryTimeUnitId();
-        JobSalary jobSalary = jobOfferRequestWrapper.getJobSalary();
+//        Salary salary = jobOfferRequestWrapper.getSalary();
         SalaryTimeUnit salaryTimeUnit = salaryTimeUnitService.findSalaryTimeUnitById(salaryTimeUnitId);
-        jobSalary.setSalaryTimeUnit(salaryTimeUnit);
+//        salary.setSalaryTimeUnit(salaryTimeUnit);
         Industry industry = industryService.findByIdId(industryId).get();
-        jobOffer.setIndustry(industry);
-        jobOffer.setJobSalary(jobSalary);
+//        jobOffer.setIndustry(industry);
+//        jobOffer.setJobSalary(jobSalary);
 
         return repository.save(jobOffer);
     }
