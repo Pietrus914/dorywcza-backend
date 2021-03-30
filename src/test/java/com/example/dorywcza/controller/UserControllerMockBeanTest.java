@@ -1,6 +1,7 @@
 package com.example.dorywcza.controller;
 
 import com.example.dorywcza.model.user.User;
+import com.example.dorywcza.model.user.UserDTO;
 import com.example.dorywcza.service.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,10 +48,10 @@ class UserControllerMockBeanTest {
     private UserService userService;
 
 
-    private List<User> expectedList = new ArrayList<>(List.of(
-            new User("test1@gmail.com","password" ),
-            new User("test2@gmail.com","password2"),
-            new User("test3@gmail.com","password3")
+    private List<UserDTO> expectedList = new ArrayList<>(List.of(
+            new UserDTO("test1@gmail.com" ),
+            new UserDTO("test2@gmail.com"),
+            new UserDTO("test3@gmail.com")
     ));
 
     @Test
@@ -65,7 +66,7 @@ class UserControllerMockBeanTest {
                 .andReturn();
 
         String responseAsString = mvcResult.getResponse().getContentAsString();
-        List<User> returnedUserList = objectMapper.readValue(responseAsString, new TypeReference<>() {
+        List<UserDTO> returnedUserList = objectMapper.readValue(responseAsString, new TypeReference<>() {
         });
 
         int expectedSize = 3;
@@ -73,7 +74,7 @@ class UserControllerMockBeanTest {
 
         assertAll(
                 () -> assertEquals(expectedSize,returnedUserList.size()),
-                ()-> assertEquals(expectedEmails, returnedUserList.stream().map(User::getEmail).collect(Collectors.toList())),
+                ()-> assertEquals(expectedEmails, returnedUserList.stream().map(user -> user.getEmail()).collect(Collectors.toList())),
                 () -> assertEquals(expectedList, returnedUserList ));
 
     }

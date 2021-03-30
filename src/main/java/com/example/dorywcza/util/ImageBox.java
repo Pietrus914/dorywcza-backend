@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @Getter
@@ -26,6 +27,13 @@ public class ImageBox {
 
     public ImageBox() {
         this.images = new ArrayList<>();
+    }
+
+    public ImageBox(ImageBoxDTO imageBoxDTO) {
+        this.id = imageBoxDTO.getId();
+        this.images = imageBoxDTO.getPictures().stream()
+                .map(picture -> new Image(picture)).collect(Collectors.toList());
+
     }
 
     @Override

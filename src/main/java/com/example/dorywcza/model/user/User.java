@@ -47,6 +47,14 @@ public class User {
         this.deleted = false;
     }
 
+    public User(UserDTO userDTO) {
+        this.id = userDTO.getId();
+        this.email = userDTO.getEmail();
+        this.phone_number = userDTO.getPhone_number();
+        this.overallRating = userDTO.getOverallRating();
+        this.userProfile = new UserProfile(userDTO.getUserProfileDTO());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

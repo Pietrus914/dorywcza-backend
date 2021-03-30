@@ -27,6 +27,11 @@ public class Image {
     private ImageBox imageBox;
 
 
+    public Image(ImageDTO imageDTO) {
+        this.id = imageDTO.getId();
+        this.image = imageDTO.getPicture();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

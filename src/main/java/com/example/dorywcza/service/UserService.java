@@ -1,6 +1,9 @@
 package com.example.dorywcza.service;
 
+import com.example.dorywcza.model.user.Experience;
 import com.example.dorywcza.model.user.User;
+import com.example.dorywcza.model.user.UserDTO;
+import com.example.dorywcza.model.user.UserProfileDTO;
 import com.example.dorywcza.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @PersistenceContext(type = PersistenceContextType.EXTENDED)
@@ -22,8 +26,9 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<UserDTO> findAll() {
+
+        return userRepository.findAll().stream().map(user -> convert(user)).collect(Collectors.toList());
     }
 
     public Optional<User> findById(Long id) {
@@ -45,4 +50,40 @@ public class UserService {
         user.setId(id);
         return userRepository.save(user);
     }
+
+    private User convert(UserDTO userDTO){
+        return new User(userDTO);
+
+    }
+
+    private UserDTO convert(User user){
+
+        UserDTO userDTO = new UserDTO(
+                user.getId(),user.getEmail(), user.getPhone_number(),
+                user.getOverallRating(),new UserProfileDTO(user.getUserProfile())) ;                ;
+
+        return userDTO;
+
+    }
+
+//    private UserDTO convert(User user){
+//        List<File> experienceImages =
+//                user.getUserProfile().getExperience().getImageBox().
+//                getImages().stream().map(Image::getImage)
+//                .collect(Collectors.toList());
+//
+//        UserDTO userDTO = new UserDTO(
+//                user.getId(),user.getEmail(), user.getPhone_number(),
+//                user.getOverallRating(), user.getUserProfile().getFirst_name(),
+//                user.getUserProfile().getLast_name(),
+//                user.getUserProfile().getUser_name(),
+//                user.getUserProfile().getAddress().getStreet(),
+//                user.getUserProfile().getDescription(),
+//                user.getUserProfile().getExperience().getDescription(),
+//                user.getUserProfile().getAvatar().getImage(),
+//                experienceImages);                ;
+//
+//        return userDTO;
+//
+//    }
 }

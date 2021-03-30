@@ -39,6 +39,17 @@ public class UserProfile {
     private Image avatar;
 
 
+    public UserProfile(UserProfileDTO userProfileDTO){
+        this.id = userProfileDTO.getId();
+        this.first_name = userProfileDTO.getFirst_name();
+        this.last_name = userProfileDTO.getLast_name();
+        this.user_name = userProfileDTO.getUser_name();
+        this.description = userProfileDTO.getDescription();
+        this.address = new Address(userProfileDTO.getAddressDTO());
+        this.experience = new Experience(userProfileDTO.getExperienceDTO());
+        this.avatar = new Image(userProfileDTO.getAvatar());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
