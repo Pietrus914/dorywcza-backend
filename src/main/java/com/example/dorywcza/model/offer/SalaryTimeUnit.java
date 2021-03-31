@@ -1,4 +1,4 @@
-package com.example.dorywcza.model;
+package com.example.dorywcza.model.offer;
 
 import com.example.dorywcza.model.offer.Salary;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,7 +30,6 @@ public class SalaryTimeUnit {
     @JsonIgnore
     @EqualsAndHashCode.Exclude
     private Set<Salary> jobSalaries;
-
 
 }
 

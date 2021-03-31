@@ -2,6 +2,7 @@ package com.example.dorywcza.controller;
 
 import com.example.dorywcza.model.job_offer.JobOffer;
 import com.example.dorywcza.model.job_offer.JobOfferRequestWrapper;
+import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
 import com.example.dorywcza.service.job_offer_service.JobOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,7 @@ public class JobOfferController {
     }
 
     @PostMapping("/jobs")
-    public JobOffer saveJobOffer(@RequestBody JobOfferRequestWrapper jobOfferRequestWrapper) {
-        return jobOfferService.saveJobOffer(jobOfferRequestWrapper);
+    public JobOffer saveJobOffer(@RequestBody OfferPostDTO offerPostDTO) {
+        return jobOfferService.save(offerPostDTO);
     }
 }

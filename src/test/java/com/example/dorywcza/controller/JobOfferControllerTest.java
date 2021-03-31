@@ -1,7 +1,7 @@
 //package com.example.dorywcza.controller;
 //
-//import com.example.dorywcza.model.Industry;
-//import com.example.dorywcza.model.SalaryTimeUnit;
+//import com.example.dorywcza.model.offer.Industry;
+//import com.example.dorywcza.model.offer.SalaryTimeUnit;
 //import com.example.dorywcza.model.job_offer.JobOfferRequestWrapper;
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //import org.junit.jupiter.api.DisplayName;
