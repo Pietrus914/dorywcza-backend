@@ -29,7 +29,10 @@ public class Image {
 
     public Image(ImageDTO imageDTO) {
         this.id = imageDTO.getId();
-        this.image = imageDTO.getPicture();
+        if (imageDTO.getPicture() != null){
+            this.image = imageDTO.getPicture();
+        }
+
     }
 
     @Override

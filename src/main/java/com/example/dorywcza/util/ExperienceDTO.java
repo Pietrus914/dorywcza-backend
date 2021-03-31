@@ -2,7 +2,9 @@ package com.example.dorywcza.util;
 
 import com.example.dorywcza.model.user.Experience;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Data
 public class ExperienceDTO {
 
@@ -13,6 +15,9 @@ public class ExperienceDTO {
     public ExperienceDTO(Experience experience) {
         this.id = experience.getId();
         this.description = experience.getDescription();
-        this.imageBoxDTO = new ImageBoxDTO(experience.getImageBox());
+        if (experience.getImageBox() != null){
+            this.imageBoxDTO = new ImageBoxDTO(experience.getImageBox());
+        }
+
     }
 }

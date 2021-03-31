@@ -45,9 +45,14 @@ public class UserProfile {
         this.last_name = userProfileDTO.getLast_name();
         this.user_name = userProfileDTO.getUser_name();
         this.description = userProfileDTO.getDescription();
-        this.address = new Address(userProfileDTO.getAddressDTO());
-        this.experience = new Experience(userProfileDTO.getExperienceDTO());
-        this.avatar = new Image(userProfileDTO.getAvatar());
+        if (userProfileDTO.getAddressDTO() != null){
+            this.address = new Address(userProfileDTO.getAddressDTO());
+        }
+        if (userProfileDTO.getExperienceDTO() != null){
+            this.experience = new Experience(userProfileDTO.getExperienceDTO());
+        }
+        if (userProfileDTO.getAvatar() != null){
+        this.avatar = new Image(userProfileDTO.getAvatar());}
     }
 
     @Override

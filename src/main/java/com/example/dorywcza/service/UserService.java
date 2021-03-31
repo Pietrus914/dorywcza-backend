@@ -1,9 +1,7 @@
 package com.example.dorywcza.service;
 
-import com.example.dorywcza.model.user.Experience;
 import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.model.user.UserDTO;
-import com.example.dorywcza.model.user.UserProfileDTO;
 import com.example.dorywcza.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,18 +29,19 @@ public class UserService {
         return userRepository.findAll().stream().map(user -> convert(user)).collect(Collectors.toList());
     }
 
-    public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
+    public Optional<UserDTO> findById(Long id) {
+        return userRepository.findById(id).map(e -> convert(e));
     }
-
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 
-    public User addUser(User user) {
-        user.setId(null);
-        return userRepository.save(user);
+    public UserDTO addUser(UserDTO userDTO) {
+        userDTO.setId(null);
+        User addedUser = userRepository.save(convert(userDTO));
+        return convert(addedUser);
+
     }
 
     public User updateUser(User user, Long id) {
@@ -58,9 +57,7 @@ public class UserService {
 
     private UserDTO convert(User user){
 
-        UserDTO userDTO = new UserDTO(
-                user.getId(),user.getEmail(), user.getPhone_number(),
-                user.getOverallRating(),new UserProfileDTO(user.getUserProfile())) ;                ;
+        UserDTO userDTO = new UserDTO(user) ;                ;
 
         return userDTO;
 

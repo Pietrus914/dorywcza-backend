@@ -1,11 +1,12 @@
 package com.example.dorywcza.util;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor
 @Data
 public class ImageBoxDTO {
 
@@ -14,8 +15,9 @@ public class ImageBoxDTO {
 
     public ImageBoxDTO(ImageBox imageBox){
         this.id = imageBox.getId();
+        if (imageBox.getImages() != null){
         this.pictures = imageBox.getImages().stream()
                 .map(image -> new ImageDTO(image))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());}
     }
 }

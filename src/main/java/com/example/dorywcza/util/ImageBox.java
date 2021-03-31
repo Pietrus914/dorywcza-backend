@@ -31,8 +31,9 @@ public class ImageBox {
 
     public ImageBox(ImageBoxDTO imageBoxDTO) {
         this.id = imageBoxDTO.getId();
+        if (imageBoxDTO.getPictures().size() != 0){
         this.images = imageBoxDTO.getPictures().stream()
-                .map(picture -> new Image(picture)).collect(Collectors.toList());
+                .map(picture -> new Image(picture)).collect(Collectors.toList());}
 
     }
 

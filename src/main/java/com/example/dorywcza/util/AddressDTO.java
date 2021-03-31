@@ -1,7 +1,9 @@
 package com.example.dorywcza.util;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Data
 public class AddressDTO {
 
@@ -10,6 +12,8 @@ public class AddressDTO {
 
     public AddressDTO(Address address){
         this.id = address.getId();
-        this.street = address.getStreet();
+        if (address.getStreet() != null) {
+            this.street = address.getStreet();
+        }
     }
 }

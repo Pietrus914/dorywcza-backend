@@ -1,6 +1,5 @@
 package com.example.dorywcza.controller;
 
-import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.model.user.UserDTO;
 import com.example.dorywcza.service.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -11,18 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -82,11 +80,11 @@ class UserControllerMockBeanTest {
     @Test
     void givenNewUserWithoutProfile_whenAdding_ShouldReturnExpectedUser() throws Exception {
 
-        User newUser = new User("emailTest@gmail.com", "testpassword");
-        User expectedUser = new User("fromService", "fromServicePassword");
-        String newUserInJson = objectMapper.writeValueAsString(newUser);
+        UserDTO newUserDTO = new UserDTO("emailTest@gmail.com");
+        UserDTO expectedUserDTO = new UserDTO("fromService");
+        String newUserInJson = objectMapper.writeValueAsString(newUserDTO);
 
-        given(userService.addUser(newUser)).willReturn(expectedUser);
+        given(userService.addUser(newUserDTO)).willReturn(expectedUserDTO);
 
         MvcResult mvcResult;
         mvcResult = this.mockMvc.perform(
@@ -99,10 +97,10 @@ class UserControllerMockBeanTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        User returnedUser = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), User.class);
+        UserDTO returnedUserDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), UserDTO.class);
 
         assertAll(
-                () -> assertEquals(expectedUser, returnedUser)
+                () -> assertEquals(expectedUserDTO, returnedUserDTO)
         );
 
 

@@ -1,9 +1,11 @@
 package com.example.dorywcza.util;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.File;
 
+@NoArgsConstructor
 @Data
 public class ImageDTO {
 
@@ -12,6 +14,8 @@ public class ImageDTO {
 
     public ImageDTO(Image image){
         this.id = image.getId();
-        this.picture = image.getImage();
+        if (image.getImage() != null) {
+            this.picture = image.getImage();
+        }
     }
 }

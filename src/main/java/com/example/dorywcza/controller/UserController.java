@@ -24,13 +24,13 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public Optional<User> getUser(@PathVariable Long id){
+    public Optional<UserDTO> getUser(@PathVariable Long id){
         return userService.findById(id);
     }
 
     @PostMapping("/user")
-    public User addUser(@RequestBody User user){
-        return userService.addUser(user);
+    public UserDTO addUser(@RequestBody UserDTO userDTO){
+        return userService.addUser(userDTO);
     }
 
     @PutMapping("/user/{id}")
