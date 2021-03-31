@@ -44,10 +44,12 @@ public class UserService {
 
     }
 
-    public User updateUser(User user, Long id) {
+    public UserDTO updateUser(UserDTO userDTO, Long id) {
         if (!userRepository.existsById(id)) throw new RuntimeException("User Not Found");
-        user.setId(id);
-        return userRepository.save(user);
+        userDTO.setId(id);
+        User updatedUser = userRepository.save(convert(userDTO));
+
+        return convert(updatedUser);
     }
 
     private User convert(UserDTO userDTO){

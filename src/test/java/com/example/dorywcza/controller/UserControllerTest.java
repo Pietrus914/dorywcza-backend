@@ -105,32 +105,32 @@ class UserControllerTest {
 
     }
 
-//    @Test
-//    @DirtiesContext
-//    void givenUserWithProfile_whenUpdateUser_ShouldReturnUpdatedUser() throws Exception {
-//
-//        User userToUpdate = userService.findById(1L).get();
-//        userToUpdate.getUserProfile().setUser_name("newNick");
-//        String userToUpdateInJson = objectMapper.writeValueAsString(userToUpdate);
-//
-//        MvcResult mvcResult;
-//        mvcResult = this.mockMvc.perform(
-//                MockMvcRequestBuilders.put("/user/1")
-//                        .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
-//                        .param(csrfToken.getParameterName(), csrfToken.getToken())
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(userToUpdateInJson))
-//                .andDo(print())
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andReturn();
-//
-//        User returnedUser = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), User.class);
-//
-//        assertAll(
-//                () -> assertEquals(userToUpdate,
-//                        returnedUser)
-//        );
-//
-//
-//    }
+    @Test
+    @DirtiesContext
+    void givenUserWithoutProfile_whenUpdateUser_ShouldReturnUpdatedUser() throws Exception {
+
+        UserDTO userDTOToUpdate = userService.findById(1L).get();
+        userDTOToUpdate.getUserProfileDTO().setUser_name("newNick");
+        String userDTOToUpdateInJson = objectMapper.writeValueAsString(userDTOToUpdate);
+
+        MvcResult mvcResult;
+        mvcResult = this.mockMvc.perform(
+                MockMvcRequestBuilders.put("/user/1")
+                        .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+                        .param(csrfToken.getParameterName(), csrfToken.getToken())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(userDTOToUpdateInJson))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        UserDTO returnedUserDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), UserDTO.class);
+
+        assertAll(
+                () -> assertEquals(userDTOToUpdate,
+                        returnedUserDTO)
+        );
+
+
+    }
 }
