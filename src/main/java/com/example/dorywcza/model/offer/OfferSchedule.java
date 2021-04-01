@@ -1,5 +1,6 @@
 package com.example.dorywcza.model.offer;
 
+import com.example.dorywcza.model.offer.DTO.OfferScheduleDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -62,6 +63,30 @@ public class OfferSchedule {
         this.sundayMorning = sundayMorning;
         this.sundayAfternoon = sundayAfternoon;
         this.sundayEvening = sundayEvening;
+    }
+
+    public OfferSchedule(OfferScheduleDTO offerScheduleDTO) {
+        this.mondayMorning = offerScheduleDTO.isMondayMorning();
+        this.mondayAfternoon = offerScheduleDTO.isMondayAfternoon();
+        this.mondayEvening = offerScheduleDTO.isMondayEvening();
+        this.tuesdayMorning = offerScheduleDTO.isTuesdayMorning();
+        this.tuesdayAfternoon = offerScheduleDTO.isTuesdayAfternoon();
+        this.tuesdayEvening = offerScheduleDTO.isTuesdayEvening();
+        this.wednesdayMorning = offerScheduleDTO.isWednesdayMorning();
+        this.wednesdayAfternoon = offerScheduleDTO.isWednesdayAfternoon();
+        this.wednesdayEvening = offerScheduleDTO.isWednesdayEvening();
+        this.thursdayMorning = offerScheduleDTO.isThursdayMorning();
+        this.thursdayAfternoon = offerScheduleDTO.isThursdayAfternoon();
+        this.thursdayEvening = offerScheduleDTO.isThursdayEvening();
+        this.fridayMorning = offerScheduleDTO.isFridayMorning();
+        this.fridayAfternoon = offerScheduleDTO.isFridayAfternoon();
+        this.fridayEvening = offerScheduleDTO.isFridayEvening();
+        this.saturdayMorning = offerScheduleDTO.isSaturdayMorning();
+        this.saturdayAfternoon = offerScheduleDTO.isSaturdayAfternoon();
+        this.saturdayEvening = offerScheduleDTO.isSaturdayEvening();
+        this.sundayMorning = offerScheduleDTO.isSundayMorning();
+        this.sundayAfternoon = offerScheduleDTO.isSundayAfternoon();
+        this.sundayEvening = offerScheduleDTO.isSundayEvening();
     }
 
     @Override

@@ -4,7 +4,7 @@ package com.example.dorywcza.service.job_offer_service;
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
 import com.example.dorywcza.model.job_offer.JobOffer;
 import com.example.dorywcza.repository.job_offer_repository.JobOfferRepository;
-import com.example.dorywcza.service.OfferDTOExtractor;
+import com.example.dorywcza.service.DTOExtractor.JobOfferDTOExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +14,12 @@ import java.util.List;
 public class JobOfferService {
 
     private final JobOfferRepository repository;
-    private final OfferDTOExtractor offerDTOExtractor;
+    private final JobOfferDTOExtractor jobOfferDTOExtractor;
 
     @Autowired
-    public JobOfferService(JobOfferRepository repository, OfferDTOExtractor offerDTOExtractor) {
+    public JobOfferService(JobOfferRepository repository, JobOfferDTOExtractor jobOfferDTOExtractor) {
         this.repository = repository;
-        this.offerDTOExtractor = offerDTOExtractor;
+        this.jobOfferDTOExtractor = jobOfferDTOExtractor;
     }
 
     public List<JobOffer> findAll(){
@@ -27,7 +27,7 @@ public class JobOfferService {
     }
 
     public JobOffer save(OfferPostDTO offerPostDTO){
-        JobOffer jobOffer = offerDTOExtractor.getOffer(offerPostDTO);
+        JobOffer jobOffer =jobOfferDTOExtractor.getOffer(offerPostDTO);
         return repository.save(jobOffer);
     }
 

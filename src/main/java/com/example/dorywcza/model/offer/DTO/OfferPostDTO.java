@@ -1,7 +1,6 @@
 package com.example.dorywcza.model.offer.DTO;
 
 
-import com.example.dorywcza.model.offer.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -16,9 +15,9 @@ public class OfferPostDTO  {
     private Long userId;
     private Long salaryTimeUnitId;
     private boolean hasExperience;
-    private Salary salary;
-    private OfferLocation offerLocation;
-    private DateRange dateRange;
+    private SalaryDTO salaryDTO;
+    private OfferLocationDTO offerLocationDTO;
+    private DateRangeDTO dateRangeDTO;
     private Long IndustryId;
-    private OfferSchedule offerSchedule;
+    private OfferScheduleDTO offerScheduleDTO;
 }
