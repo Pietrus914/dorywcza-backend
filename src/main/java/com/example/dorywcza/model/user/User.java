@@ -2,19 +2,20 @@ package com.example.dorywcza.model.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @SQLDelete(sql =
         "UPDATE user " +
                 "SET deleted = true " +
                 "WHERE id = ?")
 @Where(clause = "deleted = false")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Entity
 public class User {
@@ -33,6 +34,8 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     UserProfile userProfile;
 
     @Column(name = "deleted")
@@ -42,6 +45,19 @@ public class User {
         this.email = email;
         this.password = password;
         this.deleted = false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return verified == user.verified && overallRating == user.overallRating && deleted == user.deleted && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(phone_number, user.phone_number) && Objects.equals(userProfile, user.userProfile);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, password, phone_number, verified, overallRating, userProfile, deleted);
     }
 
 }
