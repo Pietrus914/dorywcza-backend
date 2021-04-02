@@ -1,6 +1,6 @@
 package com.example.dorywcza.repository;
 
-import com.example.dorywcza.model.SalaryTimeUnit;
+import com.example.dorywcza.model.offer.SalaryTimeUnit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

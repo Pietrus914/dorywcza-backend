@@ -1,7 +1,6 @@
 package com.example.dorywcza.model.offer;
 
 
-import com.example.dorywcza.model.SalaryTimeUnit;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,4 +23,8 @@ public class Salary {
     @JoinColumn(name = "SALARY_TIME_UNIT_ID")
     private SalaryTimeUnit salaryTimeUnit;
 
+    public Salary(Long minSalary, Long maxSalary) {
+        this.minSalary = minSalary;
+        this.maxSalary = maxSalary;
+    }
 }
