@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import java.sql.Date;
+import java.util.Objects;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -29,4 +30,16 @@ public class DateRange {
         this.endDate = endDate;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DateRange dateRange = (DateRange) o;
+        return Objects.equals(startDate, dateRange.startDate) && Objects.equals(endDate, dateRange.endDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(startDate, endDate);
+    }
 }
