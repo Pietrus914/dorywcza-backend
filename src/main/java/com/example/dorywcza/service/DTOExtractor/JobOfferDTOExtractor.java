@@ -3,6 +3,7 @@ package com.example.dorywcza.service.DTOExtractor;
 import com.example.dorywcza.model.job_offer.JobOffer;
 import com.example.dorywcza.model.offer.*;
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
+import com.example.dorywcza.model.service_offer.ServiceOffer;
 import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.service.IndustryService;
 import com.example.dorywcza.service.JobOfferTagService;
@@ -39,4 +40,16 @@ public class JobOfferDTOExtractor extends OfferDTOExtractor{
         return jobOffer;
     }
 
+
+
+    public JobOffer setIdsBeforeUpdate(OfferPostDTO offerPostDTO, JobOffer offerCurrentlyInDB) {
+        JobOffer offerToBeSavedInDB = getOffer(offerPostDTO);
+        offerToBeSavedInDB.getOfferSchedule().setId(offerCurrentlyInDB.getOfferSchedule().getId());
+        offerToBeSavedInDB.getOfferLocation().setId(offerCurrentlyInDB.getOfferLocation().getId());
+        offerToBeSavedInDB.getDateRange().setId(offerCurrentlyInDB.getDateRange().getId());
+        offerToBeSavedInDB.getSalary().setId(offerCurrentlyInDB.getSalary().getId());
+        offerToBeSavedInDB.setDateCreated(offerCurrentlyInDB.getDateCreated());
+        offerToBeSavedInDB.setId(offerCurrentlyInDB.getId());
+        return offerToBeSavedInDB;
+    }
 }
