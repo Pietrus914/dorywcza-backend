@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -27,6 +28,10 @@ public class ImageBox {
 
     public ImageBox() {
         this.images = new ArrayList<>();
+    }
+
+    public ImageBox(List<File> pictures){
+        this.images = pictures.stream().map(file -> new Image(file)).collect(Collectors.toList());
     }
 
     public ImageBox(ImageBoxDTO imageBoxDTO) {

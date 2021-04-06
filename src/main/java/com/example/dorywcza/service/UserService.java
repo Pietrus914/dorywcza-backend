@@ -2,6 +2,7 @@ package com.example.dorywcza.service;
 
 import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.model.user.UserDTO;
+import com.example.dorywcza.model.user.UserProfile;
 import com.example.dorywcza.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,22 +40,32 @@ public class UserService {
 
     public UserDTO addUser(UserDTO userDTO) {
         userDTO.setId(null);
-        User addedUser = userRepository.save(convert(userDTO));
-        return convert(addedUser);
+        User toAddUser = convert(userDTO);
+        toAddUser.setDeleted(false);
+//        toAddUser.setUserProfile(new UserProfile(toAddUser, userDTO.getFirst_name(),userDTO.getLast_name(),
+//                userDTO.getUser_name(), userDTO.getDescription(), userDTO.getStreet(), userDTO.getExperienceDescription(),
+//                userDTO.getPictures(), userDTO.getAvatar()));
+        User addedUser = userRepository.save(toAddUser);
 
+        return convert(addedUser);
     }
 
     public UserDTO updateUser(UserDTO userDTO, Long id) {
         if (!userRepository.existsById(id)) throw new RuntimeException("User Not Found");
-        userDTO.setId(id);
-        User updatedUser = userRepository.save(convert(userDTO));
+        User userToUpdate = convert(userDTO);
+        userToUpdate.setId(id);
+        userToUpdate.getUserProfile().setId(id);
+        User updatedUser = userRepository.save(userToUpdate);
 
         return convert(updatedUser);
     }
 
     private User convert(UserDTO userDTO){
-        return new User(userDTO);
-
+        User fromDTO = new User(userDTO);
+        fromDTO.setUserProfile(new UserProfile(fromDTO, userDTO.getFirst_name(),userDTO.getLast_name(),
+                userDTO.getUser_name(), userDTO.getDescription(), userDTO.getStreet(), userDTO.getExperienceDescription(),
+                userDTO.getPictures(), userDTO.getAvatar()));
+        return fromDTO;
     }
 
     private UserDTO convert(User user){

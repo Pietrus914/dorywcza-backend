@@ -52,9 +52,6 @@ public class User {
         this.email = userDTO.getEmail();
         this.phone_number = userDTO.getPhone_number();
         this.overallRating = userDTO.getOverallRating();
-        if (userDTO.getUserProfileDTO() != null) {
-            this.userProfile = new UserProfile(userDTO.getUserProfileDTO());
-        }
     }
 
     @Override

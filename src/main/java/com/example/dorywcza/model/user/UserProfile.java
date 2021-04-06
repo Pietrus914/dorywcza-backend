@@ -3,10 +3,13 @@ package com.example.dorywcza.model.user;
 
 import com.example.dorywcza.util.Address;
 import com.example.dorywcza.util.Image;
+import com.example.dorywcza.util.ImageBox;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.File;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -52,7 +55,23 @@ public class UserProfile {
             this.experience = new Experience(userProfileDTO.getExperienceDTO());
         }
         if (userProfileDTO.getAvatar() != null){
-        this.avatar = new Image(userProfileDTO.getAvatar());}
+            this.avatar = new Image(userProfileDTO.getAvatar());}
+    }
+
+    public UserProfile(User user, String first_name, String last_name, String user_name,
+                       String description, String street, String experienceDescription,
+                       List<File> pictures, File avatar){
+        this.user = user;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.user_name = user_name;
+        this.description = description;
+        this.address = new Address();
+        address.setStreet(street);
+        this.experience = new Experience();
+        experience.setDescription(experienceDescription);
+        experience.setImageBox(new ImageBox(pictures));
+        this.avatar = new Image(avatar);
     }
 
     @Override

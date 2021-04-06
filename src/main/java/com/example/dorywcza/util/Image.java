@@ -35,6 +35,10 @@ public class Image {
 
     }
 
+    public Image(File file){
+        this.image = file;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
