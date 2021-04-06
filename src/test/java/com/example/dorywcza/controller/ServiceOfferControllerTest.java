@@ -1,9 +1,12 @@
 package com.example.dorywcza.controller;
 
 import com.example.dorywcza.model.offer.*;
+import com.example.dorywcza.model.offer.DTO.*;
 import com.example.dorywcza.model.service_offer.*;
+import com.example.dorywcza.service.DTOExtractor.ServiceOfferDTOExtractor;
 import com.example.dorywcza.service.IndustryService;
 import com.example.dorywcza.service.SalaryTimeUnitService;
+import com.example.dorywcza.service.ServiceOfferService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -18,6 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,6 +42,12 @@ class ServiceOfferControllerTest {
 
     @Autowired
     private IndustryService industryService;
+
+    @Autowired
+    private ServiceOfferDTOExtractor serviceOfferDTOExtractor;
+
+    @Autowired
+    private ServiceOfferService serviceOfferService;
 
     @Test
     @DirtiesContext
@@ -58,7 +69,7 @@ class ServiceOfferControllerTest {
 
     @Test
     @DirtiesContext
-    @DisplayName("Post http://localhost:8080/service-offers/1 -> http status 200, get first service offer with id 1" )
+    @DisplayName("Get http://localhost:8080/service-offers/1 -> http status 200, get first service offer with id 1" )
     void findById() throws Exception {
         Salary expectedSalary = new Salary(101L, 201L);
         expectedSalary.setSalaryTimeUnit(salaryTimeUnitService.findSalaryTimeUnitById(1L));
@@ -102,104 +113,104 @@ class ServiceOfferControllerTest {
     }
 
     @Test
-    void getAddServiceOffer() {
+    @DirtiesContext
+    @DisplayName("Get http://localhost:8080/service-offers/10 -> http status 200, offer doesn't exist, return null" )
+    void findById_shouldReturnNull() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                .get("/service-offers/10"))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        ServiceOffer serviceOffer = objectMapper.readValue(contentAsString, ServiceOffer.class);
+
+        assertNull(serviceOffer);
     }
 
-//    @Test
-//    @DirtiesContext
-//    void addServiceOffer_correctServiceOffer_returnAddOffer() throws Exception {
-//        DateRange dateRangeToSave = new DateRange(Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now()));
-//        Salary jobSalaryToSave = new Salary();
-//        OfferLocation offerLocationToSave = new OfferLocation(0.1, 0.1);
-//        OfferSchedule offerScheduleToSave = new OfferSchedule(false, false,
-//                false, false, false, false, false,
-//                false, false, false, false,
-//                false, false, false, false, false,
-//                false, false, false, false, false);
-//
-//        ServiceOffer serviceOfferToSave = new ServiceOffer(1, "test1", "test1", dateRangeToSave,
-//                true, jobSalaryToSave, offerLocationToSave, offerScheduleToSave);
-//
-//        var serviceOfferInJson = objectMapper.writeValueAsString(serviceOfferToSave);
-//
-//        System.out.println(serviceOfferInJson);
-//        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-//                .post("/add-service-offer")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(serviceOfferInJson))
-//                .andDo(print())
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andReturn();
-//
-//        String contentAsString = mvcResult.getResponse().getContentAsString();
-//        ServiceOffer serviceOfferFromDb = objectMapper.readValue(contentAsString, ServiceOffer.class);
-//
-//        List<OfferLocation> offerLocationList = serviceLocationService.findAll();
-//        System.out.println();
-//
-//        assertAll(
-//                () -> assertEquals(serviceOfferToSave, serviceOfferFromDb),
-//                () -> assertEquals(dateRangeToSave.getEndDate().toString(), serviceOfferFromDb.getDateRange().getEndDate().toString()),
-//                () -> assertEquals(dateRangeToSave.getStartDate().toString(), serviceOfferFromDb.getDateRange().getStartDate().toString()),
-//                () -> assertEquals(jobSalaryToSave, serviceOfferFromDb.getJobSalary()),
-//                () -> assertEquals(offerLocationToSave, serviceOfferFromDb.getOfferLocation()),
-//                () -> assertEquals(offerScheduleToSave, serviceOfferFromDb.getOfferSchedule())
-//        );
-//
-//    }
-//
-//    @Test
-//    @DirtiesContext
-//    void updateServiceOffer_correctServiceOffer_returnUpdateOffer() throws Exception {
-//        DateRange dateRangeToSave = new DateRange(Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now()));
-//        Salary jobSalaryToSave = new JobSalary(1000, 1001, "week");
-//        OfferLocation offerLocationToSave = new OfferLocation(0.1, 0.1);
-//        OfferSchedule offerScheduleToSave = new OfferSchedule(false, false,
-//                false, false, false, false, false,
-//                false, false, false, false,
-//                false, false, false, false, false,
-//                false, false, false, false, false);
-//
-//        ServiceOffer serviceOfferToSave = new ServiceOffer(1, "test1", "test1", dateRangeToSave,
-//                true, jobSalaryToSave, offerLocationToSave, offerScheduleToSave);
-//
-//        var serviceOfferInJson = objectMapper.writeValueAsString(serviceOfferToSave);
-//
-//        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
-//                .post("/update-service-offer/1")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(serviceOfferInJson))
-//                .andDo(print())
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andReturn();
-//
-//        String contentAsString = mvcResult.getResponse().getContentAsString();
-//        ServiceOffer serviceOfferFromDb = objectMapper.readValue(contentAsString, ServiceOffer.class);
-//
-//
-//        assertAll(
-//                () -> assertEquals(serviceOfferToSave, serviceOfferFromDb),
-//                () -> assertEquals(dateRangeToSave.getEndDate().toString(), serviceOfferFromDb.getDateRange().getEndDate().toString()),
-//                () -> assertEquals(dateRangeToSave.getStartDate().toString(), serviceOfferFromDb.getDateRange().getStartDate().toString()),
-//                () -> assertEquals(jobSalaryToSave, serviceOfferFromDb.getJobSalary()),
-//                () -> assertEquals(offerLocationToSave, serviceOfferFromDb.getOfferLocation()),
-//                () -> assertEquals(offerScheduleToSave, serviceOfferFromDb.getOfferSchedule())
-//        );
-//
-//    }
-//
-//    @Test
-//    @DirtiesContext
-//    void deleteServiceOffer_correctServiceOffer_returnDeleteOffer() throws Exception {
-//
-//        mockMvc.perform(MockMvcRequestBuilders
-//                .delete("/service-offers/1"))
-//                .andDo(print())
-//                .andExpect(MockMvcResultMatchers.status().isOk());
-//
-//        List<ServiceOffer> serviceOfferList = serviceOfferService.findAll();
-//        List<OfferLocation> offerLocationList = serviceLocationService.findAll();
-//        System.out.println(offerLocationList);
-//        System.out.println(serviceOfferList.size());
-//    }
+
+    @Test
+    @DirtiesContext
+    @DisplayName("Post http://localhost:8080/add-service-offer -> http status 200, return Added offer" )
+    void addServiceOffer_correctServiceOffer_returnAddOffer() throws Exception {
+        DateRangeDTO dateRangeToSave = new DateRangeDTO(Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now()));
+        SalaryDTO jobSalaryToSave = new SalaryDTO(100L, 120L);
+        OfferLocationDTO offerLocationToSave = new OfferLocationDTO(0.1, 0.1);
+        OfferScheduleDTO offerScheduleToSave = new OfferScheduleDTO(false, false,
+                false, false, false, false, false,
+                false, false, false, false,
+                false, false, false, false, false,
+                false, false, false, false, false);
+
+        OfferPostDTO serviceOfferToSave = new OfferPostDTO("test", "test", 1L, 1L,
+                true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, 1L, offerScheduleToSave);
+
+        var serviceOfferInJson = objectMapper.writeValueAsString(serviceOfferToSave);
+
+        ServiceOffer expectedServiceOffer = serviceOfferDTOExtractor.getOffer(serviceOfferToSave);
+
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                .post("/add-service-offer")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(serviceOfferInJson))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        ServiceOffer serviceOfferFromDb = objectMapper.readValue(contentAsString, ServiceOffer.class);
+
+        assertEquals(expectedServiceOffer, serviceOfferFromDb);
+    }
+
+    @Test
+    @DirtiesContext
+    @DisplayName("Put http://localhost:8080/update-service-offer/1 -> http status 200, update and return offer with id 1" )
+    void updateServiceOffer_correctServiceOffer_returnUpdateOffer() throws Exception {
+        DateRangeDTO dateRangeToSave = new DateRangeDTO(Date.valueOf(LocalDate.now()), Date.valueOf(LocalDate.now()));
+        SalaryDTO jobSalaryToSave = new SalaryDTO(100L, 120L);
+        OfferLocationDTO offerLocationToSave = new OfferLocationDTO(0.1, 0.1);
+        OfferScheduleDTO offerScheduleToSave = new OfferScheduleDTO(false, false,
+                false, false, false, false, false,
+                false, false, false, false,
+                false, false, false, false, false,
+                false, false, false, false, false);
+
+        OfferPostDTO serviceOfferToSave = new OfferPostDTO("test", "test", 1L, 1L,
+                true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, 1L, offerScheduleToSave);
+
+        var serviceOfferInJson = objectMapper.writeValueAsString(serviceOfferToSave);
+
+        ServiceOffer expectedServiceOffer = serviceOfferDTOExtractor.getOffer(serviceOfferToSave);
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                .put("/update-service-offer/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(serviceOfferInJson))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        ServiceOffer serviceOfferFromDb = objectMapper.readValue(contentAsString, ServiceOffer.class);
+
+        assertEquals(expectedServiceOffer, serviceOfferFromDb);
+    }
+
+    @Test
+    @DirtiesContext
+    @DisplayName("Delete http://localhost:8080/service-offers/1 -> http status 200, delete offer with id 1" )
+    void deleteServiceOffer_correctServiceOffer_returnDeleteOffer() throws Exception {
+        int expectedSize = 1;
+
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete("/service-offers/1"))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        List<ServiceOffer> serviceOfferList = serviceOfferService.findAll();
+
+        assertEquals(expectedSize, serviceOfferList.size());
+    }
 }
