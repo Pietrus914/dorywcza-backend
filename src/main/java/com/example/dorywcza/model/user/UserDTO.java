@@ -1,7 +1,6 @@
 package com.example.dorywcza.model.user;
 
 import com.example.dorywcza.util.Image;
-import com.example.dorywcza.util.ImageDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,7 +26,6 @@ public class UserDTO {
     private List<File> pictures;
     private File avatar;
 
-//    private UserProfileDTO userProfileDTO;
 
 
     public UserDTO(User user){
@@ -48,7 +46,7 @@ public class UserDTO {
 
             if (userProfile.getExperience() != null){
                 this.experienceDescription = userProfile.getExperience().getDescription();
-                if (userProfile.getExperience().getImageBox() != null){
+                if (userProfile.getExperience().getImageBox() != null && userProfile.getExperience().getImageBox().getImages() != null){
                     this.pictures = userProfile.getExperience().getImageBox().getImages()
                             .stream().map(Image::getImage).collect(Collectors.toList());
                 }
@@ -56,9 +54,6 @@ public class UserDTO {
 
             this.avatar = userProfile.getAvatar().getImage();
         }
-//        if (user.getUserProfile() != null){
-//            this.userProfileDTO = new UserProfileDTO(user.getUserProfile());
-//        }
     }
 
     private boolean hasProfile(User user) {
@@ -69,18 +64,16 @@ public class UserDTO {
         this.email = email;
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        UserDTO userDTO = (UserDTO) o;
-//        return overallRating == userDTO.overallRating && Objects.equals(email, userDTO.email) && Objects.equals(phone_number, userDTO.phone_number) && Objects.equals(userProfileDTO, userDTO.userProfileDTO);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(email, phone_number, overallRating, userProfileDTO);
-//    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserDTO userDTO = (UserDTO) o;
+        return overallRating == userDTO.overallRating && Objects.equals(email, userDTO.email) && Objects.equals(phone_number, userDTO.phone_number) && Objects.equals(first_name, userDTO.first_name) && Objects.equals(last_name, userDTO.last_name) && Objects.equals(user_name, userDTO.user_name) && Objects.equals(description, userDTO.description) && Objects.equals(street, userDTO.street) && Objects.equals(experienceDescription, userDTO.experienceDescription) && Objects.equals(pictures, userDTO.pictures) && Objects.equals(avatar, userDTO.avatar);
+    }
 
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, phone_number, overallRating, first_name, last_name, user_name, description, street, experienceDescription, pictures, avatar);
+    }
 }

@@ -26,17 +26,10 @@ public class Image {
     @ToString.Exclude
     private ImageBox imageBox;
 
-
-    public Image(ImageDTO imageDTO) {
-        this.id = imageDTO.getId();
-        if (imageDTO.getPicture() != null){
-            this.image = imageDTO.getPicture();
-        }
-
-    }
-
     public Image(File file){
-        this.image = file;
+        if (file != null){
+            this.image = file;
+        }
     }
 
     @Override

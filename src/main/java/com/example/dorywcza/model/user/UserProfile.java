@@ -42,22 +42,6 @@ public class UserProfile {
     private Image avatar;
 
 
-    public UserProfile(UserProfileDTO userProfileDTO){
-        this.id = userProfileDTO.getId();
-        this.first_name = userProfileDTO.getFirst_name();
-        this.last_name = userProfileDTO.getLast_name();
-        this.user_name = userProfileDTO.getUser_name();
-        this.description = userProfileDTO.getDescription();
-        if (userProfileDTO.getAddressDTO() != null){
-            this.address = new Address(userProfileDTO.getAddressDTO());
-        }
-        if (userProfileDTO.getExperienceDTO() != null){
-            this.experience = new Experience(userProfileDTO.getExperienceDTO());
-        }
-        if (userProfileDTO.getAvatar() != null){
-            this.avatar = new Image(userProfileDTO.getAvatar());}
-    }
-
     public UserProfile(User user, String first_name, String last_name, String user_name,
                        String description, String street, String experienceDescription,
                        List<File> pictures, File avatar){

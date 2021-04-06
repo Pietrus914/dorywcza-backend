@@ -42,9 +42,6 @@ public class UserService {
         userDTO.setId(null);
         User toAddUser = convert(userDTO);
         toAddUser.setDeleted(false);
-//        toAddUser.setUserProfile(new UserProfile(toAddUser, userDTO.getFirst_name(),userDTO.getLast_name(),
-//                userDTO.getUser_name(), userDTO.getDescription(), userDTO.getStreet(), userDTO.getExperienceDescription(),
-//                userDTO.getPictures(), userDTO.getAvatar()));
         User addedUser = userRepository.save(toAddUser);
 
         return convert(addedUser);

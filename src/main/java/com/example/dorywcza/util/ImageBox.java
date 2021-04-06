@@ -31,14 +31,9 @@ public class ImageBox {
     }
 
     public ImageBox(List<File> pictures){
-        this.images = pictures.stream().map(file -> new Image(file)).collect(Collectors.toList());
-    }
-
-    public ImageBox(ImageBoxDTO imageBoxDTO) {
-        this.id = imageBoxDTO.getId();
-        if (imageBoxDTO.getPictures().size() != 0){
-        this.images = imageBoxDTO.getPictures().stream()
-                .map(picture -> new Image(picture)).collect(Collectors.toList());}
+        if (pictures != null){
+            this.images = pictures.stream().map(file -> new Image(file)).collect(Collectors.toList());
+        }
 
     }
 

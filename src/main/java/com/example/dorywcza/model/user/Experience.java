@@ -1,6 +1,5 @@
 package com.example.dorywcza.model.user;
 
-import com.example.dorywcza.util.ExperienceDTO;
 import com.example.dorywcza.util.ImageBox;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,14 +19,6 @@ public class Experience {
     private String description;
     @OneToOne(cascade = CascadeType.ALL)
     private ImageBox imageBox;
-
-    public Experience(ExperienceDTO experienceDTO) {
-        this.id = experienceDTO.getId();
-        this.description = experienceDTO.getDescription();
-        if (experienceDTO.getImageBoxDTO() != null){
-            this.imageBox = new ImageBox(experienceDTO.getImageBoxDTO());
-        }
-    }
 
     @Override
     public boolean equals(Object o) {
