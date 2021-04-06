@@ -4,6 +4,8 @@ package com.example.dorywcza.model.offer.DTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.List;
+
 
 @Data
 @AllArgsConstructor
@@ -20,4 +22,5 @@ public class OfferPostDTO  {
     private DateRangeDTO dateRangeDTO;
     private Long IndustryId;
     private OfferScheduleDTO offerScheduleDTO;
+    private List<Long> jobOfferTagsIds;
 }
