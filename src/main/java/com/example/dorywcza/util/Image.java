@@ -18,7 +18,8 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private File image;
+    @Lob
+    private byte[] image;
     @ManyToOne(fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn(name = "image_box_id")
     @JsonBackReference
@@ -26,9 +27,12 @@ public class Image {
     @ToString.Exclude
     private ImageBox imageBox;
 
-    public Image(File file){
+    private String imageName;
+
+    public Image(byte[] file){
         if (file != null){
             this.image = file;
+//            this.imageName = imageName;
         }
     }
 

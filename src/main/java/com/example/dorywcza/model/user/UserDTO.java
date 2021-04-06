@@ -4,7 +4,6 @@ import com.example.dorywcza.util.Image;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.File;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -23,8 +22,8 @@ public class UserDTO {
     private String description;
     private String street;
     private String experienceDescription;
-    private List<File> pictures;
-    private File avatar;
+    private List<byte[]> pictures;
+    private byte[] avatar;
 
 
 

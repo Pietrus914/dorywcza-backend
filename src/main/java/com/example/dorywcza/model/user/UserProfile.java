@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.File;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,7 +43,7 @@ public class UserProfile {
 
     public UserProfile(User user, String first_name, String last_name, String user_name,
                        String description, String street, String experienceDescription,
-                       List<File> pictures, File avatar){
+                       List<byte[]> pictures, byte[] avatar){
         this.user = user;
         this.first_name = first_name;
         this.last_name = last_name;

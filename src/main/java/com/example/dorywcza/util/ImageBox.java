@@ -30,9 +30,9 @@ public class ImageBox {
         this.images = new ArrayList<>();
     }
 
-    public ImageBox(List<File> pictures){
+    public ImageBox(List<byte[]> pictures){
         if (pictures != null){
-            this.images = pictures.stream().map(file -> new Image(file)).collect(Collectors.toList());
+            this.images = pictures.stream().map(picture -> new Image(picture)).collect(Collectors.toList());
         }
 
     }

@@ -72,25 +72,4 @@ public class UserService {
         return userDTO;
 
     }
-
-//    private UserDTO convert(User user){
-//        List<File> experienceImages =
-//                user.getUserProfile().getExperience().getImageBox().
-//                getImages().stream().map(Image::getImage)
-//                .collect(Collectors.toList());
-//
-//        UserDTO userDTO = new UserDTO(
-//                user.getId(),user.getEmail(), user.getPhone_number(),
-//                user.getOverallRating(), user.getUserProfile().getFirst_name(),
-//                user.getUserProfile().getLast_name(),
-//                user.getUserProfile().getUser_name(),
-//                user.getUserProfile().getAddress().getStreet(),
-//                user.getUserProfile().getDescription(),
-//                user.getUserProfile().getExperience().getDescription(),
-//                user.getUserProfile().getAvatar().getImage(),
-//                experienceImages);                ;
-//
-//        return userDTO;
-//
-//    }
 }

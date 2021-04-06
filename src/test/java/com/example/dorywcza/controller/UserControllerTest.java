@@ -2,6 +2,7 @@ package com.example.dorywcza.controller;
 
 import com.example.dorywcza.model.user.UserDTO;
 import com.example.dorywcza.service.UserService;
+import com.example.dorywcza.util.ImageToByteArrayConverter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -124,6 +126,38 @@ class UserControllerTest {
         assertAll(
                 () -> assertEquals(userDTOToUpdate,
                         returnedUserDTO)
+        );
+
+
+    }
+
+    @Test
+    @DirtiesContext
+    void givenUserWithAvatar_whenAddUser_ShouldReturnBytesArray() throws Exception {
+        String fileName = "./images/birds_rainbow-lorakeets.png";
+        File avatar = new File(fileName);
+        UserDTO userDTOToAdd = userService.findById(1L).get();
+        userDTOToAdd.setId(null);
+        userDTOToAdd.setUser_name("NickWithAvatar");
+        userDTOToAdd.setAvatar(ImageToByteArrayConverter.convertImageToByteArray(avatar));
+        String userDTOToUpdateInJson = objectMapper.writeValueAsString(userDTOToAdd);
+
+        MvcResult mvcResult;
+        mvcResult = this.mockMvc.perform(
+                MockMvcRequestBuilders.put("/user/1")
+                        .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
+                        .param(csrfToken.getParameterName(), csrfToken.getToken())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(userDTOToUpdateInJson))
+                .andDo(print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+
+        UserDTO returnedUserDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), UserDTO.class);
+
+        assertAll(
+                () -> assertEquals(avatar,
+                        ImageToByteArrayConverter.convertByteArrayToFile(returnedUserDTO.getAvatar(), fileName))
         );
 
 
