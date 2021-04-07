@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
 
     public UserService(UserRepository userRepository) {
@@ -27,11 +27,11 @@ public class UserService {
 
     public List<UserDTO> findAll() {
 
-        return userRepository.findAll().stream().map(user -> convert(user)).collect(Collectors.toList());
+        return userRepository.findAll().stream().map(this::convert).collect(Collectors.toList());
     }
 
     public Optional<UserDTO> findById(Long id) {
-        return userRepository.findById(id).map(e -> convert(e));
+        return userRepository.findById(id).map(this::convert);
     }
 
     public void deleteUser(Long id) {
@@ -66,10 +66,6 @@ public class UserService {
     }
 
     private UserDTO convert(User user){
-
-        UserDTO userDTO = new UserDTO(user) ;                ;
-
-        return userDTO;
-
+        return new UserDTO(user);
     }
 }

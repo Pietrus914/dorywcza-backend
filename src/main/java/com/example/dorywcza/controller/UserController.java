@@ -1,6 +1,5 @@
 package com.example.dorywcza.controller;
 
-import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.model.user.UserDTO;
 import com.example.dorywcza.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,7 @@ import java.util.Optional;
 @RestController
 public class UserController {
     @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;

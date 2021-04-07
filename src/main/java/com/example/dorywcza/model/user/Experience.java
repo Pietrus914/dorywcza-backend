@@ -2,7 +2,6 @@ package com.example.dorywcza.model.user;
 
 import com.example.dorywcza.util.ImageBox;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;

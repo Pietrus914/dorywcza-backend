@@ -2,11 +2,15 @@ package com.example.dorywcza.util;
 
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
-import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -30,19 +34,9 @@ public class ImageBox {
 
     public ImageBox(List<byte[]> pictures){
         if (pictures != null){
-            this.images = pictures.stream().map(picture -> new Image(picture)).collect(Collectors.toList());
+            this.images = pictures.stream().map(Image::new).collect(Collectors.toList());
         }
-
     }
-
-//    public ImageBox(Map<String,byte[]> pictures){
-//        if (pictures != null){
-//            this.images = pictures.entrySet().stream()
-//                    .map(picture -> new Image(picture.getValue(), picture.getKey()))
-//                    .collect(Collectors.toList());
-//        }
-//
-//    }
 
     @Override
     public boolean equals(Object o) {
