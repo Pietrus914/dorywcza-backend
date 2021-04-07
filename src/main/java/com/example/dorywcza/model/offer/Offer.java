@@ -1,6 +1,6 @@
 package com.example.dorywcza.model.offer;
 
-import com.example.dorywcza.model.Industry;
+import com.example.dorywcza.model.user.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,9 @@ public class Offer {
     private Long id;
     private String title;
     private String description;
-    private int userId;
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private User user;
     private boolean hasExperience;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "CET")
@@ -64,17 +66,17 @@ public class Offer {
     private OfferSchedule offerSchedule;
 
 
-    public Offer(String title, String description, int userId, boolean hasExperience, OfferLocation offerLocation,
-                 DateRange dateRange, Industry industry,  Salary salary, OfferSchedule offerSchedule) {
+    public Offer(String title, String description, User user, boolean hasExperience, OfferLocation offerLocation,
+                 DateRange dateRange, Industry industry, Salary salary, OfferSchedule offerSchedule) {
         this.title = title;
         this.description = description;
-        this.userId = userId;
+        this.user = user;
         this.hasExperience = hasExperience;
         this.salary = salary;
         this.offerLocation = offerLocation;
         this.dateRange = dateRange;
         this.industry = industry;
         this.offerSchedule = offerSchedule;
-
     }
+
 }
