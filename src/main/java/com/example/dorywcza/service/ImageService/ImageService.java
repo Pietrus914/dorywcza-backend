@@ -42,6 +42,7 @@ public class ImageService {
     }
 
     public ImageDTO findImage(Long id){
+        if (!imageRepository.existsById(id)) throw new RuntimeException("User Not Found");
         Image image = imageRepository.findById(id).get();
         return new ImageDTO(image.getImageName(),image.getType(),"/images/"+ image.getId(), image.getImage().length);
     }

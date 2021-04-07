@@ -57,7 +57,7 @@ public class UserService {
         return convert(updatedUser);
     }
 
-    private User convert(UserDTO userDTO){
+    public User convert(UserDTO userDTO){
         User fromDTO = new User(userDTO);
         fromDTO.setUserProfile(new UserProfile(fromDTO, userDTO.getFirst_name(),userDTO.getLast_name(),
                 userDTO.getUser_name(), userDTO.getDescription(), userDTO.getStreet(), userDTO.getExperienceDescription(),
