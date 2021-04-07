@@ -55,6 +55,7 @@ VALUES (1, 'test SERVIC OFFER 2', 'test SERVIC OFFER 2', 3, false, 3, 3, 3, '202
 
 INSERT INTO image_box (id) VALUES ( 1 );
 INSERT INTO image_box (id) VALUES ( 2 );
+INSERT INTO image_box (id) VALUES ( 3 );
 
 INSERT INTO image (image_box_id) VALUES ( 1 );
 INSERT INTO image (image_box_id) VALUES ( 1 );
@@ -64,7 +65,7 @@ INSERT INTO image (image_box_id) VALUES ( 2 );
 
 INSERT INTO experience (description, image_box_id) VALUES ('Always on time', 1 );
 INSERT INTO experience (description, image_box_id) VALUES ('Fast and cost-efficient', 2 );
-INSERT INTO experience (description) VALUES ('no' );
+INSERT INTO experience (description, image_box_id) VALUES ('no', 3 );
 
 
 INSERT INTO address (street) VALUES ( 'SunnyStreet' );

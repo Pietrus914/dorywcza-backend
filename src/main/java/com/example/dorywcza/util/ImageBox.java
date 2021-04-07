@@ -6,9 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -36,6 +34,15 @@ public class ImageBox {
         }
 
     }
+
+//    public ImageBox(Map<String,byte[]> pictures){
+//        if (pictures != null){
+//            this.images = pictures.entrySet().stream()
+//                    .map(picture -> new Image(picture.getValue(), picture.getKey()))
+//                    .collect(Collectors.toList());
+//        }
+//
+//    }
 
     @Override
     public boolean equals(Object o) {

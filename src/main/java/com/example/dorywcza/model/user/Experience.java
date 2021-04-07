@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Data
-@NoArgsConstructor
+//@NoArgsConstructor
 @Entity
 public class Experience {
 
@@ -19,6 +19,10 @@ public class Experience {
     private String description;
     @OneToOne(cascade = CascadeType.ALL)
     private ImageBox imageBox;
+
+    public Experience() {
+        this.imageBox = new ImageBox();
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -45,7 +45,9 @@ public class User {
         this.email = email;
         this.password = password;
         this.deleted = false;
+        this.userProfile = new UserProfile();
     }
+
 
     public User(UserDTO userDTO) {
         this.id = userDTO.getId();

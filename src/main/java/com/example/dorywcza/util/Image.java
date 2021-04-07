@@ -28,11 +28,21 @@ public class Image {
     private ImageBox imageBox;
 
     private String imageName;
+    private String type;
+
 
     public Image(byte[] file){
         if (file != null){
             this.image = file;
-//            this.imageName = imageName;
+        }
+    }
+
+    public Image(byte[] file,String type, String imageName, ImageBox imageBox){
+        if (file != null){
+            this.image = file;
+            this.type = type;
+            this.imageName = imageName;
+            this.imageBox = imageBox;
         }
     }
 
