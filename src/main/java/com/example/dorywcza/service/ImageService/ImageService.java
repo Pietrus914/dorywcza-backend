@@ -43,20 +43,17 @@ public class ImageService {
 
     public ImageDTO findImage(Long id){
         Image image = imageRepository.findById(id).get();
-        String fileUri = ServletUriComponentsBuilder
-                .fromCurrentContextPath()
-                .path("/image/")
-                .path("" + image.getId())
-                .toUriString();
-        return new ImageDTO(image.getImageName(),image.getType(),fileUri, image.getImage().length);
+        return new ImageDTO(image.getImageName(),image.getType(),"/images/"+ image.getId(), image.getImage().length);
     }
 
     public List<ImageDTO> getAllImages(){
         List<Image> images =  imageRepository.findAll();
-        List<ImageDTO> imageDTOList = images.stream().map(image -> {
+        List<ImageDTO> imageDTOList = images.stream()
+                .filter(image -> (image != null && image.getImage() != null))
+                .map(image -> {
             String fileUri = ServletUriComponentsBuilder
                     .fromCurrentContextPath()
-                    .path("/image/")
+                    .path("/images/")
                     .path("" + image.getId())
                     .toUriString();
             return new ImageDTO(image.getImageName(),image.getType(),fileUri, image.getImage().length);

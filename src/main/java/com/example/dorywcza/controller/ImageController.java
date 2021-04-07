@@ -32,7 +32,7 @@ public class ImageController {
 
     }
 
-    @GetMapping("/image/{id}")
+    @GetMapping("/images/{id}")
     public ImageDTO getImage(@PathVariable Long id){
         return imageService.findImage(id);
     }
