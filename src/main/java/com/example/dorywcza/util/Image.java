@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.File;
 import java.util.Objects;
 
 
@@ -18,7 +17,8 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private File image;
+    @Lob
+    private byte[] image;
     @ManyToOne(fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn(name = "image_box_id")
     @JsonBackReference
@@ -26,6 +26,24 @@ public class Image {
     @ToString.Exclude
     private ImageBox imageBox;
 
+    private String imageName;
+    private String type;
+
+
+    public Image(byte[] file){
+        if (file != null){
+            this.image = file;
+        }
+    }
+
+    public Image(byte[] file,String type, String imageName, ImageBox imageBox){
+        if (file != null){
+            this.image = file;
+            this.type = type;
+            this.imageName = imageName;
+            this.imageBox = imageBox;
+        }
+    }
 
     @Override
     public boolean equals(Object o) {

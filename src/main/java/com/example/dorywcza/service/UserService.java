@@ -1,6 +1,8 @@
 package com.example.dorywcza.service;
 
 import com.example.dorywcza.model.user.User;
+import com.example.dorywcza.model.user.UserDTO;
+import com.example.dorywcza.model.user.UserProfile;
 import com.example.dorywcza.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,40 +11,61 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @PersistenceContext(type = PersistenceContextType.EXTENDED)
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<UserDTO> findAll() {
+
+        return userRepository.findAll().stream().map(this::convert).collect(Collectors.toList());
     }
 
-    public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
+    public Optional<UserDTO> findById(Long id) {
+        return userRepository.findById(id).map(this::convert);
     }
-
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 
-    public User addUser(User user) {
-        user.setId(null);
-        return userRepository.save(user);
+    public UserDTO addUser(UserDTO userDTO) {
+        userDTO.setId(null);
+        User toAddUser = convert(userDTO);
+        toAddUser.setDeleted(false);
+        User addedUser = userRepository.save(toAddUser);
+
+        return convert(addedUser);
     }
 
-    public User updateUser(User user, Long id) {
+    public UserDTO updateUser(UserDTO userDTO, Long id) {
         if (!userRepository.existsById(id)) throw new RuntimeException("User Not Found");
-        user.setId(id);
-        return userRepository.save(user);
+        User userToUpdate = convert(userDTO);
+        userToUpdate.setId(id);
+        userToUpdate.getUserProfile().setId(id);
+        User updatedUser = userRepository.save(userToUpdate);
+
+        return convert(updatedUser);
+    }
+
+    public User convert(UserDTO userDTO){
+        User fromDTO = new User(userDTO);
+        fromDTO.setUserProfile(new UserProfile(fromDTO, userDTO.getFirst_name(),userDTO.getLast_name(),
+                userDTO.getUser_name(), userDTO.getDescription(), userDTO.getStreet(), userDTO.getExperienceDescription(),
+                userDTO.getPictures(), userDTO.getAvatar()));
+        return fromDTO;
+    }
+
+    private UserDTO convert(User user){
+        return new UserDTO(user);
     }
 }

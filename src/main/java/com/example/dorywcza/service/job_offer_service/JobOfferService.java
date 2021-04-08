@@ -5,7 +5,7 @@ import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
 import com.example.dorywcza.model.job_offer.JobOffer;
 import com.example.dorywcza.repository.job_offer_repository.JobOfferRepository;
 import com.example.dorywcza.service.DTOExtractor.JobOfferDTOExtractor;
-import com.example.dorywcza.util.ObjectMapperUtils;
+//import com.example.dorywcza.util.ObjectMapperUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -5,6 +5,7 @@ import com.example.dorywcza.model.offer.*;
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
 import com.example.dorywcza.model.service_offer.ServiceOffer;
 import com.example.dorywcza.model.user.User;
+import com.example.dorywcza.model.user.UserDTO;
 import com.example.dorywcza.service.IndustryService;
 import com.example.dorywcza.service.SalaryTimeUnitService;
 import com.example.dorywcza.service.UserService;
@@ -21,7 +22,8 @@ public class JobOfferDTOExtractor extends OfferDTOExtractor{
         DateRange dateRange = getDateRange(offerPostDTO);
         OfferLocation offerLocation = getOfferLocation(offerPostDTO);
         OfferSchedule offerSchedule = getOfferSchedule(offerPostDTO);
-        User user = userService.findById(offerPostDTO.getUserId()).get();
+        UserDTO userDto = userService.findById(offerPostDTO.getUserId()).get();
+        User user = userService.convert(userDto);
         Industry industry = industryService.findById(offerPostDTO.getIndustryId());
         return new JobOffer(offerPostDTO.getTitle(), offerPostDTO.getDescription(),
                 user, offerPostDTO.isHasExperience(),
