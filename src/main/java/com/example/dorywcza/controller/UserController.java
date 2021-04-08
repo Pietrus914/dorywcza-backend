@@ -1,6 +1,8 @@
 package com.example.dorywcza.controller;
 
-import com.example.dorywcza.model.user.UserDTO;
+import com.example.dorywcza.model.user.UserGeneralDTO;
+import com.example.dorywcza.model.user.UserPublicDTO;
+import com.example.dorywcza.model.user.UserUpdateDTO;
 import com.example.dorywcza.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,22 +20,22 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<UserDTO> getUsers(){
+    public List<UserPublicDTO> getUsers(){
         return userService.findAll();
     }
 
     @GetMapping("/users/{id}")
-    public Optional<UserDTO> getUser(@PathVariable Long id){
+    public Optional<UserPublicDTO> getUser(@PathVariable Long id){
         return userService.findById(id);
     }
 
     @PostMapping("/users")
-    public UserDTO addUser(@RequestBody UserDTO userDTO){
+    public UserUpdateDTO addUser(@RequestBody UserPublicDTO userDTO){
         return userService.addUser(userDTO);
     }
 
     @PutMapping("/users/{id}")
-    public UserDTO updateUser(@RequestBody UserDTO userDTO, @PathVariable Long id){
+    public UserUpdateDTO updateUser(@RequestBody UserUpdateDTO userDTO, @PathVariable Long id){
         return userService.updateUser(userDTO, id);
     }
 

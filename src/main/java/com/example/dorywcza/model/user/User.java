@@ -1,7 +1,6 @@
 package com.example.dorywcza.model.user;
 
 import com.example.dorywcza.model.job_offer.JobOffer;
-import com.example.dorywcza.model.offer.Offer;
 import com.example.dorywcza.model.service_offer.ServiceOffer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -61,12 +60,18 @@ public class User {
         this.userProfile = new UserProfile();
     }
 
-
-    public User(UserDTO userDTO) {
+    public User(UserGeneralDTO userDTO) {
         this.id = userDTO.getId();
         this.email = userDTO.getEmail();
         this.phone_number = userDTO.getPhone_number();
-        this.overallRating = userDTO.getOverallRating();
+        this.overallRating = 0;
+        this.deleted = false;
+    }
+
+    public User(UserUpdateDTO userDTO){
+        this.id = userDTO.getId();
+        this.email = userDTO.getEmail();
+        this.phone_number = userDTO.getPhone_number();
     }
 
     public boolean hasProfile(){

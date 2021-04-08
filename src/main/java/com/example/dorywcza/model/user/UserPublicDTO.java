@@ -12,48 +12,24 @@ import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
-public class UserDTO {
+public class UserPublicDTO extends UserGeneralDTO{
 
-    private Long id;
-    private String email;
-    private String phone_number;
-    private int overallRating;
-    private String first_name;
-    private String last_name;
-    private String user_name;
-    private String description;
-    private String street;
     private String experienceDescription;
     private List<ImageDTO> pictures;
     private ImageDTO avatar;
 
 
 
-    public UserDTO(User user){
-        this.id = user.getId();
-        this.email = user.getEmail();
-        this.phone_number = user.getPhone_number();
-        this.overallRating = user.getOverallRating();
+    public UserPublicDTO(User user){
+        super(user);
         if (user.hasProfile()){
             loadUserProfile(user.getUserProfile());
         }
     }
 
     private void loadUserProfile(UserProfile userProfile) {
-        this.first_name = userProfile.getFirst_name();
-        this.last_name = userProfile.getLast_name();
-        this.user_name = userProfile.getUser_name();
-        this.description = userProfile.getDescription();
-
-        loadAddress(userProfile);
         loadExperience(userProfile);
         loadAvatar(userProfile);
-    }
-
-    private void loadAddress(UserProfile userProfile) {
-        if (userProfile.hasAddress()){
-            this.street = userProfile.getAddress().getStreet();
-        }
     }
 
     private void loadExperience(UserProfile userProfile) {
@@ -89,20 +65,22 @@ public class UserDTO {
         }
     }
 
-    public UserDTO(String email) {
-        this.email = email;
+    public UserPublicDTO(String email) {
+        super.setEmail(email);
     }
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserDTO userDTO = (UserDTO) o;
-        return overallRating == userDTO.overallRating && Objects.equals(email, userDTO.email) && Objects.equals(phone_number, userDTO.phone_number) && Objects.equals(first_name, userDTO.first_name) && Objects.equals(last_name, userDTO.last_name) && Objects.equals(user_name, userDTO.user_name) && Objects.equals(description, userDTO.description) && Objects.equals(street, userDTO.street) && Objects.equals(experienceDescription, userDTO.experienceDescription) && Objects.equals(pictures, userDTO.pictures) && Objects.equals(avatar, userDTO.avatar);
+        if (!super.equals(o)) return false;
+        UserPublicDTO that = (UserPublicDTO) o;
+        return Objects.equals(experienceDescription, that.experienceDescription) && Objects.equals(pictures, that.pictures) && Objects.equals(avatar, that.avatar);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email, phone_number, overallRating, first_name, last_name, user_name, description, street, experienceDescription, pictures, avatar);
+        return Objects.hash(super.hashCode(), experienceDescription, pictures, avatar);
     }
 }
