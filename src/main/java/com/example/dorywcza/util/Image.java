@@ -45,6 +45,14 @@ public class Image {
         }
     }
 
+    public boolean hasFile(){
+        return image != null;
+    }
+
+    public ImageDTO convert(Image image){
+        return new ImageDTO(image.getImageName(), image.getType(), "/images/"+ image.getId(), image.getImage().length );
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

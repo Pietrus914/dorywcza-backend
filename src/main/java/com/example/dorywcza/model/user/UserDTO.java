@@ -1,6 +1,8 @@
 package com.example.dorywcza.model.user;
 
 import com.example.dorywcza.util.Image;
+import com.example.dorywcza.util.ImageBox;
+import com.example.dorywcza.util.ImageDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,8 +24,8 @@ public class UserDTO {
     private String description;
     private String street;
     private String experienceDescription;
-    private List<byte[]> pictures;
-    private byte[] avatar;
+    private List<ImageDTO> pictures;
+    private ImageDTO avatar;
 
 
 
@@ -32,31 +34,59 @@ public class UserDTO {
         this.email = user.getEmail();
         this.phone_number = user.getPhone_number();
         this.overallRating = user.getOverallRating();
-        if (hasProfile(user)){
-            UserProfile userProfile = user.getUserProfile();
-            this.first_name = userProfile.getFirst_name();
-            this.last_name = userProfile.getLast_name();
-            this.user_name = userProfile.getUser_name();
-            this.description = userProfile.getDescription();
-
-            if (userProfile.getAddress() != null){
-                this.street = userProfile.getAddress().getStreet();
-            }
-
-            if (userProfile.getExperience() != null){
-                this.experienceDescription = userProfile.getExperience().getDescription();
-                if (userProfile.getExperience().getImageBox() != null && userProfile.getExperience().getImageBox().getImages() != null){
-                    this.pictures = userProfile.getExperience().getImageBox().getImages()
-                            .stream().map(Image::getImage).collect(Collectors.toList());
-                }
-            }
-
-            this.avatar = userProfile.getAvatar().getImage();
+        if (user.hasProfile()){
+            loadUserProfile(user.getUserProfile());
         }
     }
 
-    private boolean hasProfile(User user) {
-        return user.getUserProfile() != null;
+    private void loadUserProfile(UserProfile userProfile) {
+        this.first_name = userProfile.getFirst_name();
+        this.last_name = userProfile.getLast_name();
+        this.user_name = userProfile.getUser_name();
+        this.description = userProfile.getDescription();
+
+        loadAddress(userProfile);
+        loadExperience(userProfile);
+        loadAvatar(userProfile);
+    }
+
+    private void loadAddress(UserProfile userProfile) {
+        if (userProfile.hasAddress()){
+            this.street = userProfile.getAddress().getStreet();
+        }
+    }
+
+    private void loadExperience(UserProfile userProfile) {
+        if (userProfile.hasExperience()) {
+            Experience experience = userProfile.getExperience();
+            this.experienceDescription = experience.getDescription();
+            loadImageBox(experience);
+        }
+    }
+
+    private void loadImageBox(Experience experience) {
+        if (experience.hasImageBox()){
+            loadImages(experience.getImageBox());
+        }
+    }
+
+    private void loadAvatar(UserProfile userProfile) {
+        if (userProfile.hasAvatar()){
+            Image avatar = userProfile.getAvatar();
+            if (avatar.hasFile()){
+                this.avatar = new ImageDTO(avatar);
+            }
+        }
+    }
+
+    private void loadImages(ImageBox imageBox) {
+        if (imageBox.hasPicturesInImages() && imageBox.isNotEmpty()){
+            this.pictures = imageBox.getImages()
+                    .stream()
+                    .filter(Image::hasFile)
+                    .map(image -> new ImageDTO(image))
+                    .collect(Collectors.toList());
+        }
     }
 
     public UserDTO(String email) {

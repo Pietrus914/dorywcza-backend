@@ -69,6 +69,10 @@ public class User {
         this.overallRating = userDTO.getOverallRating();
     }
 
+    public boolean hasProfile(){
+        return userProfile != null;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

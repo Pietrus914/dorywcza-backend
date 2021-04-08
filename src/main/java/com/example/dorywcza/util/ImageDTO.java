@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class ImageDTO {
+    private static String pathString = "/images/";
 
 //    private Long id;
     private String name;
@@ -18,6 +19,17 @@ public class ImageDTO {
         this.type = type;
         this.url = url;
         this.size = size;
+    }
+
+    public ImageDTO(Image image){
+        this.name = image.getImageName();
+        this.type = image.getType();
+        this.url =  pathString + image.getId();
+        this.size = image.getImage().length;
+    }
+
+    public Long getImageIdFromUrl(){
+        return Long.parseLong(this.getUrl().substring(this.getUrl().lastIndexOf("/") +1));
     }
 
 }

@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Data
-//@NoArgsConstructor
 @Entity
 public class Experience {
 
@@ -21,6 +20,10 @@ public class Experience {
 
     public Experience() {
         this.imageBox = new ImageBox();
+    }
+
+    public boolean hasImageBox(){
+        return this.getImageBox() != null;
     }
 
     @Override
