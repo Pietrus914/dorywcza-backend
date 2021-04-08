@@ -5,10 +5,7 @@ import com.example.dorywcza.model.offer.Offer;
 import com.example.dorywcza.model.service_offer.ServiceOffer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -17,7 +14,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "INDUSTRY")
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
@@ -38,7 +36,7 @@ public class Industry {
     @OneToMany(mappedBy = "industry")
     @JsonIgnore
     @EqualsAndHashCode.Exclude
-    private List<ServiceOffer> serviceOffers;
+    private Set<ServiceOffer> serviceOffers;
 
     public Industry(Long id, String name, Long parentId) {
         this.id = id;

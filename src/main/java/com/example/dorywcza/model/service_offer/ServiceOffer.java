@@ -5,12 +5,14 @@ import com.example.dorywcza.model.offer.Industry;
 import com.example.dorywcza.model.offer.*;
 import com.example.dorywcza.model.user.User;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Entity
 public class ServiceOffer extends Offer {
