@@ -3,9 +3,10 @@ package com.example.dorywcza.service.job_offer_service;
 
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
 import com.example.dorywcza.model.job_offer.JobOffer;
+import com.example.dorywcza.model.service_offer.ServiceOffer;
 import com.example.dorywcza.repository.job_offer_repository.JobOfferRepository;
 import com.example.dorywcza.service.DTOExtractor.JobOfferDTOExtractor;
-//import com.example.dorywcza.util.ObjectMapperUtils;
+import com.example.dorywcza.service.ServiceOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +18,13 @@ public class JobOfferService {
 
     private final JobOfferRepository repository;
     private final JobOfferDTOExtractor jobOfferDTOExtractor;
+    private final ServiceOfferService serviceOfferService;
 
     @Autowired
-    public JobOfferService(JobOfferRepository repository, JobOfferDTOExtractor jobOfferDTOExtractor) {
+    public JobOfferService(JobOfferRepository repository, JobOfferDTOExtractor jobOfferDTOExtractor, ServiceOfferService serviceOfferService) {
         this.repository = repository;
         this.jobOfferDTOExtractor = jobOfferDTOExtractor;
+        this.serviceOfferService = serviceOfferService;
     }
 
     public List<JobOffer> findAll(){
@@ -34,6 +37,11 @@ public class JobOfferService {
 
     public JobOffer save(OfferPostDTO offerPostDTO){
         JobOffer jobOffer = jobOfferDTOExtractor.getOffer(offerPostDTO);
+        repository.save(jobOffer);
+        List<ServiceOffer> matching = serviceOfferService.matching(offerPostDTO.getIndustryId(),
+                offerPostDTO.getDateRangeDTO().getEndDate(), offerPostDTO.getOfferLocationDTO().getXPosition(),
+                offerPostDTO.getOfferLocationDTO().getYPosition(), offerPostDTO.isHasExperience());
+        System.out.println(matching.size());
         return repository.save(jobOffer);
     }
 
