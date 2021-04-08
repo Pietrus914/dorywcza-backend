@@ -1,6 +1,6 @@
 package com.example.dorywcza.controller;
 
-import com.example.dorywcza.model.user.User;
+import com.example.dorywcza.model.user.UserDTO;
 import com.example.dorywcza.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,30 +11,30 @@ import java.util.Optional;
 @RestController
 public class UserController {
     @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/users")
-    public List<User> getUsers(){
+    public List<UserDTO> getUsers(){
         return userService.findAll();
     }
 
     @GetMapping("/user/{id}")
-    public Optional<User> getUser(@PathVariable Long id){
+    public Optional<UserDTO> getUser(@PathVariable Long id){
         return userService.findById(id);
     }
 
     @PostMapping("/user")
-    public User addUser(@RequestBody User user){
-        return userService.addUser(user);
+    public UserDTO addUser(@RequestBody UserDTO userDTO){
+        return userService.addUser(userDTO);
     }
 
     @PutMapping("/user/{id}")
-    public User updateUser(@RequestBody User user, @PathVariable Long id){
-        return userService.updateUser(user, id);
+    public UserDTO updateUser(@RequestBody UserDTO userDTO, @PathVariable Long id){
+        return userService.updateUser(userDTO, id);
     }
 
     @DeleteMapping("/user/{id}")

@@ -58,6 +58,15 @@ public class User {
         this.email = email;
         this.password = password;
         this.deleted = false;
+        this.userProfile = new UserProfile();
+    }
+
+
+    public User(UserDTO userDTO) {
+        this.id = userDTO.getId();
+        this.email = userDTO.getEmail();
+        this.phone_number = userDTO.getPhone_number();
+        this.overallRating = userDTO.getOverallRating();
     }
 
     @Override
