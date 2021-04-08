@@ -6,6 +6,7 @@ import com.example.dorywcza.repository.ServiceOfferRepository;
 import com.example.dorywcza.service.DTOExtractor.ServiceOfferDTOExtractor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,5 +53,9 @@ public class ServiceOfferService {
 
     public void deleteServiceOffer(Long id) {
         serviceOfferRepository.deleteById(id);
+    }
+
+    public List<ServiceOffer> matching(Long industryId, Date endDate, double xPosition, double yPosition, boolean hasExperience){
+        return serviceOfferRepository.findByIndustryIdAndOfferLocation_xPositionAndOfferLocation_yPositionAndDateRangeStartDateLessThanEqualAndHasExperienceOrHasExperienceIsTrue(industryId, xPosition, yPosition, endDate, hasExperience);
     }
 }
