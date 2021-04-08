@@ -71,9 +71,9 @@ class ServiceOfferControllerTest {
     @DirtiesContext
     @DisplayName("Get http://localhost:8080/service-offers/1 -> http status 200, get first service offer with id 1" )
     void findById() throws Exception {
-        Salary expectedSalary = new Salary(101L, 201L);
+        Salary expectedSalary = new Salary(300L, 30L);
         expectedSalary.setSalaryTimeUnit(salaryTimeUnitService.findSalaryTimeUnitById(1L));
-        DateRange expectedDateRange = new DateRange(Date.valueOf("2012-09-17"), Date.valueOf("2020-09-17"));
+        DateRange expectedDateRange = new DateRange(Date.valueOf("2012-03-03"), Date.valueOf("2020-03-03"));
         OfferLocation expectedOfferLocation = new OfferLocation(0.1, 0.1);
         OfferSchedule expectedOfferSchedule = new OfferSchedule(true, false, true,
                 true, true, true, true, true,
@@ -83,8 +83,8 @@ class ServiceOfferControllerTest {
         Industry expectedIndustry = industryService.findById(1L);
         Date expectedDateCreate = Date.valueOf("2021-04-01");
         Date expectedDateUpdated = Date.valueOf("2021-04-02");
-        String expectedDescription = "test SERVIC OFFER 1";
-        String expectedTitle = "test SERVIC OFFER 1";
+        String expectedDescription = "test SERVICE OFFER 1";
+        String expectedTitle = "test SERVICE OFFER 1";
         Long expectedId = 1L;
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
@@ -95,7 +95,6 @@ class ServiceOfferControllerTest {
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
         ServiceOffer serviceOffer = objectMapper.readValue(contentAsString, ServiceOffer.class);
-        System.out.println(serviceOffer);
 
         assertAll(
                 () -> assertEquals(expectedDateRange, serviceOffer.getDateRange()),
