@@ -22,22 +22,22 @@ public class UserController {
         return userService.findAll();
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/users/{id}")
     public Optional<UserDTO> getUser(@PathVariable Long id){
         return userService.findById(id);
     }
 
-    @PostMapping("/user")
+    @PostMapping("/users")
     public UserDTO addUser(@RequestBody UserDTO userDTO){
         return userService.addUser(userDTO);
     }
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/users/{id}")
     public UserDTO updateUser(@RequestBody UserDTO userDTO, @PathVariable Long id){
         return userService.updateUser(userDTO, id);
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
     }
