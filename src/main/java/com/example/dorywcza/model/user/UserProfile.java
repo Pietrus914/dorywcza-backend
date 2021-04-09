@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
-
+@NoArgsConstructor
 @Setter
 @Getter
 @Entity
@@ -40,7 +40,8 @@ public class UserProfile {
     private Image avatar;
 
 
-    public UserProfile(){
+    public UserProfile(User user){
+        this.user = user;
         this.address = new Address();
         this.experience = new Experience();
         this.avatar = new Image();

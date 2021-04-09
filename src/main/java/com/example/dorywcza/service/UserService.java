@@ -1,11 +1,9 @@
 package com.example.dorywcza.service;
 
-import com.example.dorywcza.model.user.User;
-import com.example.dorywcza.model.user.UserGeneralDTO;
-import com.example.dorywcza.model.user.UserPublicDTO;
-import com.example.dorywcza.model.user.UserUpdateDTO;
+import com.example.dorywcza.model.user.*;
 import com.example.dorywcza.repository.UserRepository;
 import com.example.dorywcza.service.ImageService.ImageService;
+import com.example.dorywcza.util.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +32,21 @@ public class UserService {
         return userRepository.findAll().stream().map(this::getUserPublicDTOFrom).collect(Collectors.toList());
     }
 
-    public Optional<UserPublicDTO> findById(Long id) {
+    public User findUserById(Long id) {
+        if (!userRepository.existsById(id)){throw new RuntimeException();}
+        return userRepository.findById(id).get();
+    }
+
+    public Optional<UserPublicDTO> findPublicDTOById(Long id) {
+        if (!userRepository.existsById(id)){throw new RuntimeException();}
         return userRepository.findById(id).map(this::getUserPublicDTOFrom);
     }
+
+    public Optional<UserUpdateDTO> findUpdateDTOById(Long id) {
+        if (!userRepository.existsById(id)){throw new RuntimeException();}
+        return userRepository.findById(id).map(this::getUserUpdateDTOFrom);
+    }
+
 
     /** function that marks user as deleted **/
     public void deleteUser(Long id) {
@@ -46,15 +56,21 @@ public class UserService {
     }
 
     /** function that saves user without userProfile **/
-    public UserUpdateDTO addUser(UserGeneralDTO userGeneralDTO) {
-        userGeneralDTO.setId(null);
-        User toAddUser = createFrom(userGeneralDTO);
+    public UserUpdateDTO addUser(UserUpdateDTO userUpdateDTO) {
+        User toAddUser = createFrom(userUpdateDTO);
+        userUpdateDTO.setId(null);
         User addedUser = userRepository.save(toAddUser);
 
         return getUserUpdateDTOFrom(addedUser);
     }
 
-    /** function that update user with userProfile **/
+    /** function that creates user without userProfile **/
+    public User createFrom(UserUpdateDTO userUpdateDTO){
+        User fromDTO = new User(userUpdateDTO);
+        return fromDTO;
+    }
+
+    /** function that update user with userProfile (without images) **/
     public UserUpdateDTO updateUser(UserUpdateDTO userUpdateDTO, Long id) {
         User userFromDb = userRepository.findById(id).orElseThrow();
 
@@ -64,43 +80,31 @@ public class UserService {
         return getUserUpdateDTOFrom(updatedUser);
     }
 
-    /** function that creates user without userProfile **/
-    public User createFrom(UserGeneralDTO userGeneralDTO){
-        User fromDTO = new User(userGeneralDTO);
-        return fromDTO;
-    }
-
     /** function that updates user from DB with data from UserDTO (without images) **/
     private User updateUserFromDb(User userFromDb, UserUpdateDTO userUpdateDTO){
+        userFromDb.setPhone_number(userUpdateDTO.getPhone_number());
+        if (!userFromDb.hasProfile()){
+            userFromDb.setUserProfile(new UserProfile(userFromDb));
+        }
+        UserProfile profile = userFromDb.getUserProfile();
+        updateProfileData(userUpdateDTO, profile);
 
-        return null;
+        return userFromDb;
     }
 
-    public User convertFrom(UserUpdateDTO userDTO){
-        User fromDTO = new User(userDTO);
-//        List<Image> pictures = null;
-//        Image avatar = null;
-//        if (userDTO.getAvatar() != null){
-//            avatar = imageService.findRealImage(userDTO.getAvatar().getImageIdFromUrl());
-//        }
-//        if(userDTO.getPictures() != null){
-//            List<Long> imageIds = userDTO.getPictures().stream().map(ImageDTO::getImageIdFromUrl)
-//                    .collect(Collectors.toList());
-//            pictures = imageService.findRealImagesByIds(imageIds);
-//        }
-//
-//        fromDTO.setUserProfile(new UserProfile(fromDTO, userDTO.getFirst_name(),userDTO.getLast_name(),
-//                userDTO.getUser_name(), userDTO.getDescription(), userDTO.getStreet(), userDTO.getExperienceDescription(),
-//                pictures, avatar));
-        return fromDTO;
+    private void updateProfileData(UserUpdateDTO userUpdateDTO, UserProfile profile) {
+        profile.setFirst_name(userUpdateDTO.getFirst_name());
+        profile.setLast_name(userUpdateDTO.getLast_name());
+        profile.setUser_name(userUpdateDTO.getUser_name());
+        Address address = profile.getAddress();
+        address.setStreet(userUpdateDTO.getStreet());
+        Experience experience = profile.getExperience();
+        experience.setDescription(userUpdateDTO.getExperienceDescription());
     }
 
-    public User convertFrom(UserPublicDTO userPublicDTO){
-        return new User(userPublicDTO);
-    }
-
-    private UserGeneralDTO getUserGeneralDTOFrom(User user){
-        return new UserGeneralDTO(user);
+    public User getUserFromUpdateDTO(UserUpdateDTO userUpdateDTO, Long id){
+        User userFromDb = userRepository.findById(id).orElseThrow();
+        return updateUserFromDb(userFromDb,userUpdateDTO);
     }
 
     private UserPublicDTO getUserPublicDTOFrom(User user){

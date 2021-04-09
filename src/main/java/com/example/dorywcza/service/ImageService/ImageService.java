@@ -1,7 +1,6 @@
 package com.example.dorywcza.service.ImageService;
 
 import com.example.dorywcza.model.user.User;
-import com.example.dorywcza.model.user.UserProfile;
 import com.example.dorywcza.repository.ImageRepository.ImageRepository;
 import com.example.dorywcza.repository.UserRepository;
 import com.example.dorywcza.util.Image;
@@ -15,7 +14,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,6 +45,12 @@ public class ImageService {
         return new ImageDTO(image.getImageName(),image.getType(),"/images/"+ image.getId(), image.getImage().length);
     }
 
+    public Image findRealImage(Long id){
+        if (!imageRepository.existsById(id)) throw new RuntimeException("User Not Found");
+        return imageRepository.findById(id).get();
+    }
+
+
     public List<ImageDTO> getAllImages(){
         List<Image> images =  imageRepository.findAll();
         List<ImageDTO> imageDTOList = images.stream()
@@ -61,5 +65,11 @@ public class ImageService {
         }).collect(Collectors.toList());
 
         return imageDTOList;
+    }
+
+    public List<Image> findRealImagesByIds(List<Long> imageIds) {
+        return imageIds.stream()
+                .filter(i -> imageRepository.existsById(i))
+                .map(i -> imageRepository.findById(i).get()).collect(Collectors.toList());
     }
 }

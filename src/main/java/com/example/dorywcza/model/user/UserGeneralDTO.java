@@ -9,7 +9,7 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @MappedSuperclass
-public class UserGeneralDTO {
+public abstract class UserGeneralDTO {
 
     private Long id;
     private String email;

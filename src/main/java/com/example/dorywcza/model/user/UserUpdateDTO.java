@@ -14,11 +14,11 @@ public class UserUpdateDTO extends UserGeneralDTO {
     public UserUpdateDTO(User user){
         super(user);
         if (user.hasProfile()){
-            loadExperience(user.getUserProfile());
+            loadExperienceDescription(user.getUserProfile());
         }
     }
 
-    private void loadExperience(UserProfile userProfile) {
+    private void loadExperienceDescription(UserProfile userProfile) {
         if (userProfile.hasExperience()) {
             Experience experience = userProfile.getExperience();
             this.experienceDescription = experience.getDescription();

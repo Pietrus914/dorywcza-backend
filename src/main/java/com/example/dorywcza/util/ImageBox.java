@@ -11,7 +11,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 @Getter
@@ -34,7 +33,6 @@ public class ImageBox {
 
     public ImageBox(List<Image> pictures){
         if (pictures != null){
-//            this.images = pictures.stream().map(Image::new).collect(Collectors.toList());
             this.images = pictures;
         }
     }

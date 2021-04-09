@@ -69,7 +69,6 @@ public class UserPublicDTO extends UserGeneralDTO{
         super.setEmail(email);
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

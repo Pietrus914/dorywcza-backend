@@ -57,21 +57,15 @@ public class User {
         this.email = email;
         this.password = password;
         this.deleted = false;
-        this.userProfile = new UserProfile();
+        this.overallRating = 0;
     }
 
-    public User(UserGeneralDTO userDTO) {
-        this.id = userDTO.getId();
+    public User(UserUpdateDTO userDTO) {
+        this.id = null;
         this.email = userDTO.getEmail();
         this.phone_number = userDTO.getPhone_number();
         this.overallRating = 0;
         this.deleted = false;
-    }
-
-    public User(UserUpdateDTO userDTO){
-        this.id = userDTO.getId();
-        this.email = userDTO.getEmail();
-        this.phone_number = userDTO.getPhone_number();
     }
 
     public boolean hasProfile(){

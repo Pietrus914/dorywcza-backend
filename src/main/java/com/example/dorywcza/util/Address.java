@@ -20,10 +20,6 @@ public class Address {
 
     private String street;
 
-//    public Address(AddressDTO addressDTO) {
-//        this.id = addressDTO.getId();
-//        this.street = addressDTO.getStreet();
-//    }
 
     @Override
     public boolean equals(Object o) {
