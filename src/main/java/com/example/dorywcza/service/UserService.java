@@ -51,10 +51,11 @@ public class UserService {
 
 
     /** function that marks user as deleted **/
-    public void deleteUser(Long id) {
+    public UserUpdateDTO deleteUser(Long id) {
         User userToDelete = userRepository.findById(id).orElseThrow();
         userToDelete.setDeleted(true);
-        userRepository.save(userToDelete);
+        User markedAsDeleted = userRepository.save(userToDelete);
+        return getUserUpdateDTOFrom(markedAsDeleted);
     }
 
     /** function that saves user without userProfile **/
