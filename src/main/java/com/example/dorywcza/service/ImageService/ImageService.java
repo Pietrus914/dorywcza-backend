@@ -1,14 +1,15 @@
 package com.example.dorywcza.service.ImageService;
 
 import com.example.dorywcza.model.user.User;
+import com.example.dorywcza.model.user.UserProfile;
 import com.example.dorywcza.repository.ImageRepository.ImageRepository;
 import com.example.dorywcza.repository.UserRepository;
+import com.example.dorywcza.service.UserService;
 import com.example.dorywcza.util.Image;
 import com.example.dorywcza.util.ImageBox;
 import com.example.dorywcza.util.ImageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -23,19 +24,29 @@ public class ImageService {
     private ImageRepository imageRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserService userService;
+
+    public ImageService(ImageRepository imageRepository, UserRepository userRepository) {
+        this.imageRepository = imageRepository;
+        this.userRepository = userRepository;
+        this.userService = userService;
+    }
 
     public Image store(MultipartFile file, Long userId, Boolean isAvatar) throws IOException {
+        User user = userRepository.findById(userId).orElseThrow();
+        if (!user.hasProfile()){
+            user.setUserProfile(new UserProfile(user));
+            userRepository.save(user);
+        }
         if (isAvatar){
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-            Image image = new Image(file.getBytes(), file.getContentType(), fileName,null);
-            User user = userRepository.findById(userId).get();
+            Image image = new Image(file,null);
             image.setId(user.getUserProfile().getAvatar().getId());
             return imageRepository.save(image);
         }
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        ImageBox imageBox = userRepository.findById(userId).get().getUserProfile().getExperience().getImageBox();
-        Image image = new Image(file.getBytes(), file.getContentType(), fileName, imageBox);
+        ImageBox imageBox = user.getUserProfile().getExperience().getImageBox();
+        Image image = new Image(file, imageBox);
         return imageRepository.save(image);
     }
 
