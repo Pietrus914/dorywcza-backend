@@ -1,5 +1,8 @@
-package com.example.dorywcza.model.user;
+package com.example.dorywcza.model.user.DTO;
 
+import com.example.dorywcza.model.user.Experience;
+import com.example.dorywcza.model.user.User;
+import com.example.dorywcza.model.user.UserProfile;
 import com.example.dorywcza.util.Image;
 import com.example.dorywcza.util.ImageBox;
 import com.example.dorywcza.util.ImageDTO;
@@ -12,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
-public class UserPublicDTO extends UserGeneralDTO{
+public class UserPublicDTO extends UserGeneralDTO {
 
     private String experienceDescription;
     private List<ImageDTO> pictures;

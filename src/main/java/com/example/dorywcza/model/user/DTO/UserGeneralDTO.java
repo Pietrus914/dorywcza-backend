@@ -1,5 +1,7 @@
-package com.example.dorywcza.model.user;
+package com.example.dorywcza.model.user.DTO;
 
+import com.example.dorywcza.model.user.User;
+import com.example.dorywcza.model.user.UserProfile;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +23,9 @@ public abstract class UserGeneralDTO {
     private String description;
     private String street;
 
+    public UserGeneralDTO(String email){
+        this.email = email;
+    }
 
     public UserGeneralDTO(User user){
         this.id = user.getId();

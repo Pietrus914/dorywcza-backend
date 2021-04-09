@@ -4,8 +4,6 @@ import com.example.dorywcza.model.job_offer.JobOffer;
 import com.example.dorywcza.model.offer.*;
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
 import com.example.dorywcza.model.user.User;
-import com.example.dorywcza.model.user.UserPublicDTO;
-import com.example.dorywcza.model.user.UserUpdateDTO;
 import com.example.dorywcza.service.IndustryService;
 import com.example.dorywcza.service.SalaryTimeUnitService;
 import com.example.dorywcza.service.UserService;

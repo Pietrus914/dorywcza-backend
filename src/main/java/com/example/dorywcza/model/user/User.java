@@ -2,6 +2,7 @@ package com.example.dorywcza.model.user;
 
 import com.example.dorywcza.model.job_offer.JobOffer;
 import com.example.dorywcza.model.service_offer.ServiceOffer;
+import com.example.dorywcza.model.user.DTO.UserUpdateDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;

@@ -1,5 +1,8 @@
-package com.example.dorywcza.model.user;
+package com.example.dorywcza.model.user.DTO;
 
+import com.example.dorywcza.model.user.Experience;
+import com.example.dorywcza.model.user.User;
+import com.example.dorywcza.model.user.UserProfile;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +19,10 @@ public class UserUpdateDTO extends UserGeneralDTO {
         if (user.hasProfile()){
             loadExperienceDescription(user.getUserProfile());
         }
+    }
+
+    public UserUpdateDTO(String email){
+        super(email);
     }
 
     private void loadExperienceDescription(UserProfile userProfile) {

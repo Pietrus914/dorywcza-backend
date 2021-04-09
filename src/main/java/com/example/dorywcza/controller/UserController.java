@@ -1,7 +1,7 @@
 package com.example.dorywcza.controller;
 
-import com.example.dorywcza.model.user.UserPublicDTO;
-import com.example.dorywcza.model.user.UserUpdateDTO;
+import com.example.dorywcza.model.user.DTO.UserPublicDTO;
+import com.example.dorywcza.model.user.DTO.UserUpdateDTO;
 import com.example.dorywcza.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

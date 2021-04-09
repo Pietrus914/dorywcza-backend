@@ -1,6 +1,8 @@
 package com.example.dorywcza.service;
 
 import com.example.dorywcza.model.user.*;
+import com.example.dorywcza.model.user.DTO.UserPublicDTO;
+import com.example.dorywcza.model.user.DTO.UserUpdateDTO;
 import com.example.dorywcza.repository.UserRepository;
 import com.example.dorywcza.service.ImageService.ImageService;
 import com.example.dorywcza.util.Address;

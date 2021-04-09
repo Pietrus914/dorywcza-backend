@@ -1,8 +1,9 @@
 package com.example.dorywcza.controller;
 
-import com.example.dorywcza.model.user.UserPublicDTO;
-import com.example.dorywcza.model.user.UserUpdateDTO;
+import com.example.dorywcza.model.user.DTO.UserPublicDTO;
+import com.example.dorywcza.model.user.DTO.UserUpdateDTO;
 import com.example.dorywcza.service.UserService;
+import com.example.dorywcza.util.ImageDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -61,14 +62,19 @@ class UserControllerTest {
         int expectedSize = 3;
         List<String> expectedEmails = new ArrayList<>(List.of("mark@gmail.com", "kazik@gmail.com","mati@gmail.com" )) ;
         List<String> expectedStreets = new ArrayList<>(List.of("SunnyStreet", "StormyStreet", "RainyStreet"));
+        List<ImageDTO> expectedExperienceImages = null;
 
         assertAll(
             () -> assertEquals(expectedSize,returnedUserList.size()),
             () -> assertEquals(expectedEmails, returnedUserList.stream().map(UserPublicDTO::getEmail).collect(Collectors.toList())),
-                () -> assertEquals(expectedStreets, returnedUserList.stream()
-                        .map(UserPublicDTO::getStreet)
-                        .collect(Collectors.toList())
-                )
+            () -> assertEquals(expectedStreets, returnedUserList.stream()
+                    .map(UserPublicDTO::getStreet)
+                    .collect(Collectors.toList()))
+//            () -> assertEquals(expectedExperienceImages,returnedUserList.stream()
+//                        .map(UserPublicDTO::getPictures)
+//                        .flatMap(List::stream)
+////                        .map(ImageDTO::getType)
+//                        .collect(Collectors.toList()))
             );
     }
 
@@ -76,13 +82,14 @@ class UserControllerTest {
     @DirtiesContext
     void givenNewUserWithoutProfile_whenAdding_ShouldReturnExpectedUser() throws Exception {
 
-        UserPublicDTO newUserDTO = new UserPublicDTO("emailTest@gmail.com");
-        newUserDTO.setExperienceDescription("funny guy");
+        UserUpdateDTO newUserDTO = new UserUpdateDTO("emailTest@gmail.com");
+        newUserDTO.setEmail("emailTest@gmail.com");
+
         String newUserDTOInJson = objectMapper.writeValueAsString(newUserDTO);
 
         MvcResult mvcResult;
         mvcResult = this.mockMvc.perform(
-                MockMvcRequestBuilders.post("/user")
+                MockMvcRequestBuilders.post("/users")
                         .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
                         .param(csrfToken.getParameterName(), csrfToken.getToken())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -91,13 +98,13 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        UserPublicDTO returnedUserDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), UserPublicDTO.class);
+        newUserDTO.setOverallRating(0);
+
+        UserUpdateDTO returnedUserDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), UserUpdateDTO.class);
 
         assertAll(
                 () -> assertEquals(newUserDTO, returnedUserDTO)
         );
-
-
     }
 
     @Test
@@ -111,7 +118,7 @@ class UserControllerTest {
 
         MvcResult mvcResult;
         mvcResult = this.mockMvc.perform(
-                MockMvcRequestBuilders.put("/user/1")
+                MockMvcRequestBuilders.put("/users/1")
                         .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
                         .param(csrfToken.getParameterName(), csrfToken.getToken())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -120,7 +127,7 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        UserPublicDTO returnedUserDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), UserPublicDTO.class);
+        UserUpdateDTO returnedUserDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), UserUpdateDTO.class);
 
         assertAll(
                 () -> assertEquals(userDTOToUpdate,
