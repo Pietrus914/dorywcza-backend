@@ -6,6 +6,7 @@
 
 INSERT INTO image_box (id) VALUES ( 1 );
 INSERT INTO image_box (id) VALUES ( 2 );
+INSERT INTO image_box (id) VALUES ( 3 );
 
 INSERT INTO image (image_box_id) VALUES ( 1 );
 INSERT INTO image (image_box_id) VALUES ( 1 );
@@ -15,7 +16,7 @@ INSERT INTO image (image_box_id) VALUES ( 2 );
 
 INSERT INTO experience (description, image_box_id) VALUES ('Always on time', 1 );
 INSERT INTO experience (description, image_box_id) VALUES ('Fast and cost-efficient', 2 );
-INSERT INTO experience (description) VALUES ('no' );
+INSERT INTO experience (description, image_box_id) VALUES ('no', 3 );
 
 
 INSERT INTO address (street) VALUES ( 'SunnyStreet' );
@@ -94,6 +95,10 @@ INSERT INTO service_offer (user_id,description, title, date_range_id, has_experi
 VALUES (1, 'test SERVICE OFFER 1', 'test SERVICE OFFER 1', 3, false, 3, 3, 3, '2021-04-01', '2021-04-02', 1);
 INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
 VALUES (1, 'test SERVICE OFFER 2', 'test SERVICE OFFER 2', 4, false, 4, 4, 4, '2021-04-01', '2021-04-02', 1);
+
+
+
+
 
 
 

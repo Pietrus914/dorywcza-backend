@@ -2,13 +2,12 @@ package com.example.dorywcza.model.user;
 
 import com.example.dorywcza.util.ImageBox;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Data
-@NoArgsConstructor
+//@NoArgsConstructor
 @Entity
 public class Experience {
 
@@ -20,7 +19,11 @@ public class Experience {
     @OneToOne(cascade = CascadeType.ALL)
     private ImageBox imageBox;
 
-        @Override
+    public Experience() {
+        this.imageBox = new ImageBox();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

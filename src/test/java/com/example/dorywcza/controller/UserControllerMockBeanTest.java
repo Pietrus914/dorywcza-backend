@@ -1,6 +1,6 @@
 package com.example.dorywcza.controller;
 
-import com.example.dorywcza.model.user.User;
+import com.example.dorywcza.model.user.UserDTO;
 import com.example.dorywcza.service.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,18 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -47,10 +46,10 @@ class UserControllerMockBeanTest {
     private UserService userService;
 
 
-    private List<User> expectedList = new ArrayList<>(List.of(
-            new User("test1@gmail.com","password" ),
-            new User("test2@gmail.com","password2"),
-            new User("test3@gmail.com","password3")
+    private List<UserDTO> expectedList = new ArrayList<>(List.of(
+            new UserDTO("test1@gmail.com" ),
+            new UserDTO("test2@gmail.com"),
+            new UserDTO("test3@gmail.com")
     ));
 
     @Test
@@ -65,7 +64,7 @@ class UserControllerMockBeanTest {
                 .andReturn();
 
         String responseAsString = mvcResult.getResponse().getContentAsString();
-        List<User> returnedUserList = objectMapper.readValue(responseAsString, new TypeReference<>() {
+        List<UserDTO> returnedUserList = objectMapper.readValue(responseAsString, new TypeReference<>() {
         });
 
         int expectedSize = 3;
@@ -73,7 +72,7 @@ class UserControllerMockBeanTest {
 
         assertAll(
                 () -> assertEquals(expectedSize,returnedUserList.size()),
-                ()-> assertEquals(expectedEmails, returnedUserList.stream().map(User::getEmail).collect(Collectors.toList())),
+                ()-> assertEquals(expectedEmails, returnedUserList.stream().map(user -> user.getEmail()).collect(Collectors.toList())),
                 () -> assertEquals(expectedList, returnedUserList ));
 
     }
@@ -81,11 +80,11 @@ class UserControllerMockBeanTest {
     @Test
     void givenNewUserWithoutProfile_whenAdding_ShouldReturnExpectedUser() throws Exception {
 
-        User newUser = new User("emailTest@gmail.com", "testpassword");
-        User expectedUser = new User("fromService", "fromServicePassword");
-        String newUserInJson = objectMapper.writeValueAsString(newUser);
+        UserDTO newUserDTO = new UserDTO("emailTest@gmail.com");
+        UserDTO expectedUserDTO = new UserDTO("fromService");
+        String newUserInJson = objectMapper.writeValueAsString(newUserDTO);
 
-        given(userService.addUser(newUser)).willReturn(expectedUser);
+        given(userService.addUser(newUserDTO)).willReturn(expectedUserDTO);
 
         MvcResult mvcResult;
         mvcResult = this.mockMvc.perform(
@@ -98,10 +97,10 @@ class UserControllerMockBeanTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        User returnedUser = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), User.class);
+        UserDTO returnedUserDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), UserDTO.class);
 
         assertAll(
-                () -> assertEquals(expectedUser, returnedUser)
+                () -> assertEquals(expectedUserDTO, returnedUserDTO)
         );
 
 

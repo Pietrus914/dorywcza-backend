@@ -58,6 +58,15 @@ public class User {
         this.email = email;
         this.password = password;
         this.deleted = false;
+        this.userProfile = new UserProfile();
+    }
+
+
+    public User(UserDTO userDTO) {
+        this.id = userDTO.getId();
+        this.email = userDTO.getEmail();
+        this.phone_number = userDTO.getPhone_number();
+        this.overallRating = userDTO.getOverallRating();
     }
 
     @Override
@@ -65,12 +74,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return verified == user.verified && overallRating == user.overallRating && deleted == user.deleted && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(phone_number, user.phone_number) && Objects.equals(userProfile, user.userProfile);
+        return verified == user.verified && overallRating == user.overallRating && deleted == user.deleted && Objects.equals(email, user.email) && Objects.equals(phone_number, user.phone_number) && Objects.equals(userProfile, user.userProfile);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email, password, phone_number, verified, overallRating, userProfile, deleted);
+        return Objects.hash(email, phone_number, verified, overallRating, userProfile, deleted);
     }
-
 }
