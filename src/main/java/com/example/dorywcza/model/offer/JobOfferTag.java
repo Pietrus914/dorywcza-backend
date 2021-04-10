@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.util.*;
@@ -21,11 +19,24 @@ public class JobOfferTag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private Long frequencyRating;
 
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "jobOfferTags")
-    @NotFound(action = NotFoundAction.IGNORE)
+    @ManyToMany(mappedBy = "jobOfferTags")
+//    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnore
     private List<JobOffer> jobOffer;
 
+    public JobOfferTag(String name, Long frequencyRating) {
+        this.name= name;
+        this.frequencyRating = frequencyRating;
+    }
+
+    public void  increaseFrequencyRating(){
+        frequencyRating++;
+    }
+
+    public void addJobOffer(JobOffer addedJobOffer){
+        jobOffer.add(addedJobOffer);
+    }
 }

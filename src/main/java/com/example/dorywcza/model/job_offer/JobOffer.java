@@ -30,12 +30,11 @@ public class JobOffer extends Offer {
     }
 
 
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "job_offer_job_offer_tag",
             joinColumns = { @JoinColumn(name = "job_offer_id") },
             inverseJoinColumns = { @JoinColumn(name = "job_offer_tag_id") }
     )
     List<JobOfferTag> jobOfferTags;
-
 }

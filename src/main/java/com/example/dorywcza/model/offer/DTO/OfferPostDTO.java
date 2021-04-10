@@ -22,5 +22,5 @@ public class OfferPostDTO  {
     private DateRangeDTO dateRangeDTO;
     private Long IndustryId;
     private OfferScheduleDTO offerScheduleDTO;
-    private List<Long> jobOfferTagsIds;
+    private List<String> jobOfferTagsNames;
 }

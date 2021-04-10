@@ -78,8 +78,8 @@ INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tu
                             friday_afternoon, friday_evening, saturday_morning, saturday_afternoon, saturday_evening, sunday_morning, sunday_afternoon, sunday_evening)
 VALUES (true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
 
-INSERT INTO JOB_OFFER_TAG(name) VALUES('obsługa klienta');
-INSERT INTO JOB_OFFER_TAG(name) VALUES('angielski');
+INSERT INTO JOB_OFFER_TAG(name, frequency_rating) VALUES('obsługa klienta', 1);
+INSERT INTO JOB_OFFER_TAG(name, frequency_rating) VALUES('angielski', 3);
 
 INSERT INTO JOB_OFFER (DESCRIPTION, TITLE, USER_ID, DATE_CREATED, DATE_UPDATED, date_range_id, salary_id, offer_location_id, offer_schedule_id, has_experience, industry_id)
 VALUES ('test_description', 'test_title', 1, '2021-04-01', '2021-04-02', 1, 1, 1, 1, true, 1);

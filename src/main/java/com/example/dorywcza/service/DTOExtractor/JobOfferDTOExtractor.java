@@ -3,7 +3,6 @@ package com.example.dorywcza.service.DTOExtractor;
 import com.example.dorywcza.model.job_offer.JobOffer;
 import com.example.dorywcza.model.offer.*;
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
-import com.example.dorywcza.model.service_offer.ServiceOffer;
 import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.service.IndustryService;
 import com.example.dorywcza.service.JobOfferTagService;
@@ -25,14 +24,14 @@ public class JobOfferDTOExtractor extends OfferDTOExtractor{
         this.jobOfferTagService = jobOfferTagService;
     }
 
-    public JobOffer getOffer(OfferPostDTO offerPostDTO){
+    public JobOffer getOffer(OfferPostDTO offerPostDTO, boolean isNewOffer){
         Salary salary = getSalary(offerPostDTO);
         DateRange dateRange = getDateRange(offerPostDTO);
         OfferLocation offerLocation = getOfferLocation(offerPostDTO);
         OfferSchedule offerSchedule = getOfferSchedule(offerPostDTO);
         User user = userService.findById(offerPostDTO.getUserId()).get();
         Industry industry = industryService.findById(offerPostDTO.getIndustryId());
-        List<JobOfferTag> jobOfferTags = jobOfferTagService.getTagsById(offerPostDTO.getJobOfferTagsIds());
+        List<JobOfferTag> jobOfferTags = jobOfferTagService.getTags(offerPostDTO.getJobOfferTagsNames(), isNewOffer);
         JobOffer jobOffer =  new JobOffer(offerPostDTO.getTitle(), offerPostDTO.getDescription(),
                 user, offerPostDTO.isHasExperience(),
                 offerLocation, dateRange, industry, salary, offerSchedule);
@@ -43,7 +42,7 @@ public class JobOfferDTOExtractor extends OfferDTOExtractor{
 
 
     public JobOffer setIdsBeforeUpdate(OfferPostDTO offerPostDTO, JobOffer offerCurrentlyInDB) {
-        JobOffer offerToBeSavedInDB = getOffer(offerPostDTO);
+        JobOffer offerToBeSavedInDB = getOffer(offerPostDTO, false);
         offerToBeSavedInDB.getOfferSchedule().setId(offerCurrentlyInDB.getOfferSchedule().getId());
         offerToBeSavedInDB.getOfferLocation().setId(offerCurrentlyInDB.getOfferLocation().getId());
         offerToBeSavedInDB.getDateRange().setId(offerCurrentlyInDB.getDateRange().getId());
