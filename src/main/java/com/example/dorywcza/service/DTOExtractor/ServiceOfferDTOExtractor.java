@@ -16,7 +16,7 @@ public class ServiceOfferDTOExtractor extends OfferDTOExtractor {
 
     public ServiceOffer getOffer(OfferPostDTO offerPostDTO){
         return new ServiceOffer(offerPostDTO.getTitle(), offerPostDTO.getDescription(),
-                userService.convert(userService.findById(offerPostDTO.getUserId()).get()), offerPostDTO.isHasExperience(),
+                userService.findUserById(offerPostDTO.getUserId()), offerPostDTO.isHasExperience(),
                 getOfferLocation(offerPostDTO), getDateRange(offerPostDTO),
                 industryService.findById(offerPostDTO.getIndustryId()), getSalary(offerPostDTO), getOfferSchedule(offerPostDTO));
     }

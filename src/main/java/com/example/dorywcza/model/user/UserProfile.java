@@ -11,8 +11,7 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
-
-//@NoArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
 @Entity
@@ -41,7 +40,8 @@ public class UserProfile {
     private Image avatar;
 
 
-    public UserProfile(){
+    public UserProfile(User user){
+        this.user = user;
         this.address = new Address();
         this.experience = new Experience();
         this.avatar = new Image();
@@ -49,7 +49,7 @@ public class UserProfile {
 
     public UserProfile(User user, String first_name, String last_name, String user_name,
                        String description, String street, String experienceDescription,
-                       List<byte[]> pictures, byte[] avatar){
+                       List<Image> pictures, Image avatar){
         this.user = user;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -60,8 +60,21 @@ public class UserProfile {
         this.experience = new Experience();
         experience.setDescription(experienceDescription);
         experience.setImageBox(new ImageBox(pictures));
-        this.avatar = new Image(avatar);
+        this.avatar = avatar;
     }
+
+    public boolean hasAddress(){
+        return getAddress() != null;
+    }
+
+    public boolean hasExperience(){
+        return getExperience() != null;
+    }
+
+    public boolean hasAvatar(){
+        return getAvatar() !=null;
+    }
+
 
     @Override
     public boolean equals(Object o) {

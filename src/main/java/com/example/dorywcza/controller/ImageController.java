@@ -21,13 +21,15 @@ public class ImageController {
     @PostMapping("/upload")
     public String uploadImage(@RequestParam("image") MultipartFile image,
                               @RequestParam("userId") Long userId,
-                              @RequestParam("avatar") Boolean isAvatar){
+                              @RequestParam("avatar") Boolean isAvatar) throws Exception {
 
         try {
             Image uploadedImage = imageService.store(image, userId, isAvatar);
             return "File " + uploadedImage.getImageName() + " uploaded";
         } catch (Exception e) {
+            e.printStackTrace();
             return "File " + image.getOriginalFilename() + " could not be uploaded";
+
         }
 
     }

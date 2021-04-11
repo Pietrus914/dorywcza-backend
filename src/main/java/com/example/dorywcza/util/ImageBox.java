@@ -11,7 +11,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 @Getter
@@ -32,10 +31,18 @@ public class ImageBox {
         this.images = new ArrayList<>();
     }
 
-    public ImageBox(List<byte[]> pictures){
+    public ImageBox(List<Image> pictures){
         if (pictures != null){
-            this.images = pictures.stream().map(Image::new).collect(Collectors.toList());
+            this.images = pictures;
         }
+    }
+
+    public boolean hasPicturesInImages(){
+        return images != null;
+    }
+
+    public boolean isNotEmpty(){
+        return images.size() != 0;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.dorywcza.controller;
 
-import com.example.dorywcza.model.user.UserDTO;
+import com.example.dorywcza.model.user.DTO.UserPublicDTO;
+import com.example.dorywcza.model.user.DTO.UserUpdateDTO;
 import com.example.dorywcza.service.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,10 +47,10 @@ class UserControllerMockBeanTest {
     private UserService userService;
 
 
-    private List<UserDTO> expectedList = new ArrayList<>(List.of(
-            new UserDTO("test1@gmail.com" ),
-            new UserDTO("test2@gmail.com"),
-            new UserDTO("test3@gmail.com")
+    private List<UserPublicDTO> expectedList = new ArrayList<>(List.of(
+            new UserPublicDTO("test1@gmail.com" ),
+            new UserPublicDTO("test2@gmail.com"),
+            new UserPublicDTO("test3@gmail.com")
     ));
 
     @Test
@@ -64,7 +65,7 @@ class UserControllerMockBeanTest {
                 .andReturn();
 
         String responseAsString = mvcResult.getResponse().getContentAsString();
-        List<UserDTO> returnedUserList = objectMapper.readValue(responseAsString, new TypeReference<>() {
+        List<UserPublicDTO> returnedUserList = objectMapper.readValue(responseAsString, new TypeReference<>() {
         });
 
         int expectedSize = 3;
@@ -72,7 +73,7 @@ class UserControllerMockBeanTest {
 
         assertAll(
                 () -> assertEquals(expectedSize,returnedUserList.size()),
-                ()-> assertEquals(expectedEmails, returnedUserList.stream().map(user -> user.getEmail()).collect(Collectors.toList())),
+                ()-> assertEquals(expectedEmails, returnedUserList.stream().map(dto -> dto.getEmail()).collect(Collectors.toList())),
                 () -> assertEquals(expectedList, returnedUserList ));
 
     }
@@ -80,15 +81,15 @@ class UserControllerMockBeanTest {
     @Test
     void givenNewUserWithoutProfile_whenAdding_ShouldReturnExpectedUser() throws Exception {
 
-        UserDTO newUserDTO = new UserDTO("emailTest@gmail.com");
-        UserDTO expectedUserDTO = new UserDTO("fromService");
+        UserUpdateDTO newUserDTO = new UserUpdateDTO("emailTest@gmail.com");
+        UserUpdateDTO expectedUserDTO = new UserUpdateDTO("fromService");
         String newUserInJson = objectMapper.writeValueAsString(newUserDTO);
 
         given(userService.addUser(newUserDTO)).willReturn(expectedUserDTO);
 
         MvcResult mvcResult;
         mvcResult = this.mockMvc.perform(
-                MockMvcRequestBuilders.post("/user")
+                MockMvcRequestBuilders.post("/users")
                 .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
                 .param(csrfToken.getParameterName(), csrfToken.getToken())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -97,7 +98,7 @@ class UserControllerMockBeanTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        UserDTO returnedUserDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), UserDTO.class);
+        UserUpdateDTO returnedUserDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), UserUpdateDTO.class);
 
         assertAll(
                 () -> assertEquals(expectedUserDTO, returnedUserDTO)

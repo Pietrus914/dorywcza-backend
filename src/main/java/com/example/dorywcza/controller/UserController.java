@@ -1,6 +1,7 @@
 package com.example.dorywcza.controller;
 
-import com.example.dorywcza.model.user.UserDTO;
+import com.example.dorywcza.model.user.DTO.UserPublicDTO;
+import com.example.dorywcza.model.user.DTO.UserUpdateDTO;
 import com.example.dorywcza.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,28 +19,33 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<UserDTO> getUsers(){
+    public List<UserPublicDTO> getUsers(){
         return userService.findAll();
     }
 
-    @GetMapping("/user/{id}")
-    public Optional<UserDTO> getUser(@PathVariable Long id){
-        return userService.findById(id);
+    @GetMapping("/users/{id}")
+    public Optional<UserPublicDTO> getUser(@PathVariable Long id){
+        return userService.findPublicDTOById(id);
     }
 
-    @PostMapping("/user")
-    public UserDTO addUser(@RequestBody UserDTO userDTO){
+    @GetMapping("/users-update/{id}")
+    public Optional<UserUpdateDTO> getUserToUpdate(@PathVariable Long id, @RequestParam boolean toUpdate){
+        return userService.findUpdateDTOById(id);
+    }
+
+    @PostMapping("/users")
+    public UserUpdateDTO addUser(@RequestBody UserUpdateDTO userDTO){
         return userService.addUser(userDTO);
     }
 
-    @PutMapping("/user/{id}")
-    public UserDTO updateUser(@RequestBody UserDTO userDTO, @PathVariable Long id){
+    @PutMapping("/users/{id}")
+    public UserUpdateDTO updateUser(@RequestBody UserUpdateDTO userDTO, @PathVariable Long id){
         return userService.updateUser(userDTO, id);
     }
 
-    @DeleteMapping("/user/{id}")
-    public void deleteUser(@PathVariable Long id){
-        userService.deleteUser(id);
+    @DeleteMapping("/users/{id}")
+    public UserUpdateDTO deleteUser(@PathVariable Long id){
+        return userService.deleteUser(id);
     }
 
 }

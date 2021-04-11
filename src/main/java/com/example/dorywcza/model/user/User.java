@@ -1,8 +1,8 @@
 package com.example.dorywcza.model.user;
 
 import com.example.dorywcza.model.job_offer.JobOffer;
-import com.example.dorywcza.model.offer.Offer;
 import com.example.dorywcza.model.service_offer.ServiceOffer;
+import com.example.dorywcza.model.user.DTO.UserUpdateDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
@@ -58,15 +58,19 @@ public class User {
         this.email = email;
         this.password = password;
         this.deleted = false;
-        this.userProfile = new UserProfile();
+        this.overallRating = 0;
     }
 
-
-    public User(UserDTO userDTO) {
-        this.id = userDTO.getId();
+    public User(UserUpdateDTO userDTO) {
+        this.id = null;
         this.email = userDTO.getEmail();
         this.phone_number = userDTO.getPhone_number();
-        this.overallRating = userDTO.getOverallRating();
+        this.overallRating = 0;
+        this.deleted = false;
+    }
+
+    public boolean hasProfile(){
+        return userProfile != null;
     }
 
     @Override

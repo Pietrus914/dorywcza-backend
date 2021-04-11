@@ -3,8 +3,11 @@ package com.example.dorywcza.util;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.util.Objects;
 
 
@@ -36,6 +39,19 @@ public class Image {
         }
     }
 
+    public Image(MultipartFile file, ImageBox imageBox) throws IOException {
+        if (file != null){
+            this.image = file.getBytes();
+            this.type = file.getContentType();
+            this.imageName = getFileName(file);
+            this.imageBox = imageBox;
+        }
+    }
+
+    private String getFileName(MultipartFile file) {
+        return StringUtils.cleanPath(file.getOriginalFilename());
+    }
+
     public Image(byte[] file,String type, String imageName, ImageBox imageBox){
         if (file != null){
             this.image = file;
@@ -43,6 +59,14 @@ public class Image {
             this.imageName = imageName;
             this.imageBox = imageBox;
         }
+    }
+
+    public boolean hasFile(){
+        return image != null;
+    }
+
+    public ImageDTO convert(Image image){
+        return new ImageDTO(image.getImageName(), image.getType(), "/images/"+ image.getId(), image.getImage().length );
     }
 
     @Override
