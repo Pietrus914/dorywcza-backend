@@ -2,19 +2,12 @@ package com.example.dorywcza.model.job_offer;
 
 
 import com.example.dorywcza.model.offer.*;
-import com.example.dorywcza.model.offer.DTO.JobOfferTagDTO;
 import com.example.dorywcza.model.user.User;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity

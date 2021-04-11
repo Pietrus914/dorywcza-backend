@@ -36,6 +36,10 @@ public class JobOfferTag {
         frequencyRating++;
     }
 
+    public void  decreaseFrequencyRating(){
+        frequencyRating--;
+    }
+
     public void addJobOffer(JobOffer addedJobOffer){
         jobOffer.add(addedJobOffer);
     }

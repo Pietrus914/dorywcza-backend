@@ -13,6 +13,6 @@ import java.util.List;
 public class JobOfferPostDTO {
 
     private OfferPostDTO offerPostDTO;
-    private List<String> jobOfferTagsIds;
+    private List<String> jobOfferTagsNames;
 
 }

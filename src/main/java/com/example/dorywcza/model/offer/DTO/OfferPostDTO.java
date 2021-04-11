@@ -9,11 +9,11 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class OfferPostDTO  {
+public class OfferPostDTO {
 
     private String description;
     private String title;
-//    When login is implemented this will be removed and replaced in service with user id from session
+    //    When login is implemented this will be removed and replaced in service with user id from session
     private Long userId;
     private Long salaryTimeUnitId;
     private boolean hasExperience;
@@ -22,5 +22,6 @@ public class OfferPostDTO  {
     private DateRangeDTO dateRangeDTO;
     private Long IndustryId;
     private OfferScheduleDTO offerScheduleDTO;
-    private List<String> jobOfferTagsNames;
+
+
 }

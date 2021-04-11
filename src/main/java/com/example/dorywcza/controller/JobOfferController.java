@@ -1,6 +1,7 @@
 package com.example.dorywcza.controller;
 
 import com.example.dorywcza.model.job_offer.JobOffer;
+import com.example.dorywcza.model.offer.DTO.JobOfferPostDTO;
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
 import com.example.dorywcza.service.job_offer_service.JobOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +34,13 @@ public class JobOfferController {
     }
 
     @PostMapping("/jobs")
-    public JobOffer saveJobOffer(@RequestBody OfferPostDTO offerPostDTO) {
-        return jobOfferService.save(offerPostDTO);
+    public JobOffer saveJobOffer(@RequestBody JobOfferPostDTO jobOfferPostDTO) {
+        return jobOfferService.save(jobOfferPostDTO);
     }
 
     @PutMapping("/jobs/{id}")
-    public JobOffer updateJobOffer (@RequestBody OfferPostDTO offerPostDTO, @PathVariable Long id){
-        return jobOfferService.update(offerPostDTO, id);
+    public JobOffer updateJobOffer (@RequestBody JobOfferPostDTO jobOfferPostDTO, @PathVariable Long id){
+        return jobOfferService.update(jobOfferPostDTO, id);
     }
 
     @DeleteMapping("/jobs/{id}")
