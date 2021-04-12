@@ -79,11 +79,17 @@ INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tu
                             friday_afternoon, friday_evening, saturday_morning, saturday_afternoon, saturday_evening, sunday_morning, sunday_afternoon, sunday_evening)
 VALUES (true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
 
+INSERT INTO JOB_OFFER_TAG(name, frequency_rating) VALUES('obsługa klienta', 1);
+INSERT INTO JOB_OFFER_TAG(name, frequency_rating) VALUES('angielski', 3);
 
 INSERT INTO JOB_OFFER (DESCRIPTION, TITLE, USER_ID, DATE_CREATED, DATE_UPDATED, date_range_id, salary_id, offer_location_id, offer_schedule_id, has_experience, industry_id)
-VALUES ('test_description_1', 'test_title_1', 1, '2021-04-01', '2021-04-02', 1, 1, 1, 1, true, 1);
+VALUES ('test_description', 'test_title', 1, '2021-04-01', '2021-04-02', 1, 1, 1, 1, true, 1);
 INSERT INTO JOB_OFFER (DESCRIPTION, TITLE, USER_ID, DATE_CREATED, DATE_UPDATED, date_range_id, salary_id, offer_location_id, offer_schedule_id, has_experience, industry_id)
 VALUES ('test_description 2', 'test_title 2', 2, '2021-04-01', '2021-04-02', 2, 2, 2, 2, true, 2);
+
+INSERT INTO JOB_OFFER_JOB_OFFER_TAG(JOB_OFFER_ID, JOB_OFFER_TAG_ID) VALUES(1, 1);
+INSERT INTO JOB_OFFER_JOB_OFFER_TAG(JOB_OFFER_ID, JOB_OFFER_TAG_ID) VALUES(1, 2);
+INSERT INTO JOB_OFFER_JOB_OFFER_TAG(JOB_OFFER_ID,JOB_OFFER_TAG_ID) VALUES(2, 2);
 
 INSERT INTO service_offer (user_id,description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
 VALUES (1, 'test SERVICE OFFER 1', 'test SERVICE OFFER 1', 3, false, 3, 3, 3, '2021-04-01', '2021-04-02', 1);
