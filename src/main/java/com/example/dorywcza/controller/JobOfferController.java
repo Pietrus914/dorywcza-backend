@@ -2,7 +2,7 @@ package com.example.dorywcza.controller;
 
 import com.example.dorywcza.model.job_offer.JobOffer;
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
-import com.example.dorywcza.service.job_offer_service.JobOfferService;
+import com.example.dorywcza.service.JobOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

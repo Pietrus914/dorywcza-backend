@@ -1,9 +1,9 @@
-package com.example.dorywcza.service.job_offer_service;
+package com.example.dorywcza.service;
 
 
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
 import com.example.dorywcza.model.job_offer.JobOffer;
-import com.example.dorywcza.repository.job_offer_repository.JobOfferRepository;
+import com.example.dorywcza.repository.JobOfferRepository;
 import com.example.dorywcza.service.DTOExtractor.JobOfferDTOExtractor;
 //import com.example.dorywcza.util.ObjectMapperUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +33,17 @@ public class JobOfferService {
     }
 
     public JobOffer save(OfferPostDTO offerPostDTO){
-        JobOffer jobOffer = jobOfferDTOExtractor.getOffer(offerPostDTO);
+        JobOffer jobOffer = jobOfferDTOExtractor.getJobOffer(offerPostDTO);
         return repository.save(jobOffer);
     }
 
     public JobOffer update(OfferPostDTO offerPostDTO, Long id) {
         Optional<JobOffer> foundJobOffer = findById(id);
-        if (foundJobOffer.isEmpty()) {throw new RuntimeException();}
+        if (foundJobOffer.isEmpty()) {
+            throw new RuntimeException();
+        }
         JobOffer jobOfferToUpdate = foundJobOffer.get();
-        JobOffer updatedJobOffer = jobOfferDTOExtractor.setIdsBeforeUpdate(offerPostDTO, jobOfferToUpdate);
+        JobOffer updatedJobOffer = jobOfferDTOExtractor.setJobOfferIdsBeforeUpdate(offerPostDTO, jobOfferToUpdate);
         return repository.save(updatedJobOffer);
     }
 
