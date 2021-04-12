@@ -3,19 +3,18 @@ package com.example.dorywcza.model.job_offer;
 
 import com.example.dorywcza.model.offer.*;
 import com.example.dorywcza.model.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 
 import javax.persistence.*;
-
+import java.util.List;
 
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
+@NoArgsConstructor
 public class JobOffer extends Offer {
 
     public JobOffer(String title, String description, User user, boolean hasExperience, OfferLocation offerLocation,
@@ -23,4 +22,12 @@ public class JobOffer extends Offer {
         super(title,  description,  user,  hasExperience,  offerLocation, dateRange,  industry,  salary,  offerSchedule);
     }
 
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "job_offer_job_offer_tag",
+            joinColumns = { @JoinColumn(name = "job_offer_id") },
+            inverseJoinColumns = { @JoinColumn(name = "job_offer_tag_id") }
+    )
+    List<JobOfferTag> jobOfferTags;
 }
