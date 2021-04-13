@@ -4,6 +4,7 @@ import com.example.dorywcza.service.ImageService.ImageService;
 import com.example.dorywcza.util.Image;
 import com.example.dorywcza.util.ImageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,4 +44,10 @@ public class ImageController {
     public List<ImageDTO> getAllImages(){
         return imageService.getAllImages();
     }
+
+    @GetMapping(value="/resources/{id}", produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_GIF_VALUE,MediaType.IMAGE_PNG_VALUE})
+        public @ResponseBody byte[] getRealImage(@PathVariable Long id){
+            return imageService.findRealImage(id);
+        }
+
 }

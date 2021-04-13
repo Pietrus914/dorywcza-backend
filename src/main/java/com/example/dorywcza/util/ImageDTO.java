@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class ImageDTO {
-    private static String pathString = "/images/";
+    private static String pathString = "/resources/";
 
 //    private Long id;
     private String name;

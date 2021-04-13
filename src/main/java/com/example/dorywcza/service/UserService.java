@@ -85,7 +85,7 @@ public class UserService {
 
     /** function that updates user from DB with data from UserDTO (without images) **/
     private User updateUserFromDb(User userFromDb, UserUpdateDTO userUpdateDTO){
-        userFromDb.setPhone_number(userUpdateDTO.getPhone_number());
+        userFromDb.setPhoneNumber(userUpdateDTO.getPhoneNumber());
         if (!userFromDb.hasProfile()){
             userFromDb.setUserProfile(new UserProfile(userFromDb));
         }
@@ -96,9 +96,9 @@ public class UserService {
     }
 
     private void updateProfileData(UserUpdateDTO userUpdateDTO, UserProfile profile) {
-        profile.setFirst_name(userUpdateDTO.getFirst_name());
-        profile.setLast_name(userUpdateDTO.getLast_name());
-        profile.setUser_name(userUpdateDTO.getUser_name());
+        profile.setFirstName(userUpdateDTO.getFirstName());
+        profile.setLastName(userUpdateDTO.getLastName());
+        profile.setUserName(userUpdateDTO.getUserName());
         Address address = profile.getAddress();
         address.setStreet(userUpdateDTO.getStreet());
         Experience experience = profile.getExperience();
