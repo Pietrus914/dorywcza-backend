@@ -1,11 +1,11 @@
 package com.example.dorywcza.service;
 
 
+import com.example.dorywcza.model.OfferType;
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
 import com.example.dorywcza.model.job_offer.JobOffer;
 import com.example.dorywcza.repository.JobOfferRepository;
-import com.example.dorywcza.service.DTOExtractor.JobOfferDTOExtractor;
-//import com.example.dorywcza.util.ObjectMapperUtils;
+import com.example.dorywcza.service.DTOExtractor.OfferDTOExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +16,12 @@ import java.util.Optional;
 public class JobOfferService {
 
     private final JobOfferRepository repository;
-    private final JobOfferDTOExtractor jobOfferDTOExtractor;
+    private final OfferDTOExtractor offerDTOExtractor;
 
     @Autowired
-    public JobOfferService(JobOfferRepository repository, JobOfferDTOExtractor jobOfferDTOExtractor) {
+    public JobOfferService(JobOfferRepository repository, OfferDTOExtractor offerDTOExtractor) {
         this.repository = repository;
-        this.jobOfferDTOExtractor = jobOfferDTOExtractor;
+        this.offerDTOExtractor = offerDTOExtractor;
     }
 
     public List<JobOffer> findAll(){
@@ -33,7 +33,7 @@ public class JobOfferService {
     }
 
     public JobOffer save(OfferPostDTO offerPostDTO){
-        JobOffer jobOffer = jobOfferDTOExtractor.getJobOffer(offerPostDTO);
+        JobOffer jobOffer = (JobOffer) offerDTOExtractor.getOfferV1(offerPostDTO, OfferType.JOB_OFFER);
         return repository.save(jobOffer);
     }
 
@@ -43,7 +43,7 @@ public class JobOfferService {
             throw new RuntimeException();
         }
         JobOffer jobOfferToUpdate = foundJobOffer.get();
-        JobOffer updatedJobOffer = jobOfferDTOExtractor.setJobOfferIdsBeforeUpdate(offerPostDTO, jobOfferToUpdate);
+        JobOffer updatedJobOffer = (JobOffer) offerDTOExtractor.setIdsBeforeUpdate(offerPostDTO, jobOfferToUpdate, OfferType.JOB_OFFER);
         return repository.save(updatedJobOffer);
     }
 

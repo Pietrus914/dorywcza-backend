@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public abstract class OfferDTOExtractor {
+public class OfferDTOExtractor {
 
     final IndustryService industryService;
     private final SalaryTimeUnitService salaryTimeUnitService;
@@ -80,7 +80,7 @@ public abstract class OfferDTOExtractor {
 
 
 
-    public Offer setIdsBeforeUpdate(OfferPostDTO offerPostDTO, JobOffer offerCurrentlyInDB,
+    public Offer setIdsBeforeUpdate(OfferPostDTO offerPostDTO, Offer offerCurrentlyInDB,
                                     OfferType offerType) {
         Offer offerToBeSavedInDB = getOfferV1(offerPostDTO, offerType);
         offerToBeSavedInDB.getOfferSchedule().setId(offerCurrentlyInDB.getOfferSchedule().getId());
@@ -89,13 +89,7 @@ public abstract class OfferDTOExtractor {
         offerToBeSavedInDB.getSalary().setId(offerCurrentlyInDB.getSalary().getId());
         offerToBeSavedInDB.setDateCreated(offerCurrentlyInDB.getDateCreated());
         offerToBeSavedInDB.setId(offerCurrentlyInDB.getId());
-        switch (offerType) {
-            case JOB_OFFER:
-                return (JobOffer) offerToBeSavedInDB;
-            case SERVICE_OFFER:
-                return (ServiceOffer) offerToBeSavedInDB;
-        }
-        throw new IllegalArgumentException();
+        return offerToBeSavedInDB;
     }
 
 }

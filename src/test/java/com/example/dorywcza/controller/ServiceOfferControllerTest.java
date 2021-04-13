@@ -1,9 +1,10 @@
 package com.example.dorywcza.controller;
 
+import com.example.dorywcza.model.OfferType;
 import com.example.dorywcza.model.offer.*;
 import com.example.dorywcza.model.offer.DTO.*;
 import com.example.dorywcza.model.service_offer.*;
-import com.example.dorywcza.service.DTOExtractor.ServiceOfferDTOExtractor;
+import com.example.dorywcza.service.DTOExtractor.OfferDTOExtractor;
 import com.example.dorywcza.service.IndustryService;
 import com.example.dorywcza.service.SalaryTimeUnitService;
 import com.example.dorywcza.service.ServiceOfferService;
@@ -44,10 +45,10 @@ class ServiceOfferControllerTest {
     private IndustryService industryService;
 
     @Autowired
-    private ServiceOfferDTOExtractor serviceOfferDTOExtractor;
+    private ServiceOfferService serviceOfferService;
 
     @Autowired
-    private ServiceOfferService serviceOfferService;
+    private OfferDTOExtractor offerDTOExtractor;
 
     @Test
     @DirtiesContext
@@ -146,7 +147,7 @@ class ServiceOfferControllerTest {
 
         var serviceOfferInJson = objectMapper.writeValueAsString(serviceOfferToSave);
 
-        ServiceOffer expectedServiceOffer = serviceOfferDTOExtractor.getOffer(serviceOfferToSave);
+        ServiceOffer expectedServiceOffer = (ServiceOffer) offerDTOExtractor.getOfferV1(serviceOfferToSave, OfferType.SERVICE_OFFER);
 
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
@@ -181,7 +182,7 @@ class ServiceOfferControllerTest {
 
         var serviceOfferInJson = objectMapper.writeValueAsString(serviceOfferToSave);
 
-        ServiceOffer expectedServiceOffer = serviceOfferDTOExtractor.getOffer(serviceOfferToSave);
+        ServiceOffer expectedServiceOffer = (ServiceOffer) offerDTOExtractor.getOfferV1(serviceOfferToSave, OfferType.SERVICE_OFFER);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                 .put("/update-service-offer/1")
