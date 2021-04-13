@@ -17,7 +17,7 @@ public class ServiceOfferController {
     }
 
     @GetMapping("/service-offers")
-    public List<ServiceOffer> findAll() {
+    public List<OfferPostDTO> findAll() {
         return serviceOfferService.findAll();
     }
 

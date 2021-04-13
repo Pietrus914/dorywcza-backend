@@ -5,23 +5,27 @@ import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
 import com.example.dorywcza.model.service_offer.ServiceOffer;
 import com.example.dorywcza.repository.ServiceOfferRepository;
 import com.example.dorywcza.service.DTOExtractor.OfferDTOExtractor;
+import com.example.dorywcza.service.DTOExtractor.OfferExtractor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ServiceOfferService {
     private final ServiceOfferRepository serviceOfferRepository;
     private final OfferDTOExtractor offerDTOExtractor;
+    private final OfferExtractor offerExtractor;
 
-    public ServiceOfferService(ServiceOfferRepository serviceOfferRepository, OfferDTOExtractor offerDTOExtractor) {
+    public ServiceOfferService(ServiceOfferRepository serviceOfferRepository, OfferDTOExtractor offerDTOExtractor, OfferExtractor offerExtractor) {
         this.serviceOfferRepository = serviceOfferRepository;
         this.offerDTOExtractor = offerDTOExtractor;
+        this.offerExtractor = offerExtractor;
     }
 
-    public List<ServiceOffer> findAll() {
-        return serviceOfferRepository.findAll();
+    public List<OfferPostDTO> findAll() {
+        return serviceOfferRepository.findAll().stream().map(offerExtractor::getOfferDTO).collect(Collectors.toList());
     }
 
     public Optional<ServiceOffer> findById(Long id) {

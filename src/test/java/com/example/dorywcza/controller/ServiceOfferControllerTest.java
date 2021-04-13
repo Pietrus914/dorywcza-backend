@@ -209,7 +209,7 @@ class ServiceOfferControllerTest {
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
-        List<ServiceOffer> serviceOfferList = serviceOfferService.findAll();
+        List<OfferPostDTO> serviceOfferList = serviceOfferService.findAll();
 
         assertEquals(expectedSize, serviceOfferList.size());
     }
