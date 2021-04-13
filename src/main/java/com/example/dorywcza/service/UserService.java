@@ -1,7 +1,9 @@
 package com.example.dorywcza.service;
 
 import com.example.dorywcza.model.user.*;
+import com.example.dorywcza.model.user.DTO.UserGeneralDTO;
 import com.example.dorywcza.model.user.DTO.UserPublicDTO;
+import com.example.dorywcza.model.user.DTO.UserSimplifiedDTO;
 import com.example.dorywcza.model.user.DTO.UserUpdateDTO;
 import com.example.dorywcza.repository.UserRepository;
 import com.example.dorywcza.service.ImageService.ImageService;
@@ -37,6 +39,11 @@ public class UserService {
     public User findUserById(Long id) {
         if (!userRepository.existsById(id)){throw new RuntimeException();}
         return userRepository.findById(id).get();
+    }
+
+    public Optional<UserSimplifiedDTO> findSimplifiedDTOById(Long id){
+        if (!userRepository.existsById(id)){throw new RuntimeException();}
+        return userRepository.findById(id).map(this::getSimplifiedDTOById);
     }
 
     public Optional<UserPublicDTO> findPublicDTOById(Long id) {
@@ -116,5 +123,9 @@ public class UserService {
 
     private UserUpdateDTO getUserUpdateDTOFrom(User user){
         return new UserUpdateDTO(user);
+    }
+
+    public UserSimplifiedDTO getSimplifiedDTOById(User user) {
+        return new UserSimplifiedDTO(user);
     }
 }

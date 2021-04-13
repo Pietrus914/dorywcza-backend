@@ -1,5 +1,7 @@
 package com.example.dorywcza.controller;
 
+import com.example.dorywcza.model.user.DTO.UserDTO;
+import com.example.dorywcza.model.user.DTO.UserGeneralDTO;
 import com.example.dorywcza.model.user.DTO.UserPublicDTO;
 import com.example.dorywcza.model.user.DTO.UserUpdateDTO;
 import com.example.dorywcza.service.UserService;
@@ -25,13 +27,16 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public Optional<UserPublicDTO> getUser(@PathVariable Long id){
-        return userService.findPublicDTOById(id);
-    }
-
-    @GetMapping("/users-update/{id}")
-    public Optional<UserUpdateDTO> getUserToUpdate(@PathVariable Long id, @RequestParam boolean toUpdate){
-        return userService.findUpdateDTOById(id);
+    public Optional<? extends UserDTO> getUser(@PathVariable Long id, @RequestParam String type){
+        switch (type){
+            case "public":
+                return  userService.findPublicDTOById(id);
+            case "update":
+                return userService.findUpdateDTOById(id);
+            default:
+                //when "simplified":
+                return userService.findSimplifiedDTOById(id);
+        }
     }
 
     @PostMapping("/users")

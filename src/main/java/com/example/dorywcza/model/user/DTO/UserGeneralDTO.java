@@ -11,7 +11,7 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @MappedSuperclass
-public abstract class UserGeneralDTO {
+public abstract class UserGeneralDTO extends UserDTO{
 
     private Long id;
     private String email;
