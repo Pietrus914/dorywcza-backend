@@ -1,8 +1,7 @@
 package com.example.dorywcza.service.DTOExtractor;
 
 import com.example.dorywcza.model.job_offer.JobOffer;
-import com.example.dorywcza.model.offer.*;
-import com.example.dorywcza.model.offer.DTO.JobOfferPostDTO;
+import com.example.dorywcza.model.offer.*;;
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
 import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.service.IndustryService;
@@ -25,9 +24,8 @@ public class JobOfferDTOExtractor extends OfferDTOExtractor{
         this.jobOfferTagService = jobOfferTagService;
     }
 
-    public JobOffer getOffer(JobOfferPostDTO jobOfferPostDTO, boolean isNewOffer){
-        OfferPostDTO offerPostDTO = jobOfferPostDTO.getOfferPostDTO();
-        List<String> jobOfferTagsNames = jobOfferPostDTO.getJobOfferTagsNames();
+    public JobOffer getOffer(OfferPostDTO offerPostDTO, boolean isNewOffer){ ;
+        List<String> jobOfferTagsNames = offerPostDTO.getTagsNames();
         Salary salary = getSalary(offerPostDTO);
         DateRange dateRange = getDateRange(offerPostDTO);
         OfferLocation offerLocation = getOfferLocation(offerPostDTO);

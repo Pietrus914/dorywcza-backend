@@ -27,7 +27,6 @@ public abstract class OfferDTOExtractor {
         this.industryService =  industryService;
         this.salaryTimeUnitService = salaryTimeUnitService;
         this.userService = userService;
-
     }
 
     Salary getSalary(OfferPostDTO offerPostDTO){
