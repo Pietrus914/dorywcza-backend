@@ -7,11 +7,11 @@ import com.example.dorywcza.model.offer.*;
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
 import com.example.dorywcza.model.service_offer.ServiceOffer;
 import com.example.dorywcza.model.user.User;
-import com.example.dorywcza.service.IndustryService;
-import com.example.dorywcza.service.SalaryTimeUnitService;
-import com.example.dorywcza.service.UserService;
+import com.example.dorywcza.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 //    Abstract class needed so methods can be used for both service & job offers
@@ -22,15 +22,19 @@ public class OfferDTOExtractor {
 
     final IndustryService industryService;
     private final SalaryTimeUnitService salaryTimeUnitService;
-    final UserService userService;
+    private final UserService userService;
+    private final ServiceOfferTagService serviceOfferTagService;
+    private final JobOfferTagService jobOfferTagService;
 
 
     @Autowired
     public OfferDTOExtractor(IndustryService industryService, SalaryTimeUnitService salaryTimeUnitService,
-                             UserService userService) {
+                             UserService userService, ServiceOfferTagService serviceOfferTagService, JobOfferTagService jobOfferTagService) {
         this.industryService =  industryService;
         this.salaryTimeUnitService = salaryTimeUnitService;
         this.userService = userService;
+        this.serviceOfferTagService = serviceOfferTagService;
+        this.jobOfferTagService = jobOfferTagService;
     }
 
     private SalaryTimeUnit getSalaryTimeUnit(OfferPostDTO offerPostDTO) {
@@ -67,7 +71,8 @@ public class OfferDTOExtractor {
         return industry;
     }
 
-    public Offer getOfferV1(OfferPostDTO offerPostDTO, OfferType offerType){
+    public Offer getOfferV1(OfferPostDTO offerPostDTO, boolean isNewOffer, OfferType offerType){
+        List<String> tagsNames = offerPostDTO.getTagsNames();
         Salary salary = getSalary(offerPostDTO);
         DateRange dateRange = getDateRange(offerPostDTO);
         OfferLocation offerLocation = getOfferLocation(offerPostDTO);
@@ -76,13 +81,15 @@ public class OfferDTOExtractor {
         Industry industry = getIndustry(offerPostDTO);
         switch (offerType){
             case JOB_OFFER:
+                List<JobOfferTag> jobOfferTags = jobOfferTagService.getTags(tagsNames, isNewOffer);
                 return new JobOffer(offerPostDTO.getTitle(), offerPostDTO.getDescription(),
                     user, offerPostDTO.isHasExperience(),
-                    offerLocation, dateRange, industry, salary, offerSchedule);
+                    offerLocation, dateRange, industry, salary, offerSchedule, jobOfferTags);
             case SERVICE_OFFER:
+                List<ServiceOfferTag> serviceOfferTags = serviceOfferTagService.getTags(tagsNames, isNewOffer);
                 return new ServiceOffer(offerPostDTO.getTitle(), offerPostDTO.getDescription(),
                         user, offerPostDTO.isHasExperience(),
-                        offerLocation, dateRange, industry, salary, offerSchedule);
+                        offerLocation, dateRange, industry, salary, offerSchedule, serviceOfferTags);
         }
         throw new IllegalArgumentException();
     }
@@ -91,7 +98,7 @@ public class OfferDTOExtractor {
 
     public Offer setIdsBeforeUpdate(OfferPostDTO offerPostDTO, Offer offerCurrentlyInDB,
                                     OfferType offerType) {
-        Offer offerToBeSavedInDB = getOfferV1(offerPostDTO, offerType);
+        Offer offerToBeSavedInDB = getOfferV1(offerPostDTO, false, offerType);
         offerToBeSavedInDB.getOfferSchedule().setId(offerCurrentlyInDB.getOfferSchedule().getId());
         offerToBeSavedInDB.getOfferLocation().setId(offerCurrentlyInDB.getOfferLocation().getId());
         offerToBeSavedInDB.getDateRange().setId(offerCurrentlyInDB.getDateRange().getId());

@@ -4,6 +4,8 @@ import com.example.dorywcza.model.offer.*;
 import com.example.dorywcza.model.offer.DTO.*;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OfferExtractor {
 
@@ -31,10 +33,10 @@ public class OfferExtractor {
         return new IndustryDTO(industry.getId(), industry.getName(), industry.getParentId());
     }
 
-    public OfferPostDTO getOfferDTO(Offer offer) {
+    public OfferPostDTO getOfferDTO(Offer offer, List<String> tagsNames) {
         return new OfferPostDTO(offer.getDescription(), offer.getTitle(), offer.getUser().getId(),
                 getSalaryTimeUnitDTO(offer.getSalary().getSalaryTimeUnit()), offer.isHasExperience(), getSalaryDTO(offer.getSalary()),
                 getOfferLocationDTO(offer.getOfferLocation()), getDataRangeDTO(offer.getDateRange()),
-                getIndustryDTO(offer.getIndustry()), getOfferScheduleDTO(offer.getOfferSchedule()), offer.getDateCreated(), offer.getDateUpdated());
+                getIndustryDTO(offer.getIndustry()), getOfferScheduleDTO(offer.getOfferSchedule()), tagsNames, offer.getDateCreated(), offer.getDateUpdated());
     }
 }

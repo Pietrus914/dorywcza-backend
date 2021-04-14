@@ -1,6 +1,6 @@
 package com.example.dorywcza.controller;
 
-import com.example.dorywcza.model.OfferType;
+
 import com.example.dorywcza.model.offer.*;
 import com.example.dorywcza.model.offer.DTO.*;
 import com.example.dorywcza.model.service_offer.*;
@@ -21,9 +21,11 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import javax.transaction.Transactional;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -84,7 +86,7 @@ class ServiceOfferControllerTest {
 
         OfferPostDTO expectedServiceOffer = new OfferPostDTO("test SERVICE OFFER 1", "test SERVICE OFFER 1",
                 1L, salaryTimeUnitDTOToSave,false, expectedSalary, expectedOfferLocation,
-                expectedDateRange, expectedIndustryDTO, expectedOfferSchedule);
+                expectedDateRange, expectedIndustryDTO, expectedOfferSchedule, Collections.emptyList());
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                 .get("/service-offers/1"))
@@ -133,16 +135,11 @@ class ServiceOfferControllerTest {
         IndustryDTO industryDTOToSave = new IndustryDTO(industry.getId(), industry.getName(), industry.getParentId());
 
         OfferPostDTO expectedServiceOffer = new OfferPostDTO("test", "test", 1L, salaryTimeUnitDTOToSave,
-                true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, industryDTOToSave, offerScheduleToSave);
-        OfferPostDTO serviceOfferToSave = new OfferPostDTO("test", "test", 1L, 1L,
-                true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, 1L, offerScheduleToSave,
-                Arrays.asList("angielski", "niemiecki"));
+                true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, industryDTOToSave,
+                offerScheduleToSave, Arrays.asList("angielski", "niemiecki"));
+
 
         var serviceOfferInJson = objectMapper.writeValueAsString(expectedServiceOffer);
-        var serviceOfferInJson = objectMapper.writeValueAsString(serviceOfferToSave);
-
-        ServiceOffer expectedServiceOffer = serviceOfferDTOExtractor.getOffer(serviceOfferToSave, true, OfferType.SERVICE_OFFER);
-
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                 .post("/add-service-offer")
@@ -176,14 +173,12 @@ class ServiceOfferControllerTest {
         IndustryDTO industryDTOToSave = new IndustryDTO(industry.getId(), industry.getName(), industry.getParentId());
 
         OfferPostDTO expectedServiceOffer = new OfferPostDTO("test", "test", 1L, salaryTimeUnitDTOToSave,
-                true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, industryDTOToSave, offerScheduleToSave);
-        OfferPostDTO serviceOfferToSave = new OfferPostDTO("test", "test", 1L, 1L,
-                true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, 1L, offerScheduleToSave,
-                Arrays.asList("angielski", "niemiecki"));
+                true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, industryDTOToSave,
+                offerScheduleToSave, Arrays.asList("angielski", "niemiecki"));
+
 
         var serviceOfferInJson = objectMapper.writeValueAsString(expectedServiceOffer);
 
-        ServiceOffer expectedServiceOffer = serviceOfferDTOExtractor.getOffer(serviceOfferToSave, false, OfferType.SERVICE_OFFER);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                 .put("/update-service-offer/1")
@@ -201,6 +196,7 @@ class ServiceOfferControllerTest {
 
     @Test
     @DirtiesContext
+    @Transactional
     @DisplayName("Delete http://localhost:8080/service-offers/1 -> http status 200, delete offer with id 1" )
     void deleteServiceOffer_correctServiceOffer_returnDeleteOffer() throws Exception {
         int expectedSize = 1;
