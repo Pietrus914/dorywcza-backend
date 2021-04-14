@@ -14,17 +14,17 @@ import java.util.List;
 public class JobOfferTagService {
 
     private JobOfferTagRepository repository;
-    private OfferServiceUtil offerServiceUtil;
+    private JobOfferTagsServiceUtil jobOfferTagsServiceUtil;
 
     @Autowired
     public JobOfferTagService(JobOfferTagRepository jobOfferTagRepository) {
         this.repository = jobOfferTagRepository;
-        offerServiceUtil = new OfferServiceUtil();
+        jobOfferTagsServiceUtil = new JobOfferTagsServiceUtil();
     }
 
     public List<JobOfferTag> getTags(List<String> jobOfferTagsNames, boolean isNewOffer) {
         List<JobOfferTag> existingTags = repository.findJobOfferTagsByNameIn(jobOfferTagsNames);
-        return offerServiceUtil.prepareTagsForSaving(jobOfferTagsNames, existingTags, isNewOffer);
+        return jobOfferTagsServiceUtil.prepareTagsForSaving(jobOfferTagsNames, existingTags, isNewOffer);
     }
 
 }

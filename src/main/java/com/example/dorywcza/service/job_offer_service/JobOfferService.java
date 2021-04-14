@@ -1,14 +1,14 @@
 package com.example.dorywcza.service.job_offer_service;
 
 
-import com.example.dorywcza.model.offer.DTO.JobOfferPostDTO;
-import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
+
 import com.example.dorywcza.model.job_offer.JobOffer;
+import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
 import com.example.dorywcza.model.offer.JobOfferTag;
 import com.example.dorywcza.repository.JobOfferTagRepository;
 import com.example.dorywcza.repository.job_offer_repository.JobOfferRepository;
 import com.example.dorywcza.service.DTOExtractor.JobOfferDTOExtractor;
-import com.example.dorywcza.service.OfferServiceUtil;
+import com.example.dorywcza.service.JobOfferTagsServiceUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class JobOfferService {
     private final JobOfferRepository repository;
     private final JobOfferDTOExtractor jobOfferDTOExtractor;
     private final JobOfferTagRepository jobOfferTagRepository;
-    private OfferServiceUtil offerServiceUtil;
+    private JobOfferTagsServiceUtil jobOfferTagsServiceUtil;
 
     @Autowired
     public JobOfferService(JobOfferRepository repository, JobOfferDTOExtractor jobOfferDTOExtractor,
@@ -29,7 +29,7 @@ public class JobOfferService {
         this.repository = repository;
         this.jobOfferDTOExtractor = jobOfferDTOExtractor;
         this.jobOfferTagRepository = jobOfferTagRepository;
-        offerServiceUtil = new OfferServiceUtil();
+        jobOfferTagsServiceUtil = new JobOfferTagsServiceUtil();
     }
 
     public List<JobOffer> findAll(){
@@ -40,16 +40,16 @@ public class JobOfferService {
         return repository.findById(id);
     }
 
-    public JobOffer save(JobOfferPostDTO jobOfferPostDTO){
-        JobOffer jobOffer = jobOfferDTOExtractor.getOffer(jobOfferPostDTO, true);
+    public JobOffer save(OfferPostDTO offerPostDTO){
+        JobOffer jobOffer = jobOfferDTOExtractor.getOffer(offerPostDTO, true);
         return repository.save(jobOffer);
     }
 
-    public JobOffer update(JobOfferPostDTO jobOfferPostDTO, Long id) {
+    public JobOffer update(OfferPostDTO offerPostDTO, Long id) {
         Optional<JobOffer> foundJobOffer = findById(id);
         if (foundJobOffer.isEmpty()) {throw new RuntimeException();}
         JobOffer offerCurrentlyInDB = foundJobOffer.get();
-        JobOffer offerToBeSavedInDB = jobOfferDTOExtractor.getOffer(jobOfferPostDTO, false);
+        JobOffer offerToBeSavedInDB = jobOfferDTOExtractor.getOffer(offerPostDTO, false);
         jobOfferDTOExtractor.setIdsBeforeUpdate(offerToBeSavedInDB, offerCurrentlyInDB);
         decreaseFrequencyRatingForRemovedTags(offerCurrentlyInDB, offerToBeSavedInDB);
         return repository.save(offerToBeSavedInDB);
@@ -57,7 +57,7 @@ public class JobOfferService {
 
     public void delete(Long id){
         JobOffer jobOfferToBeDeleted = repository.getOne(id);
-        List<JobOfferTag> updatedTags = offerServiceUtil.getJobOfferTags(jobOfferToBeDeleted);
+        List<JobOfferTag> updatedTags = jobOfferTagsServiceUtil.getJobOfferTags(jobOfferToBeDeleted);
         jobOfferTagRepository.saveAll(updatedTags);
         repository.deleteById(id);
     }

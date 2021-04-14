@@ -1,5 +1,6 @@
 package com.example.dorywcza.controller;
 
+import com.example.dorywcza.model.OfferType;
 import com.example.dorywcza.model.offer.*;
 import com.example.dorywcza.model.offer.DTO.*;
 import com.example.dorywcza.model.service_offer.*;
@@ -23,6 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -142,11 +144,12 @@ class ServiceOfferControllerTest {
                 false, false, false, false, false);
 
         OfferPostDTO serviceOfferToSave = new OfferPostDTO("test", "test", 1L, 1L,
-                true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, 1L, offerScheduleToSave);
+                true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, 1L, offerScheduleToSave,
+                Arrays.asList("angielski", "niemiecki"));
 
         var serviceOfferInJson = objectMapper.writeValueAsString(serviceOfferToSave);
 
-        ServiceOffer expectedServiceOffer = serviceOfferDTOExtractor.getOffer(serviceOfferToSave);
+        ServiceOffer expectedServiceOffer = serviceOfferDTOExtractor.getOffer(serviceOfferToSave, true, OfferType.SERVICE_OFFER);
 
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
@@ -177,11 +180,12 @@ class ServiceOfferControllerTest {
                 false, false, false, false, false);
 
         OfferPostDTO serviceOfferToSave = new OfferPostDTO("test", "test", 1L, 1L,
-                true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, 1L, offerScheduleToSave);
+                true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, 1L, offerScheduleToSave,
+                Arrays.asList("angielski", "niemiecki"));
 
         var serviceOfferInJson = objectMapper.writeValueAsString(serviceOfferToSave);
 
-        ServiceOffer expectedServiceOffer = serviceOfferDTOExtractor.getOffer(serviceOfferToSave);
+        ServiceOffer expectedServiceOffer = serviceOfferDTOExtractor.getOffer(serviceOfferToSave, false, OfferType.SERVICE_OFFER);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                 .put("/update-service-offer/1")
