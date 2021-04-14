@@ -56,9 +56,10 @@ public class ImageService {
         return new ImageDTO(image.getImageName(),image.getType(),"/images/"+ image.getId(), image.getImage().length);
     }
 
-    public Image findRealImage(Long id){
+    public byte[] findRealImage(Long id){
         if (!imageRepository.existsById(id)) throw new RuntimeException("User Not Found");
-        return imageRepository.findById(id).get();
+        byte[] realImage = imageRepository.findById(id).get().getImage();
+        return realImage;
     }
 
 

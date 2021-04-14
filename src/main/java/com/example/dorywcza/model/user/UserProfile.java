@@ -28,9 +28,9 @@ public class UserProfile {
     @JsonBackReference
     private User user;
 
-    private String first_name;
-    private String last_name;
-    private String user_name;
+    private String firstName;
+    private String lastName;
+    private String userName;
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
     private String description;
@@ -47,13 +47,13 @@ public class UserProfile {
         this.avatar = new Image();
     }
 
-    public UserProfile(User user, String first_name, String last_name, String user_name,
+    public UserProfile(User user, String firstName, String lastName, String userName,
                        String description, String street, String experienceDescription,
                        List<Image> pictures, Image avatar){
         this.user = user;
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.user_name = user_name;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
         this.description = description;
         this.address = new Address();
         address.setStreet(street);
@@ -81,11 +81,11 @@ public class UserProfile {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserProfile that = (UserProfile) o;
-        return Objects.equals(first_name, that.first_name) && Objects.equals(last_name, that.last_name) && Objects.equals(user_name, that.user_name) && Objects.equals(address, that.address) && Objects.equals(description, that.description) && Objects.equals(experience, that.experience) && Objects.equals(avatar, that.avatar);
+        return Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(userName, that.userName) && Objects.equals(address, that.address) && Objects.equals(description, that.description) && Objects.equals(experience, that.experience) && Objects.equals(avatar, that.avatar);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(first_name, last_name, user_name, address, description, experience, avatar);
+        return Objects.hash(firstName, lastName, userName, address, description, experience, avatar);
     }
 }

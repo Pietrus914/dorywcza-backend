@@ -1,7 +1,9 @@
 package com.example.dorywcza.service;
 
 import com.example.dorywcza.model.user.*;
+import com.example.dorywcza.model.user.DTO.UserGeneralDTO;
 import com.example.dorywcza.model.user.DTO.UserPublicDTO;
+import com.example.dorywcza.model.user.DTO.UserSimplifiedDTO;
 import com.example.dorywcza.model.user.DTO.UserUpdateDTO;
 import com.example.dorywcza.repository.UserRepository;
 import com.example.dorywcza.service.ImageService.ImageService;
@@ -37,6 +39,11 @@ public class UserService {
     public User findUserById(Long id) {
         if (!userRepository.existsById(id)){throw new RuntimeException();}
         return userRepository.findById(id).get();
+    }
+
+    public Optional<UserSimplifiedDTO> findSimplifiedDTOById(Long id){
+        if (!userRepository.existsById(id)){throw new RuntimeException();}
+        return userRepository.findById(id).map(this::getSimplifiedDTOById);
     }
 
     public Optional<UserPublicDTO> findPublicDTOById(Long id) {
@@ -85,7 +92,7 @@ public class UserService {
 
     /** function that updates user from DB with data from UserDTO (without images) **/
     private User updateUserFromDb(User userFromDb, UserUpdateDTO userUpdateDTO){
-        userFromDb.setPhone_number(userUpdateDTO.getPhone_number());
+        userFromDb.setPhoneNumber(userUpdateDTO.getPhoneNumber());
         if (!userFromDb.hasProfile()){
             userFromDb.setUserProfile(new UserProfile(userFromDb));
         }
@@ -96,9 +103,9 @@ public class UserService {
     }
 
     private void updateProfileData(UserUpdateDTO userUpdateDTO, UserProfile profile) {
-        profile.setFirst_name(userUpdateDTO.getFirst_name());
-        profile.setLast_name(userUpdateDTO.getLast_name());
-        profile.setUser_name(userUpdateDTO.getUser_name());
+        profile.setFirstName(userUpdateDTO.getFirstName());
+        profile.setLastName(userUpdateDTO.getLastName());
+        profile.setUserName(userUpdateDTO.getUserName());
         Address address = profile.getAddress();
         address.setStreet(userUpdateDTO.getStreet());
         Experience experience = profile.getExperience();
@@ -116,5 +123,9 @@ public class UserService {
 
     private UserUpdateDTO getUserUpdateDTOFrom(User user){
         return new UserUpdateDTO(user);
+    }
+
+    public UserSimplifiedDTO getSimplifiedDTOById(User user) {
+        return new UserSimplifiedDTO(user);
     }
 }

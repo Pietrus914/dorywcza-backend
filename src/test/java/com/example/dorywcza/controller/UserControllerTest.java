@@ -111,7 +111,7 @@ class UserControllerTest {
     void givenUserWithoutProfile_whenUpdateUser_ShouldReturnUpdatedUser() throws Exception {
 
         UserUpdateDTO userDTOToUpdate = userService.findUpdateDTOById(1L).get();
-        userDTOToUpdate.setUser_name("newNick");
+        userDTOToUpdate.setUserName("newNick");
         userDTOToUpdate.setExperienceDescription("strong man");
         String userDTOToUpdateInJson = objectMapper.writeValueAsString(userDTOToUpdate);
 
