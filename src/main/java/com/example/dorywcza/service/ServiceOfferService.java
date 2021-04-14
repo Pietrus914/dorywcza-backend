@@ -28,23 +28,25 @@ public class ServiceOfferService {
         return serviceOfferRepository.findAll().stream().map(offerExtractor::getOfferDTO).collect(Collectors.toList());
     }
 
-    public Optional<ServiceOffer> findById(Long id) {
-        return serviceOfferRepository.findById(id);
+    public Optional<OfferPostDTO> findById(Long id) {
+        return serviceOfferRepository.findById(id).map(offerExtractor::getOfferDTO);
     }
 
-    public ServiceOffer addServiceOffer(OfferPostDTO offerPostDTO) {
+    public OfferPostDTO addServiceOffer(OfferPostDTO offerPostDTO) {
         ServiceOffer serviceOffer = (ServiceOffer) offerDTOExtractor.getOfferV1(offerPostDTO, OfferType.SERVICE_OFFER);
-        return serviceOfferRepository.save(serviceOffer);
+        ServiceOffer savedServiceOffer = serviceOfferRepository.save(serviceOffer);
+        return offerExtractor.getOfferDTO(savedServiceOffer);
     }
 
-    public ServiceOffer updateServiceOffer(OfferPostDTO offerPostDTO, Long id) {
-        Optional<ServiceOffer> foundServiceOffer = findById(id);
+    public OfferPostDTO updateServiceOffer(OfferPostDTO offerPostDTO, Long id) {
+        Optional<ServiceOffer> foundServiceOffer = serviceOfferRepository.findById(id);
         if (foundServiceOffer.isEmpty()) {
             throw  new RuntimeException();
         }
         ServiceOffer serviceOfferToUpdate = foundServiceOffer.get();
-        ServiceOffer updatedServiceOffer = (ServiceOffer) offerDTOExtractor.setIdsBeforeUpdate(offerPostDTO, serviceOfferToUpdate, OfferType.SERVICE_OFFER);
-        return serviceOfferRepository.save(updatedServiceOffer);
+        ServiceOffer extractedServiceOffer = (ServiceOffer) offerDTOExtractor.setIdsBeforeUpdate(offerPostDTO, serviceOfferToUpdate, OfferType.SERVICE_OFFER);
+        ServiceOffer updatedServiceOffer = serviceOfferRepository.save(extractedServiceOffer);
+        return offerExtractor.getOfferDTO(updatedServiceOffer);
     }
 
     public void deleteServiceOffer(Long id) {

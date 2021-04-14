@@ -1,7 +1,6 @@
 package com.example.dorywcza.controller;
 
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
-import com.example.dorywcza.model.service_offer.ServiceOffer;
 import com.example.dorywcza.service.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +22,7 @@ public class ServiceOfferController {
 
 
     @GetMapping("/service-offers/{id}")
-    public Optional<ServiceOffer> findById(@PathVariable Long id) {
+    public Optional<OfferPostDTO> findById(@PathVariable Long id) {
         return serviceOfferService.findById(id);
     }
 
@@ -31,12 +30,12 @@ public class ServiceOfferController {
     public void getAddServiceOffer() {}
 
     @PostMapping("/add-service-offer")
-    public ServiceOffer addServiceOffer(@RequestBody OfferPostDTO offerPostDTO) {
+    public OfferPostDTO addServiceOffer(@RequestBody OfferPostDTO offerPostDTO) {
         return serviceOfferService.addServiceOffer(offerPostDTO);
     }
 
     @PutMapping("/update-service-offer/{id}")
-    public ServiceOffer updateServiceOffer(@RequestBody OfferPostDTO offerPostDTO, @PathVariable Long id) {
+    public OfferPostDTO updateServiceOffer(@RequestBody OfferPostDTO offerPostDTO, @PathVariable Long id) {
         return serviceOfferService.updateServiceOffer(offerPostDTO, id);
     }
 

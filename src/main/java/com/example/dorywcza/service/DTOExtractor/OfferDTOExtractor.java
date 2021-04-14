@@ -34,28 +34,38 @@ public class OfferDTOExtractor {
 
     }
 
-    Salary getSalary(OfferPostDTO offerPostDTO){
+    private SalaryTimeUnit getSalaryTimeUnit(OfferPostDTO offerPostDTO) {
+        SalaryTimeUnit salaryTimeUnit = salaryTimeUnitService.findSalaryTimeUnitById(offerPostDTO.getSalaryTimeUnitDTO().getId());
+        return salaryTimeUnit;
+    }
+
+    private Salary getSalary(OfferPostDTO offerPostDTO){
         Salary salary = new Salary(offerPostDTO.getSalaryDTO().getMinSalary(), offerPostDTO.getSalaryDTO().getMaxSalary());
-        SalaryTimeUnit salaryTimeUnit = salaryTimeUnitService.findSalaryTimeUnitById(offerPostDTO.getSalaryTimeUnitId());
+        SalaryTimeUnit salaryTimeUnit = getSalaryTimeUnit(offerPostDTO);
         salary.setSalaryTimeUnit(salaryTimeUnit);
         return salary;
     }
 
-    DateRange getDateRange(OfferPostDTO offerPostDTO){
+    private DateRange getDateRange(OfferPostDTO offerPostDTO){
         DateRange dateRange = new DateRange(offerPostDTO.getDateRangeDTO().getStartDate(),
                 offerPostDTO.getDateRangeDTO().getEndDate());
         return dateRange;
     }
 
-    OfferLocation getOfferLocation(OfferPostDTO offerPostDTO)  {
+    private OfferLocation getOfferLocation(OfferPostDTO offerPostDTO)  {
         OfferLocation offerLocation = new OfferLocation(offerPostDTO.getOfferLocationDTO().getXPosition(),
                 offerPostDTO.getOfferLocationDTO().getYPosition());
         return offerLocation;
     }
 
-    OfferSchedule getOfferSchedule(OfferPostDTO offerPostDTO) {
+    private OfferSchedule getOfferSchedule(OfferPostDTO offerPostDTO) {
         OfferSchedule offerSchedule = new OfferSchedule(offerPostDTO.getOfferScheduleDTO());
         return offerSchedule;
+    }
+
+    private Industry getIndustry(OfferPostDTO offerPostDTO) {
+        Industry industry = industryService.findById(offerPostDTO.getIndustryDTO().getId());
+        return industry;
     }
 
     public Offer getOfferV1(OfferPostDTO offerPostDTO, OfferType offerType){
@@ -64,7 +74,7 @@ public class OfferDTOExtractor {
         OfferLocation offerLocation = getOfferLocation(offerPostDTO);
         OfferSchedule offerSchedule = getOfferSchedule(offerPostDTO);
         User user = userService.findUserById(offerPostDTO.getUserId());
-        Industry industry = industryService.findById(offerPostDTO.getIndustryId());
+        Industry industry = getIndustry(offerPostDTO);
         switch (offerType){
             case JOB_OFFER:
                 return new JobOffer(offerPostDTO.getTitle(), offerPostDTO.getDescription(),
