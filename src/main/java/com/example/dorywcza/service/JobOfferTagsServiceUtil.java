@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class OfferServiceUtil {
+public class JobOfferTagsServiceUtil {
 
     public List<JobOfferTag> getJobOfferTags(JobOffer jobOfferToBeDeleted) {
         List<JobOfferTag> tagsToBeUpdated = jobOfferToBeDeleted.getJobOfferTags();
