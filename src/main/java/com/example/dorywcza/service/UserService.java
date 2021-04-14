@@ -80,6 +80,11 @@ public class UserService {
         return fromDTO;
     }
 
+    /** function that update user existing in DB **/
+    public void updateUser(User user){
+        userRepository.save(user);
+    }
+
     /** function that update user with userProfile (without images) **/
     public UserUpdateDTO updateUser(UserUpdateDTO userUpdateDTO, Long id) {
         User userFromDb = userRepository.findById(id).orElseThrow();
