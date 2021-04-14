@@ -1,4 +1,4 @@
-package com.example.dorywcza.repository.job_offer_repository;
+package com.example.dorywcza.repository;
 
 
 import com.example.dorywcza.model.job_offer.JobOffer;

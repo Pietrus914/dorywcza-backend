@@ -1,6 +1,6 @@
 package com.example.dorywcza.model.offer;
 
-import com.example.dorywcza.model.offer.Salary;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;

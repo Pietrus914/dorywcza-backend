@@ -4,7 +4,6 @@ import com.example.dorywcza.model.OfferType;
 import com.example.dorywcza.model.offer.*;
 import com.example.dorywcza.model.offer.DTO.*;
 import com.example.dorywcza.model.service_offer.*;
-import com.example.dorywcza.service.DTOExtractor.ServiceOfferDTOExtractor;
 import com.example.dorywcza.service.IndustryService;
 import com.example.dorywcza.service.SalaryTimeUnitService;
 import com.example.dorywcza.service.ServiceOfferService;
@@ -46,9 +45,6 @@ class ServiceOfferControllerTest {
     private IndustryService industryService;
 
     @Autowired
-    private ServiceOfferDTOExtractor serviceOfferDTOExtractor;
-
-    @Autowired
     private ServiceOfferService serviceOfferService;
 
     @Test
@@ -73,21 +69,22 @@ class ServiceOfferControllerTest {
     @DirtiesContext
     @DisplayName("Get http://localhost:8080/service-offers/1 -> http status 200, get first service offer with id 1" )
     void findById() throws Exception {
-        Salary expectedSalary = new Salary(300L, 30L);
-        expectedSalary.setSalaryTimeUnit(salaryTimeUnitService.findSalaryTimeUnitById(1L));
-        DateRange expectedDateRange = new DateRange(Date.valueOf("2012-03-03"), Date.valueOf("2020-03-03"));
-        OfferLocation expectedOfferLocation = new OfferLocation(0.1, 0.1);
-        OfferSchedule expectedOfferSchedule = new OfferSchedule(true, false, true,
+        SalaryDTO expectedSalary = new SalaryDTO(300L, 30L);
+        DateRangeDTO expectedDateRange = new DateRangeDTO(Date.valueOf("2012-03-03"), Date.valueOf("2020-03-03"));
+        OfferLocationDTO expectedOfferLocation = new OfferLocationDTO(0.1, 0.1);
+        OfferScheduleDTO expectedOfferSchedule = new OfferScheduleDTO(true, false, true,
                 true, true, true, true, true,
                 true, true, true, true, true,
                 true, true, true, true, true,
                 true, true, true);
-        Industry expectedIndustry = industryService.findById(1L);
-        Date expectedDateCreate = Date.valueOf("2021-04-01");
-        Date expectedDateUpdated = Date.valueOf("2021-04-02");
-        String expectedDescription = "test SERVICE OFFER 1";
-        String expectedTitle = "test SERVICE OFFER 1";
-        Long expectedId = 1L;
+        SalaryTimeUnit salaryTimeUnit = salaryTimeUnitService.findSalaryTimeUnitById(1L);
+        SalaryTimeUnitDTO salaryTimeUnitDTOToSave = new SalaryTimeUnitDTO(salaryTimeUnit.getId(), salaryTimeUnit.getName());
+        Industry industry = industryService.findById(1L);
+        IndustryDTO expectedIndustryDTO = new IndustryDTO(industry.getId(), industry.getName(), industry.getParentId());
+
+        OfferPostDTO expectedServiceOffer = new OfferPostDTO("test SERVICE OFFER 1", "test SERVICE OFFER 1",
+                1L, salaryTimeUnitDTOToSave,false, expectedSalary, expectedOfferLocation,
+                expectedDateRange, expectedIndustryDTO, expectedOfferSchedule);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                 .get("/service-offers/1"))
@@ -96,21 +93,9 @@ class ServiceOfferControllerTest {
                 .andReturn();
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        ServiceOffer serviceOffer = objectMapper.readValue(contentAsString, ServiceOffer.class);
+        OfferPostDTO serviceOffer = objectMapper.readValue(contentAsString, OfferPostDTO.class);
 
-        assertAll(
-                () -> assertEquals(expectedDateRange, serviceOffer.getDateRange()),
-                () -> assertEquals(expectedOfferLocation, serviceOffer.getOfferLocation()),
-                () -> assertEquals(expectedOfferSchedule, serviceOffer.getOfferSchedule()),
-                () -> assertEquals(expectedSalary, serviceOffer.getSalary()),
-                () -> assertEquals(expectedIndustry, serviceOffer.getIndustry()),
-                () -> assertFalse(serviceOffer.isHasExperience()),
-                () -> assertEquals(expectedDateCreate, serviceOffer.getDateCreated()),
-                () -> assertEquals(expectedDateUpdated, serviceOffer.getDateUpdated()),
-                () -> assertEquals(expectedDescription, serviceOffer.getDescription()),
-                () -> assertEquals(expectedTitle, serviceOffer.getTitle()),
-                () -> assertEquals(expectedId, serviceOffer.getId())
-        );
+        assertEquals(expectedServiceOffer, serviceOffer);
     }
 
     @Test
@@ -142,11 +127,18 @@ class ServiceOfferControllerTest {
                 false, false, false, false,
                 false, false, false, false, false,
                 false, false, false, false, false);
+        SalaryTimeUnit salaryTimeUnit = salaryTimeUnitService.findSalaryTimeUnitById(1L);
+        SalaryTimeUnitDTO salaryTimeUnitDTOToSave = new SalaryTimeUnitDTO(salaryTimeUnit.getId(), salaryTimeUnit.getName());
+        Industry industry = industryService.findById(1L);
+        IndustryDTO industryDTOToSave = new IndustryDTO(industry.getId(), industry.getName(), industry.getParentId());
 
+        OfferPostDTO expectedServiceOffer = new OfferPostDTO("test", "test", 1L, salaryTimeUnitDTOToSave,
+                true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, industryDTOToSave, offerScheduleToSave);
         OfferPostDTO serviceOfferToSave = new OfferPostDTO("test", "test", 1L, 1L,
                 true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, 1L, offerScheduleToSave,
                 Arrays.asList("angielski", "niemiecki"));
 
+        var serviceOfferInJson = objectMapper.writeValueAsString(expectedServiceOffer);
         var serviceOfferInJson = objectMapper.writeValueAsString(serviceOfferToSave);
 
         ServiceOffer expectedServiceOffer = serviceOfferDTOExtractor.getOffer(serviceOfferToSave, true, OfferType.SERVICE_OFFER);
@@ -161,7 +153,7 @@ class ServiceOfferControllerTest {
                 .andReturn();
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        ServiceOffer serviceOfferFromDb = objectMapper.readValue(contentAsString, ServiceOffer.class);
+        OfferPostDTO serviceOfferFromDb = objectMapper.readValue(contentAsString, OfferPostDTO.class);
 
         assertEquals(expectedServiceOffer, serviceOfferFromDb);
     }
@@ -178,12 +170,18 @@ class ServiceOfferControllerTest {
                 false, false, false, false,
                 false, false, false, false, false,
                 false, false, false, false, false);
+        SalaryTimeUnit salaryTimeUnit = salaryTimeUnitService.findSalaryTimeUnitById(1L);
+        SalaryTimeUnitDTO salaryTimeUnitDTOToSave = new SalaryTimeUnitDTO(salaryTimeUnit.getId(), salaryTimeUnit.getName());
+        Industry industry = industryService.findById(1L);
+        IndustryDTO industryDTOToSave = new IndustryDTO(industry.getId(), industry.getName(), industry.getParentId());
 
+        OfferPostDTO expectedServiceOffer = new OfferPostDTO("test", "test", 1L, salaryTimeUnitDTOToSave,
+                true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, industryDTOToSave, offerScheduleToSave);
         OfferPostDTO serviceOfferToSave = new OfferPostDTO("test", "test", 1L, 1L,
                 true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, 1L, offerScheduleToSave,
                 Arrays.asList("angielski", "niemiecki"));
 
-        var serviceOfferInJson = objectMapper.writeValueAsString(serviceOfferToSave);
+        var serviceOfferInJson = objectMapper.writeValueAsString(expectedServiceOffer);
 
         ServiceOffer expectedServiceOffer = serviceOfferDTOExtractor.getOffer(serviceOfferToSave, false, OfferType.SERVICE_OFFER);
 
@@ -196,7 +194,7 @@ class ServiceOfferControllerTest {
                 .andReturn();
 
         String contentAsString = mvcResult.getResponse().getContentAsString();
-        ServiceOffer serviceOfferFromDb = objectMapper.readValue(contentAsString, ServiceOffer.class);
+        OfferPostDTO serviceOfferFromDb = objectMapper.readValue(contentAsString, OfferPostDTO.class);
 
         assertEquals(expectedServiceOffer, serviceOfferFromDb);
     }
@@ -212,7 +210,7 @@ class ServiceOfferControllerTest {
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
-        List<ServiceOffer> serviceOfferList = serviceOfferService.findAll();
+        List<OfferPostDTO> serviceOfferList = serviceOfferService.findAll();
 
         assertEquals(expectedSize, serviceOfferList.size());
     }
