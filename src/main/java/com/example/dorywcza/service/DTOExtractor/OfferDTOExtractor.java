@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 
-//    Abstract class needed so methods can be used for both service & job offers
-
 
 @Service
 public class OfferDTOExtractor {

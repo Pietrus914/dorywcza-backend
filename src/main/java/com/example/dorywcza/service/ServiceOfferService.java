@@ -18,11 +18,13 @@ public class ServiceOfferService {
     private final ServiceOfferRepository serviceOfferRepository;
     private final OfferDTOExtractor offerDTOExtractor;
     private final OfferExtractor offerExtractor;
+    private final ServiceOfferTagService serviceOfferTagService;
 
-    public ServiceOfferService(ServiceOfferRepository serviceOfferRepository, OfferDTOExtractor offerDTOExtractor, OfferExtractor offerExtractor) {
+    public ServiceOfferService(ServiceOfferRepository serviceOfferRepository, OfferDTOExtractor offerDTOExtractor, OfferExtractor offerExtractor, ServiceOfferTagService serviceOfferTagService) {
         this.serviceOfferRepository = serviceOfferRepository;
         this.offerDTOExtractor = offerDTOExtractor;
         this.offerExtractor = offerExtractor;
+        this.serviceOfferTagService = serviceOfferTagService;
     }
 
     public List<OfferPostDTO> findAll() {
@@ -58,9 +60,9 @@ public class ServiceOfferService {
         if (foundServiceOffer.isEmpty()) {
             throw  new RuntimeException();
         }
-
         ServiceOffer serviceOfferToUpdate = foundServiceOffer.get();
         ServiceOffer extractedServiceOffer = (ServiceOffer) offerDTOExtractor.setIdsBeforeUpdate(offerPostDTO, serviceOfferToUpdate, OfferType.SERVICE_OFFER);
+        serviceOfferTagService.decreaseFrequencyRateWhenTagDeletedDuringUpdate(serviceOfferToUpdate, extractedServiceOffer);
         ServiceOffer updatedServiceOffer = serviceOfferRepository.save(extractedServiceOffer);
         List<String> tagsName = updatedServiceOffer.getServiceOfferTags()
                 .stream()
@@ -70,6 +72,8 @@ public class ServiceOfferService {
     }
 
     public void deleteServiceOffer(Long id) {
+        ServiceOffer serviceOfferToBeDeleted = serviceOfferRepository.getOne(id);
+        serviceOfferTagService.decreaseFrequencyRateWhenTagDeleted(serviceOfferToBeDeleted.getServiceOfferTags());
         serviceOfferRepository.deleteById(id);
     }
 }

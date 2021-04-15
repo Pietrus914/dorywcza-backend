@@ -21,12 +21,14 @@ public class JobOfferService {
     private final JobOfferRepository repository;
     private final OfferDTOExtractor offerDTOExtractor;
     private final OfferExtractor offerExtractor;
+    private final JobOfferTagService jobOfferTagService;
 
     @Autowired
-    public JobOfferService(JobOfferRepository repository, OfferDTOExtractor offerDTOExtractor, OfferExtractor offerExtractor) {
+    public JobOfferService(JobOfferRepository repository, OfferDTOExtractor offerDTOExtractor, OfferExtractor offerExtractor, JobOfferTagService jobOfferTagService) {
         this.repository = repository;
         this.offerDTOExtractor = offerDTOExtractor;
         this.offerExtractor = offerExtractor;
+        this.jobOfferTagService = jobOfferTagService;
     }
 
     public List<OfferPostDTO> findAll(){
@@ -64,7 +66,10 @@ public class JobOfferService {
         }
         JobOffer jobOfferToUpdate = foundJobOffer.get();
         JobOffer extractedJobOffer = (JobOffer) offerDTOExtractor.setIdsBeforeUpdate(offerPostDTO, jobOfferToUpdate, OfferType.JOB_OFFER);
+        jobOfferTagService.decreaseFrequencyRateWhenTagDeletedDuringUpdate(jobOfferToUpdate, extractedJobOffer);
         JobOffer updatedJobOffer = repository.save(extractedJobOffer);
+//        consider returning void or return record saved in db
+//        then there will be no need to assign tags manually
         List<String> tagsNames = updatedJobOffer.getJobOfferTags()
                 .stream()
                 .map(JobOfferTag::getName)
@@ -73,6 +78,8 @@ public class JobOfferService {
     }
 
     public void delete(Long id){
+        JobOffer jobOfferToBeDeleted = repository.getOne(id);
+        jobOfferTagService.decreaseFrequencyRateWhenTagDeleted(jobOfferToBeDeleted.getJobOfferTags());
         repository.deleteById(id);
     }
 
