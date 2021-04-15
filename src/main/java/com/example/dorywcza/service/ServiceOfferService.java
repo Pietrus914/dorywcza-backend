@@ -1,5 +1,6 @@
 package com.example.dorywcza.service;
 
+import com.example.dorywcza.model.OfferType;
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
 import com.example.dorywcza.model.service_offer.ServiceOffer;
 import com.example.dorywcza.repository.ServiceOfferRepository;
@@ -28,12 +29,12 @@ public class ServiceOfferService {
     }
 
     public ServiceOffer addServiceOffer(OfferPostDTO offerPostDTO) {
-        ServiceOffer serviceOffer = serviceOfferDTOExtractor.getOffer(offerPostDTO);
+        ServiceOffer serviceOffer = serviceOfferDTOExtractor.getOffer(offerPostDTO, true, OfferType.SERVICE_OFFER);
         return serviceOfferRepository.save(serviceOffer);
     }
 
     public ServiceOffer updateServiceOffer(OfferPostDTO offerPostDTO, Long id) {
-        ServiceOffer serviceOffer = serviceOfferDTOExtractor.getOffer(offerPostDTO);
+        ServiceOffer serviceOffer = serviceOfferDTOExtractor.getOffer(offerPostDTO, false, OfferType.SERVICE_OFFER);
         if (findById(id).isEmpty()) {
             throw  new RuntimeException();
         }
