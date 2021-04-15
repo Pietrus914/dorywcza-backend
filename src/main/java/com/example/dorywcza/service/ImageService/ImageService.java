@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.persistence.Transient;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,12 +20,10 @@ import java.util.stream.Collectors;
 @Service
 public class ImageService {
 
-    @Autowired
     private ImageRepository imageRepository;
-
-    @Autowired
     private UserService userService;
 
+    @Autowired
     public ImageService(ImageRepository imageRepository, @Lazy UserService userService) {
         this.imageRepository = imageRepository;
         this.userService = userService;

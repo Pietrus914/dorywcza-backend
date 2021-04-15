@@ -1,5 +1,6 @@
 package com.example.dorywcza.service;
 
+import com.example.dorywcza.exceptions.RecordNotFound;
 import com.example.dorywcza.model.user.*;
 import com.example.dorywcza.model.user.DTO.UserGeneralDTO;
 import com.example.dorywcza.model.user.DTO.UserPublicDTO;
@@ -9,6 +10,7 @@ import com.example.dorywcza.repository.UserRepository;
 import com.example.dorywcza.service.ImageService.ImageService;
 import com.example.dorywcza.util.Address;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.PersistenceContext;
@@ -21,12 +23,10 @@ import java.util.stream.Collectors;
 @PersistenceContext(type = PersistenceContextType.EXTENDED)
 public class UserService {
 
-    @Autowired
     private final UserRepository userRepository;
-    @Autowired
     private ImageService imageService;
 
-
+    @Autowired
     public UserService(UserRepository userRepository, ImageService imageService) {
         this.userRepository = userRepository;
         this.imageService = imageService;
@@ -37,29 +37,30 @@ public class UserService {
     }
 
     public User findUserById(Long id) {
-        if (!userRepository.existsById(id)){throw new RuntimeException();}
-        return userRepository.findById(id).get();
+        return findOrThrowException(id).get();
+    }
+
+    private Optional<User> findOrThrowException(Long id) {
+        if (!userRepository.existsById(id)){throw new RecordNotFound(HttpStatus.NOT_FOUND, "user with id " + id );}
+        return userRepository.findById(id);
     }
 
     public Optional<UserSimplifiedDTO> findSimplifiedDTOById(Long id){
-        if (!userRepository.existsById(id)){throw new RuntimeException();}
-        return userRepository.findById(id).map(this::getSimplifiedDTOById);
+        return findOrThrowException(id).map(this::getSimplifiedDTOById);
     }
 
     public Optional<UserPublicDTO> findPublicDTOById(Long id) {
-        if (!userRepository.existsById(id)){throw new RuntimeException();}
-        return userRepository.findById(id).map(this::getUserPublicDTOFrom);
+        return findOrThrowException(id).map(this::getUserPublicDTOFrom);
     }
 
     public Optional<UserUpdateDTO> findUpdateDTOById(Long id) {
-        if (!userRepository.existsById(id)){throw new RuntimeException();}
-        return userRepository.findById(id).map(this::getUserUpdateDTOFrom);
+        return findOrThrowException(id).map(this::getUserUpdateDTOFrom);
     }
 
 
     /** function that marks user as deleted **/
     public UserUpdateDTO deleteUser(Long id) {
-        User userToDelete = userRepository.findById(id).orElseThrow();
+        User userToDelete = findOrThrowException(id).get();
         userToDelete.setDeleted(true);
         User markedAsDeleted = userRepository.save(userToDelete);
         return getUserUpdateDTOFrom(markedAsDeleted);
@@ -87,7 +88,7 @@ public class UserService {
 
     /** function that update user with userProfile (without images) **/
     public UserUpdateDTO updateUser(UserUpdateDTO userUpdateDTO, Long id) {
-        User userFromDb = userRepository.findById(id).orElseThrow();
+        User userFromDb = findOrThrowException(id).get();
 
         User userToUpdate = updateUserFromDb(userFromDb, userUpdateDTO);
         User updatedUser = userRepository.save(userToUpdate);
@@ -118,7 +119,7 @@ public class UserService {
     }
 
     public User getUserFromUpdateDTO(UserUpdateDTO userUpdateDTO, Long id){
-        User userFromDb = userRepository.findById(id).orElseThrow();
+        User userFromDb = findOrThrowException(id).get();
         return updateUserFromDb(userFromDb,userUpdateDTO);
     }
 

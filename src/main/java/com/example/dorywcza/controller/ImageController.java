@@ -22,7 +22,7 @@ public class ImageController {
         this.imageService = imageService;
     }
 
-    @ResponseStatus(HttpStatus.OK)   //in case positive scenario it will send 200, if not: 500
+    @ResponseStatus(HttpStatus.OK)   //in case of positive scenario it will send 200, if not: 500
     @PostMapping("/upload")
     public void uploadImage(@RequestParam("image") MultipartFile image,
                               @RequestParam("userId") Long userId,
