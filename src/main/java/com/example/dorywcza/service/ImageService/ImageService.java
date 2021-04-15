@@ -3,16 +3,17 @@ package com.example.dorywcza.service.ImageService;
 import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.model.user.UserProfile;
 import com.example.dorywcza.repository.ImageRepository.ImageRepository;
-import com.example.dorywcza.repository.UserRepository;
 import com.example.dorywcza.service.UserService;
 import com.example.dorywcza.util.Image;
 import com.example.dorywcza.util.ImageBox;
 import com.example.dorywcza.util.ImageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.persistence.Transient;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,22 +23,20 @@ public class ImageService {
 
     @Autowired
     private ImageRepository imageRepository;
-    @Autowired
-    private UserRepository userRepository;
+
     @Autowired
     private UserService userService;
 
-    public ImageService(ImageRepository imageRepository, UserRepository userRepository) {
+    public ImageService(ImageRepository imageRepository, @Lazy UserService userService) {
         this.imageRepository = imageRepository;
-        this.userRepository = userRepository;
         this.userService = userService;
     }
 
     public Image store(MultipartFile file, Long userId, Boolean isAvatar) throws IOException {
-        User user = userRepository.findById(userId).orElseThrow();
+        User user = userService.findUserById(userId);
         if (!user.hasProfile()){
             user.setUserProfile(new UserProfile(user));
-            userRepository.save(user);
+            userService.updateUser(user);
         }
         if (isAvatar){
 
