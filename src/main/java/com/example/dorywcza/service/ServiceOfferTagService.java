@@ -1,7 +1,5 @@
 package com.example.dorywcza.service;
 
-import com.example.dorywcza.model.job_offer.JobOffer;
-import com.example.dorywcza.model.offer.JobOfferTag;
 import com.example.dorywcza.model.offer.ServiceOfferTag;
 import com.example.dorywcza.model.service_offer.ServiceOffer;
 import com.example.dorywcza.repository.ServiceOfferTagRepository;
@@ -14,8 +12,8 @@ import java.util.stream.Collectors;
 @Service
 public class ServiceOfferTagService {
 
-    private ServiceOfferTagRepository repository;
-    private ServiceOfferTagsServiceUtil serviceOfferTagsServiceUtil;
+    private final ServiceOfferTagRepository repository;
+    private final ServiceOfferTagsServiceUtil serviceOfferTagsServiceUtil;
 
     @Autowired
     public ServiceOfferTagService(ServiceOfferTagRepository serviceOfferTagRepository) {

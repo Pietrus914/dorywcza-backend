@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 @Service
 public class JobOfferTagService {
 
-    private JobOfferTagRepository repository;
-    private JobOfferTagsServiceUtil jobOfferTagsServiceUtil;
+    private final JobOfferTagRepository repository;
+    private final JobOfferTagsServiceUtil jobOfferTagsServiceUtil;
 
     @Autowired
     public JobOfferTagService(JobOfferTagRepository jobOfferTagRepository) {
