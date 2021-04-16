@@ -75,7 +75,7 @@ public class OfferDTOExtractor {
         DateRange dateRange = getDateRange(offerPostDTO);
         OfferLocation offerLocation = getOfferLocation(offerPostDTO);
         OfferSchedule offerSchedule = getOfferSchedule(offerPostDTO);
-        User user = userService.findUserById(offerPostDTO.getUserId());
+        User user = userService.findUserById(offerPostDTO.getUserSimplifiedDTO().getId());
         Industry industry = getIndustry(offerPostDTO);
         switch (offerType){
             case JOB_OFFER:

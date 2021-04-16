@@ -4,9 +4,12 @@ package com.example.dorywcza.controller;
 import com.example.dorywcza.model.offer.*;
 import com.example.dorywcza.model.offer.DTO.*;
 import com.example.dorywcza.model.service_offer.*;
+import com.example.dorywcza.model.user.DTO.UserSimplifiedDTO;
+import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.service.IndustryService;
 import com.example.dorywcza.service.SalaryTimeUnitService;
 import com.example.dorywcza.service.ServiceOfferService;
+import com.example.dorywcza.service.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -49,6 +52,9 @@ class ServiceOfferControllerTest {
     @Autowired
     private ServiceOfferService serviceOfferService;
 
+    @Autowired
+    private UserService userService;
+
     @Test
     @DirtiesContext
     @DisplayName("Get http://localhost:8080/service-offers -> http status 200, get 2 test service offer" )
@@ -83,9 +89,11 @@ class ServiceOfferControllerTest {
         SalaryTimeUnitDTO salaryTimeUnitDTOToSave = new SalaryTimeUnitDTO(salaryTimeUnit.getId(), salaryTimeUnit.getName());
         Industry industry = industryService.findById(1L);
         IndustryDTO expectedIndustryDTO = new IndustryDTO(industry.getId(), industry.getName(), industry.getParentId());
+        User user = userService.findUserById(1L);
+        UserSimplifiedDTO expectedUserSimplifiedDTO = new UserSimplifiedDTO(user);
 
         OfferPostDTO expectedServiceOffer = new OfferPostDTO("test SERVICE OFFER 1", "test SERVICE OFFER 1",
-                1L, salaryTimeUnitDTOToSave,false, expectedSalary, expectedOfferLocation,
+                expectedUserSimplifiedDTO, salaryTimeUnitDTOToSave,false, expectedSalary, expectedOfferLocation,
                 expectedDateRange, expectedIndustryDTO, expectedOfferSchedule, Collections.emptyList());
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
@@ -133,9 +141,11 @@ class ServiceOfferControllerTest {
         SalaryTimeUnitDTO salaryTimeUnitDTOToSave = new SalaryTimeUnitDTO(salaryTimeUnit.getId(), salaryTimeUnit.getName());
         Industry industry = industryService.findById(1L);
         IndustryDTO industryDTOToSave = new IndustryDTO(industry.getId(), industry.getName(), industry.getParentId());
+        User user = userService.findUserById(1L);
+        UserSimplifiedDTO userSimplifiedDTOToSave = new UserSimplifiedDTO(user);
 
-        OfferPostDTO expectedServiceOffer = new OfferPostDTO("test", "test", 1L, salaryTimeUnitDTOToSave,
-                true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, industryDTOToSave,
+        OfferPostDTO expectedServiceOffer = new OfferPostDTO("test", "test", userSimplifiedDTOToSave,
+                salaryTimeUnitDTOToSave,true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, industryDTOToSave,
                 offerScheduleToSave, Arrays.asList("angielski", "niemiecki"));
 
 
@@ -171,9 +181,11 @@ class ServiceOfferControllerTest {
         SalaryTimeUnitDTO salaryTimeUnitDTOToSave = new SalaryTimeUnitDTO(salaryTimeUnit.getId(), salaryTimeUnit.getName());
         Industry industry = industryService.findById(1L);
         IndustryDTO industryDTOToSave = new IndustryDTO(industry.getId(), industry.getName(), industry.getParentId());
+        User user = userService.findUserById(1L);
+        UserSimplifiedDTO userSimplifiedDTOToSave = new UserSimplifiedDTO(user);
 
-        OfferPostDTO expectedServiceOffer = new OfferPostDTO("test", "test", 1L, salaryTimeUnitDTOToSave,
-                true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, industryDTOToSave,
+        OfferPostDTO expectedServiceOffer = new OfferPostDTO("test", "test", userSimplifiedDTOToSave,
+                salaryTimeUnitDTOToSave,true, jobSalaryToSave, offerLocationToSave, dateRangeToSave, industryDTOToSave,
                 offerScheduleToSave, Arrays.asList("angielski", "niemiecki"));
 
 

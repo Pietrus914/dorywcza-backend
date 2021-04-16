@@ -2,6 +2,8 @@ package com.example.dorywcza.service.DTOExtractor;
 
 import com.example.dorywcza.model.offer.*;
 import com.example.dorywcza.model.offer.DTO.*;
+import com.example.dorywcza.model.user.DTO.UserSimplifiedDTO;
+import com.example.dorywcza.model.user.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,8 +35,13 @@ public class OfferExtractor {
         return new IndustryDTO(industry.getId(), industry.getName(), industry.getParentId());
     }
 
+    private UserSimplifiedDTO getUserSimplifiedDTO(User user) {
+        return new UserSimplifiedDTO(user);
+
+    }
+
     public OfferPostDTO getOfferDTO(Offer offer, List<String> tagsNames) {
-        return new OfferPostDTO(offer.getDescription(), offer.getTitle(), offer.getUser().getId(),
+        return new OfferPostDTO(offer.getDescription(), offer.getTitle(), getUserSimplifiedDTO(offer.getUser()),
                 getSalaryTimeUnitDTO(offer.getSalary().getSalaryTimeUnit()), offer.isHasExperience(), getSalaryDTO(offer.getSalary()),
                 getOfferLocationDTO(offer.getOfferLocation()), getDataRangeDTO(offer.getDateRange()),
                 getIndustryDTO(offer.getIndustry()), getOfferScheduleDTO(offer.getOfferSchedule()), tagsNames, offer.getDateCreated(), offer.getDateUpdated());
