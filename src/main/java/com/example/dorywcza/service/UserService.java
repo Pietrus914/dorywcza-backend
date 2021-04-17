@@ -41,7 +41,7 @@ public class UserService {
     }
 
     private Optional<User> findOrThrowException(Long id) {
-        if (!userRepository.existsById(id)){throw new RecordNotFound(HttpStatus.NOT_FOUND, "user with id " + id );}
+        if (!userRepository.existsById(id)){throw new RecordNotFound(HttpStatus.BAD_REQUEST, "user with id " + id );}
         return userRepository.findById(id);
     }
 
