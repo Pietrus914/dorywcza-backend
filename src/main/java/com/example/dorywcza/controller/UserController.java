@@ -32,9 +32,9 @@ public class UserController {
 
     @Validated
     @GetMapping("/users/{id}")
-    public Optional<? extends UserDTO> getUser(@PathVariable Long id, @RequestParam String type){
+    public Optional<? extends UserDTO> getUser(@PathVariable Long id, @RequestParam String type) {
         List<String> params = new ArrayList<>(List.of("public", "update", "simplified"));
-        if (type == null || !params.contains(type)){
+        if (!params.contains(type)){
             throw new ParameterNotValid(HttpStatus.BAD_REQUEST, "Not valid parameter: accepted params: update, public, simplified");
         }
         switch (type){
