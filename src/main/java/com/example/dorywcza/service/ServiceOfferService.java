@@ -2,56 +2,78 @@ package com.example.dorywcza.service;
 
 import com.example.dorywcza.model.OfferType;
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
+import com.example.dorywcza.model.offer.ServiceOfferTag;
 import com.example.dorywcza.model.service_offer.ServiceOffer;
 import com.example.dorywcza.repository.ServiceOfferRepository;
-import com.example.dorywcza.service.DTOExtractor.ServiceOfferDTOExtractor;
+import com.example.dorywcza.service.DTOExtractor.OfferDTOExtractor;
+import com.example.dorywcza.service.DTOExtractor.OfferExtractor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ServiceOfferService {
     private final ServiceOfferRepository serviceOfferRepository;
-    private final ServiceOfferDTOExtractor serviceOfferDTOExtractor;
+    private final OfferDTOExtractor offerDTOExtractor;
+    private final OfferExtractor offerExtractor;
+    private final ServiceOfferTagService serviceOfferTagService;
 
-    public ServiceOfferService(ServiceOfferRepository serviceOfferRepository, ServiceOfferDTOExtractor serviceOfferDTOExtractor) {
+    public ServiceOfferService(ServiceOfferRepository serviceOfferRepository, OfferDTOExtractor offerDTOExtractor, OfferExtractor offerExtractor, ServiceOfferTagService serviceOfferTagService) {
         this.serviceOfferRepository = serviceOfferRepository;
-        this.serviceOfferDTOExtractor = serviceOfferDTOExtractor;
+        this.offerDTOExtractor = offerDTOExtractor;
+        this.offerExtractor = offerExtractor;
+        this.serviceOfferTagService = serviceOfferTagService;
     }
 
-    public List<ServiceOffer> findAll() {
-        return serviceOfferRepository.findAll();
+    public List<OfferPostDTO> findAll() {
+        return serviceOfferRepository.findAll()
+                .stream()
+                .map(offer -> offerExtractor.getOfferDTO(offer, offer.getServiceOfferTags()
+                        .stream()
+                        .map(ServiceOfferTag::getName)
+                        .collect(Collectors.toList())))
+                .collect(Collectors.toList());
     }
 
-    public Optional<ServiceOffer> findById(Long id) {
-        return serviceOfferRepository.findById(id);
+    public Optional<OfferPostDTO> findById(Long id) {
+        return serviceOfferRepository.findById(id)
+                .map(offer -> offerExtractor.getOfferDTO(offer, offer.getServiceOfferTags()
+                        .stream()
+                        .map(ServiceOfferTag::getName)
+                        .collect(Collectors.toList())));
     }
 
-    public ServiceOffer addServiceOffer(OfferPostDTO offerPostDTO) {
-        ServiceOffer serviceOffer = serviceOfferDTOExtractor.getOffer(offerPostDTO, true, OfferType.SERVICE_OFFER);
-        return serviceOfferRepository.save(serviceOffer);
+    public OfferPostDTO addServiceOffer(OfferPostDTO offerPostDTO) {
+        ServiceOffer serviceOffer = (ServiceOffer) offerDTOExtractor.getOfferV1(offerPostDTO, true, OfferType.SERVICE_OFFER);
+        ServiceOffer savedServiceOffer = serviceOfferRepository.save(serviceOffer);
+        List<String> tagsNames = savedServiceOffer.getServiceOfferTags()
+                .stream()
+                .map(ServiceOfferTag::getName)
+                .collect(Collectors.toList());
+        return offerExtractor.getOfferDTO(savedServiceOffer, tagsNames);
     }
 
-    public ServiceOffer updateServiceOffer(OfferPostDTO offerPostDTO, Long id) {
-        ServiceOffer serviceOffer = serviceOfferDTOExtractor.getOffer(offerPostDTO, false, OfferType.SERVICE_OFFER);
-        if (findById(id).isEmpty()) {
+    public OfferPostDTO updateServiceOffer(OfferPostDTO offerPostDTO, Long id) {
+        Optional<ServiceOffer> foundServiceOffer = serviceOfferRepository.findById(id);
+        if (foundServiceOffer.isEmpty()) {
             throw  new RuntimeException();
         }
-        else {
-            ServiceOffer serviceOfferTemp = serviceOfferRepository.getOne(id);
-            serviceOffer.getOfferSchedule().setId(serviceOfferTemp.getOfferSchedule().getId());
-            serviceOffer.getOfferLocation().setId(serviceOfferTemp.getOfferLocation().getId());
-            serviceOffer.getDateRange().setId(serviceOfferTemp.getDateRange().getId());
-            serviceOffer.getSalary().setId(serviceOfferTemp.getSalary().getId());
-            serviceOffer.setDateCreated(serviceOfferTemp.getDateCreated());
-        }
-        serviceOffer.setId(id);
-
-        return serviceOfferRepository.save(serviceOffer);
+        ServiceOffer serviceOfferToUpdate = foundServiceOffer.get();
+        ServiceOffer extractedServiceOffer = (ServiceOffer) offerDTOExtractor.setIdsBeforeUpdate(offerPostDTO, serviceOfferToUpdate, OfferType.SERVICE_OFFER);
+        serviceOfferTagService.decreaseFrequencyRateWhenTagDeletedDuringUpdate(serviceOfferToUpdate, extractedServiceOffer);
+        ServiceOffer updatedServiceOffer = serviceOfferRepository.save(extractedServiceOffer);
+        List<String> tagsName = updatedServiceOffer.getServiceOfferTags()
+                .stream()
+                .map(ServiceOfferTag::getName)
+                .collect(Collectors.toList());
+        return offerExtractor.getOfferDTO(updatedServiceOffer, tagsName);
     }
 
     public void deleteServiceOffer(Long id) {
+        ServiceOffer serviceOfferToBeDeleted = serviceOfferRepository.getOne(id);
+        serviceOfferTagService.decreaseFrequencyRateWhenTagDeleted(serviceOfferToBeDeleted.getServiceOfferTags());
         serviceOfferRepository.deleteById(id);
     }
 }

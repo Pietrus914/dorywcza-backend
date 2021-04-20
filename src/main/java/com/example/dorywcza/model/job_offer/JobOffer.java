@@ -18,8 +18,9 @@ import java.util.List;
 public class JobOffer extends Offer {
 
     public JobOffer(String title, String description, User user, boolean hasExperience, OfferLocation offerLocation,
-                    DateRange dateRange, Industry industry, Salary salary, OfferSchedule offerSchedule) {
+                    DateRange dateRange, Industry industry, Salary salary, OfferSchedule offerSchedule, List<JobOfferTag> jobOfferTags) {
         super(title,  description,  user,  hasExperience,  offerLocation, dateRange,  industry,  salary,  offerSchedule);
+        this.jobOfferTags = jobOfferTags;
     }
 
 

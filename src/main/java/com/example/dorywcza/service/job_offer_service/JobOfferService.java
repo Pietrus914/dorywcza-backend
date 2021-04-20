@@ -1,77 +1,87 @@
 package com.example.dorywcza.service.job_offer_service;
 
 
-
-import com.example.dorywcza.model.job_offer.JobOffer;
+import com.example.dorywcza.model.OfferType;
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
+import com.example.dorywcza.model.job_offer.JobOffer;
 import com.example.dorywcza.model.offer.JobOfferTag;
-import com.example.dorywcza.repository.JobOfferTagRepository;
-import com.example.dorywcza.repository.job_offer_repository.JobOfferRepository;
-import com.example.dorywcza.service.DTOExtractor.JobOfferDTOExtractor;
-import com.example.dorywcza.service.JobOfferTagsServiceUtil;
+import com.example.dorywcza.repository.JobOfferRepository;
+import com.example.dorywcza.service.DTOExtractor.OfferDTOExtractor;
+import com.example.dorywcza.service.DTOExtractor.OfferExtractor;
+import com.example.dorywcza.service.JobOfferTagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class JobOfferService {
 
     private final JobOfferRepository repository;
-    private final JobOfferDTOExtractor jobOfferDTOExtractor;
-    private final JobOfferTagRepository jobOfferTagRepository;
-    private JobOfferTagsServiceUtil jobOfferTagsServiceUtil;
+    private final OfferDTOExtractor offerDTOExtractor;
+    private final OfferExtractor offerExtractor;
+    private final JobOfferTagService jobOfferTagService;
 
     @Autowired
-    public JobOfferService(JobOfferRepository repository, JobOfferDTOExtractor jobOfferDTOExtractor,
-                           JobOfferTagRepository jobOfferTagRepository) {
+    public JobOfferService(JobOfferRepository repository, OfferDTOExtractor offerDTOExtractor, OfferExtractor offerExtractor, JobOfferTagService jobOfferTagService) {
         this.repository = repository;
-        this.jobOfferDTOExtractor = jobOfferDTOExtractor;
-        this.jobOfferTagRepository = jobOfferTagRepository;
-        jobOfferTagsServiceUtil = new JobOfferTagsServiceUtil();
+        this.offerDTOExtractor = offerDTOExtractor;
+        this.offerExtractor = offerExtractor;
+        this.jobOfferTagService = jobOfferTagService;
     }
 
-    public List<JobOffer> findAll(){
-        return repository.findAll();
+    public List<OfferPostDTO> findAll(){
+        return repository.findAll()
+                .stream()
+                .map(offer -> offerExtractor.getOfferDTO(offer, offer.getJobOfferTags()
+                        .stream()
+                        .map(JobOfferTag::getName)
+                        .collect(Collectors.toList())))
+                .collect(Collectors.toList());
     }
 
-    public Optional<JobOffer> findById(Long id){
-        return repository.findById(id);
+    public Optional<OfferPostDTO> findById(Long id){
+        return repository.findById(id)
+                .map(offer -> offerExtractor.getOfferDTO(offer, offer.getJobOfferTags()
+                        .stream()
+                        .map(JobOfferTag::getName)
+                        .collect(Collectors.toList())));
     }
 
-    public JobOffer save(OfferPostDTO offerPostDTO){
-        JobOffer jobOffer = jobOfferDTOExtractor.getOffer(offerPostDTO, true);
-        return repository.save(jobOffer);
+    public OfferPostDTO save(OfferPostDTO offerPostDTO){
+        JobOffer jobOffer = (JobOffer) offerDTOExtractor.getOfferV1(offerPostDTO, true, OfferType.JOB_OFFER);
+        JobOffer savedJobOffer = repository.save(jobOffer);
+        List<String> tagsNames = savedJobOffer.getJobOfferTags()
+                .stream()
+                .map(JobOfferTag::getName)
+                .collect(Collectors.toList());
+        return offerExtractor.getOfferDTO(savedJobOffer, tagsNames);
     }
 
-    public JobOffer update(OfferPostDTO offerPostDTO, Long id) {
-        Optional<JobOffer> foundJobOffer = findById(id);
-        if (foundJobOffer.isEmpty()) {throw new RuntimeException();}
-        JobOffer offerCurrentlyInDB = foundJobOffer.get();
-        JobOffer offerToBeSavedInDB = jobOfferDTOExtractor.getOffer(offerPostDTO, false);
-        jobOfferDTOExtractor.setIdsBeforeUpdate(offerToBeSavedInDB, offerCurrentlyInDB);
-        decreaseFrequencyRatingForRemovedTags(offerCurrentlyInDB, offerToBeSavedInDB);
-        return repository.save(offerToBeSavedInDB);
+    public OfferPostDTO update(OfferPostDTO offerPostDTO, Long id) {
+        Optional<JobOffer> foundJobOffer = repository.findById(id);
+        if (foundJobOffer.isEmpty()) {
+            throw new RuntimeException();
+        }
+        JobOffer jobOfferToUpdate = foundJobOffer.get();
+        JobOffer extractedJobOffer = (JobOffer) offerDTOExtractor.setIdsBeforeUpdate(offerPostDTO, jobOfferToUpdate, OfferType.JOB_OFFER);
+        jobOfferTagService.decreaseFrequencyRateWhenTagDeletedDuringUpdate(jobOfferToUpdate, extractedJobOffer);
+        JobOffer updatedJobOffer = repository.save(extractedJobOffer);
+//        consider returning void or return record saved in db
+//        then there will be no need to assign tags manually
+        List<String> tagsNames = updatedJobOffer.getJobOfferTags()
+                .stream()
+                .map(JobOfferTag::getName)
+                .collect(Collectors.toList());
+        return offerExtractor.getOfferDTO(updatedJobOffer, tagsNames);
     }
 
     public void delete(Long id){
         JobOffer jobOfferToBeDeleted = repository.getOne(id);
-        List<JobOfferTag> updatedTags = jobOfferTagsServiceUtil.getJobOfferTags(jobOfferToBeDeleted);
-        jobOfferTagRepository.saveAll(updatedTags);
+        jobOfferTagService.decreaseFrequencyRateWhenTagDeleted(jobOfferToBeDeleted.getJobOfferTags());
         repository.deleteById(id);
     }
-
-//    move to Util
-    private void decreaseFrequencyRatingForRemovedTags(JobOffer jobOfferToUpdate, JobOffer updatedJobOffer) {
-        List<JobOfferTag> currentJobOfferTags = jobOfferToUpdate.getJobOfferTags();
-        List<JobOfferTag> updatedJobOfferTags = updatedJobOffer.getJobOfferTags();
-        for (JobOfferTag currentJobOfferTag : currentJobOfferTags) {
-            if (!updatedJobOfferTags.contains(currentJobOfferTag)){
-                currentJobOfferTag.decreaseFrequencyRating();
-            }
-        }
-    }
-
 
 }
