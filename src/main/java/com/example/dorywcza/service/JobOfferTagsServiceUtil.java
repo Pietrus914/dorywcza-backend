@@ -1,8 +1,6 @@
 package com.example.dorywcza.service;
 
-import com.example.dorywcza.model.job_offer.JobOffer;
 import com.example.dorywcza.model.offer.JobOfferTag;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,14 +9,6 @@ import java.util.stream.Collectors;
 
 public class JobOfferTagsServiceUtil {
 
-    public List<JobOfferTag> getJobOfferTags(JobOffer jobOfferToBeDeleted) {
-        List<JobOfferTag> tagsToBeUpdated = jobOfferToBeDeleted.getJobOfferTags();
-        List<JobOfferTag> updatedTags = tagsToBeUpdated
-                .stream()
-                .map(tag -> {tag.setFrequencyRating(tag.getFrequencyRating()-1L); return tag;})
-                .collect(Collectors.toList());
-        return updatedTags;
-    }
 
     private Map<String, Boolean> getMapFromExistingTags(List<JobOfferTag> existingTags) {
         Map<String, Boolean> mapExistingTags = new HashMap<>();
@@ -58,6 +48,5 @@ public class JobOfferTagsServiceUtil {
         addedTags.addAll(existingTags);
         return addedTags;
     }
-
 
 }

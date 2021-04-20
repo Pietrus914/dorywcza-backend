@@ -1,10 +1,8 @@
 package com.example.dorywcza.model.offer;
 
 import com.example.dorywcza.model.job_offer.JobOffer;
-import com.example.dorywcza.model.offer.Offer;
 import com.example.dorywcza.model.service_offer.ServiceOffer;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

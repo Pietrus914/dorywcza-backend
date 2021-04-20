@@ -19,7 +19,6 @@ import java.util.List;
 public class ServiceOffer extends Offer {
 
 
-
     public ServiceOffer(String title, String description, User user, boolean hasExperience,
                         OfferLocation offerLocation, DateRange dateRange, Industry industry,
                         Salary salary, OfferSchedule offerSchedule, List<ServiceOfferTag> serviceOfferTags) {
