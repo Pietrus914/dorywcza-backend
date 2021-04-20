@@ -11,14 +11,14 @@ import java.util.List;
 @NoArgsConstructor
 public class ErrorDTO {
     private HttpStatus status;
-    private int httStatus;
+    private int httpStatus;
     private String message;
     private String level;
     private List<String> errors;
 
     public ErrorDTO(HttpStatus status, String message, ExceptionLevels level, String error) {
         this.status = status;
-        this.httStatus = status.value();
+        this.httpStatus = status.value();
         this.message = message;
         this.level = level.toString();
         this.errors = Arrays.asList(error);
@@ -26,7 +26,7 @@ public class ErrorDTO {
 
     public ErrorDTO(HttpStatus status, String message, ExceptionLevels level, List<String> errors){
         this.status = status;
-        this.httStatus = status.value();
+        this.httpStatus = status.value();
         this.message = message;
         this.level = level.toString();
         this.errors = errors;
@@ -34,7 +34,7 @@ public class ErrorDTO {
 
     public ErrorDTO(HttpStatus status, String message, ExceptionLevels level) {
         this.status = status;
-        this.httStatus = status.value();
+        this.httpStatus = status.value();
         this.message = message;
         this.level = level.toString();
     }
