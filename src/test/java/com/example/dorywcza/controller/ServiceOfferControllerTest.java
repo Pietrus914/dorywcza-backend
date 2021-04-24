@@ -79,7 +79,7 @@ class ServiceOfferControllerTest {
     void findById() throws Exception {
         SalaryDTO expectedSalary = new SalaryDTO(300L, 30L);
         DateRangeDTO expectedDateRange = new DateRangeDTO(Date.valueOf("2012-03-03"), Date.valueOf("2020-03-03"));
-        OfferLocationDTO expectedOfferLocation = new OfferLocationDTO(0.1, 0.1);
+        OfferLocationDTO expectedOfferLocation = new OfferLocationDTO(54.5212, 18.5286);
         OfferScheduleDTO expectedOfferSchedule = new OfferScheduleDTO(true, false, true,
                 true, true, true, true, true,
                 true, true, true, true, true,

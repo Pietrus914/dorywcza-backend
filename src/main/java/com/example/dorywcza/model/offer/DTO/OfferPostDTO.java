@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OfferPostDTO  {
-
+    private Long id;
     private String description;
     private String title;
 //    When login is implemented this will be removed and replaced in service with user id from session
