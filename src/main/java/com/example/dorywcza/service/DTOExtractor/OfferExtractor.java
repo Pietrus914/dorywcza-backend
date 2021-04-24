@@ -41,7 +41,7 @@ public class OfferExtractor {
     }
 
     public OfferPostDTO getOfferDTO(Offer offer, List<String> tagsNames) {
-        return new OfferPostDTO(offer.getDescription(), offer.getTitle(), getUserSimplifiedDTO(offer.getUser()),
+        return new OfferPostDTO(offer.getId(), offer.getDescription(), offer.getTitle(), getUserSimplifiedDTO(offer.getUser()),
                 getSalaryTimeUnitDTO(offer.getSalary().getSalaryTimeUnit()), offer.isHasExperience(), getSalaryDTO(offer.getSalary()),
                 getOfferLocationDTO(offer.getOfferLocation()), getDataRangeDTO(offer.getDateRange()),
                 getIndustryDTO(offer.getIndustry()), getOfferScheduleDTO(offer.getOfferSchedule()), tagsNames, offer.getDateCreated(), offer.getDateUpdated());

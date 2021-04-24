@@ -55,10 +55,10 @@ INSERT INTO date_range (start_date, end_date) VALUES ('2012-03-03', '2020-03-03'
 INSERT INTO date_range (start_date, end_date) VALUES ('2012-04-04', '2020-04-04');
 
 
-INSERT INTO offer_location (x_position, y_position) VALUES (0.1, 0.1);
-INSERT INTO offer_location (x_position, y_position) VALUES (0.1, 0.1);
-INSERT INTO offer_location (x_position, y_position) VALUES (0.1, 0.1);
-INSERT INTO offer_location (x_position, y_position) VALUES (0.1, 0.1);
+INSERT INTO offer_location (x_position, y_position) VALUES (50.049683, 	19.944544);
+INSERT INTO offer_location (x_position, y_position) VALUES (52.237049, 21.017532);
+INSERT INTO offer_location (x_position, y_position) VALUES (54.5212, 18.5286);
+INSERT INTO offer_location (x_position, y_position) VALUES (54.372158, 18.638306);
 
 INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tuesday_morning, tuesday_afternoon, tuesday_evening,
                             wednesday_morning, wednesday_afternoon, wednesday_evening, thursday_morning, thursday_afternoon, thursday_evening, friday_morning,
