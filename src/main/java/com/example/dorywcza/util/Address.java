@@ -17,8 +17,10 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String street;
+    private String flatNumber;
+    private Integer zipCode;
+    private String city;
 
 
     @Override
@@ -26,11 +28,11 @@ public class Address {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return Objects.equals(street, address.street);
+        return Objects.equals(street, address.street) && Objects.equals(flatNumber, address.flatNumber) && Objects.equals(zipCode, address.zipCode) && Objects.equals(city, address.city);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(street);
+        return Objects.hash(street, flatNumber, zipCode, city);
     }
 }

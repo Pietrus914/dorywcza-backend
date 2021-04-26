@@ -20,7 +20,7 @@ INSERT INTO experience (description, image_box_id) VALUES ('Fast and cost-effici
 INSERT INTO experience (description, image_box_id) VALUES ('no', 3 );
 
 
-INSERT INTO address (street) VALUES ( 'SunnyStreet' );
+INSERT INTO address (street, city, flat_number, zip_code) VALUES ( 'SunnyStreet', 'Chicago', '33/4', 12345 );
 INSERT INTO address (street) VALUES ( 'StormyStreet' );
 INSERT INTO address (street) VALUES ( 'RainyStreet' );
 

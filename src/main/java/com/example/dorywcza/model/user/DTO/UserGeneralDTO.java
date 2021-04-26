@@ -2,6 +2,7 @@ package com.example.dorywcza.model.user.DTO;
 
 import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.model.user.UserProfile;
+import com.example.dorywcza.util.Address;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +23,9 @@ public abstract class UserGeneralDTO extends UserDTO{
     private String userName;
     private String description;
     private String street;
+    private String flatNumber;
+    private Integer zipCode;
+    private String city;
 
     public UserGeneralDTO(String email){
         this.email = email;
@@ -47,7 +51,11 @@ public abstract class UserGeneralDTO extends UserDTO{
 
     private void loadAddress(UserProfile userProfile) {
         if (userProfile.hasAddress()){
-            this.street = userProfile.getAddress().getStreet();
+            Address address = userProfile.getAddress();
+            this.street = address.getStreet();
+            this.flatNumber = address.getFlatNumber();
+            this.zipCode = address.getZipCode();
+            this.city = address.getCity();
         }
     }
 
