@@ -113,6 +113,7 @@ public class UserService {
         profile.setFirstName(userUpdateDTO.getFirstName());
         profile.setLastName(userUpdateDTO.getLastName());
         profile.setUserName(userUpdateDTO.getUserName());
+        profile.setDescription(userUpdateDTO.getDescription());
         Address address = profile.getAddress();
         address.setStreet(userUpdateDTO.getStreet());
         Experience experience = profile.getExperience();
