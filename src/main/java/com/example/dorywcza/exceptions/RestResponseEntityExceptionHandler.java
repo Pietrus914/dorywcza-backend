@@ -1,10 +1,8 @@
 package com.example.dorywcza.exceptions;
 
-import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.access.ExceptionTranslationFilter;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,7 +17,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected  ResponseEntity<ErrorDTO> handle(RecordNotFound ex, WebRequest request){
 
         String message = ex.getMessage() + " not found";
-        ErrorDTO errorDTO = new ErrorDTO(ex.getStatusCode(), message, ExceptionLevels.INFO);
+        ErrorDTO errorDTO = new ErrorDTO(message, ExceptionLevels.INFO);
         return ResponseEntity.status(ex.getStatusCode()).body(errorDTO);
     }
 
@@ -27,7 +25,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected  ResponseEntity<ErrorDTO> handle(ParameterNotValid ex){
 
         String message = ex.getMessage();
-        ErrorDTO errorDTO = new ErrorDTO(ex.getStatusCode(), message, ExceptionLevels.WARN);
+        ErrorDTO errorDTO = new ErrorDTO(message, ExceptionLevels.WARN);
         return ResponseEntity.status(ex.getStatusCode()).body(errorDTO);
     }
 
@@ -37,7 +35,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
             final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
 
         String message = ex.getMessage();
-        ErrorDTO errorDTO = new ErrorDTO(status, message, ExceptionLevels.WARN);
+        ErrorDTO errorDTO = new ErrorDTO(message, ExceptionLevels.WARN);
         return ResponseEntity.status(status).body(errorDTO);
     }
 
@@ -45,7 +43,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     public ResponseEntity<Object> handleMethodArgumentTypeMismatch(final MethodArgumentTypeMismatchException ex, final WebRequest request) {
 
         final String message = ex.getName() + " should be of type " + ex.getRequiredType().getName();
-        ErrorDTO errorDTO = new ErrorDTO(HttpStatus.BAD_REQUEST, message, ExceptionLevels.WARN);
+        ErrorDTO errorDTO = new ErrorDTO(message, ExceptionLevels.WARN);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDTO);
     }
 }
