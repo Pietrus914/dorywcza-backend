@@ -4,7 +4,6 @@ package com.example.dorywcza.model.user;
 import com.example.dorywcza.util.Address;
 import com.example.dorywcza.util.Image;
 import com.example.dorywcza.util.ImageBox;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,7 +24,6 @@ public class UserProfile {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @PrimaryKeyJoinColumn(name = "user_id")
-    @JsonBackReference
     private User user;
 
     private String firstName;
