@@ -116,6 +116,9 @@ public class UserService {
         profile.setDescription(userUpdateDTO.getDescription());
         Address address = profile.getAddress();
         address.setStreet(userUpdateDTO.getStreet());
+        address.setFlatNumber(userUpdateDTO.getFlatNumber());
+        address.setZipCode(userUpdateDTO.getZipCode());
+        address.setCity(userUpdateDTO.getCity());
         Experience experience = profile.getExperience();
         experience.setDescription(userUpdateDTO.getExperienceDescription());
     }
