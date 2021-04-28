@@ -1,10 +1,8 @@
 package com.example.dorywcza.util;
 
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,8 +19,6 @@ public class ImageBox {
     private Long id;
 
     @OneToMany(mappedBy = "imageBox", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     private List<Image> images;
 
     public ImageBox() {

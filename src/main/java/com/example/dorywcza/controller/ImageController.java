@@ -1,6 +1,6 @@
 package com.example.dorywcza.controller;
 
-import com.example.dorywcza.service.ImageService.ImageService;
+import com.example.dorywcza.service.ImageService;
 import com.example.dorywcza.util.ImageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

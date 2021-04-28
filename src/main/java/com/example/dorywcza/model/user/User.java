@@ -36,8 +36,6 @@ public class User {
     private int overallRating;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     UserProfile userProfile;
 
     @OneToMany(mappedBy = "user")

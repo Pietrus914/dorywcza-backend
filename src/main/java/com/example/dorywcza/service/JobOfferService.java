@@ -1,4 +1,4 @@
-package com.example.dorywcza.service.job_offer_service;
+package com.example.dorywcza.service;
 
 
 import com.example.dorywcza.model.OfferType;
