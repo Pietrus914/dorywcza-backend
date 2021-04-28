@@ -1,7 +1,6 @@
 package com.example.dorywcza.util;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +21,6 @@ public class ImageBox {
     private Long id;
 
     @OneToMany(mappedBy = "imageBox", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonManagedReference
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<Image> images;

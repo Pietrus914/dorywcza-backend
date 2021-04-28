@@ -3,16 +3,14 @@ package com.example.dorywcza.model.user;
 import com.example.dorywcza.model.job_offer.JobOffer;
 import com.example.dorywcza.model.service_offer.ServiceOffer;
 import com.example.dorywcza.model.user.DTO.UserUpdateDTO;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import java.util.Set;
 import java.util.Objects;
+import java.util.Set;
 
 @SQLDelete(sql =
         "UPDATE user " +
@@ -38,17 +36,14 @@ public class User {
     private int overallRating;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonManagedReference
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     UserProfile userProfile;
 
     @OneToMany(mappedBy = "user")
-    @JsonIgnore
     private Set<JobOffer> jobOffers;
 
     @OneToMany(mappedBy = "user")
-    @JsonIgnore
     private Set<ServiceOffer> serviceOffers;
 
     @Column(name = "deleted")

@@ -28,8 +28,4 @@ public class ImageDTO {
         this.size = image.getImage().length;
     }
 
-    public Long getImageIdFromUrl(){
-        return Long.parseLong(this.getUrl().substring(this.getUrl().lastIndexOf("/") +1));
-    }
-
 }
