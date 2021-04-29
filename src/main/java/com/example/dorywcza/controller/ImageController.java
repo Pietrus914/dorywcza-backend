@@ -31,13 +31,13 @@ public class ImageController {
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Image uploaded successfully", response = Void.class),
             @ApiResponse(code = 400, message = "Not valid parameter", response = ErrorDTO.class)})
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "User's id", required = true, dataType = "long", paramType = "form-data"),
-            @ApiImplicitParam(name = "avatar", value = "true for avatar, false for other images", required = true, dataType = "Boolean", paramType = "form-data"),
-            @ApiImplicitParam(name = "image", value = "Image", required = true, dataType = "file", paramType = "form-data")
+            @ApiImplicitParam(name = "id", value = "User's id", required = true, dataType = "long", paramType = "form"),
+            @ApiImplicitParam(name = "avatar", value = "true for avatar, false for other images", required = true, dataType = "Boolean", paramType = "form"),
+            @ApiImplicitParam(name = "image", value = "Image", required = true, dataType = "_file", paramType = "form")
     })
     @ResponseStatus(HttpStatus.OK)   //in case of positive scenario it will send 200, if not: 500
-    @PostMapping("/upload")
-    public void uploadImage(@RequestParam("image") MultipartFile image,
+    @PostMapping(value = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public void uploadImage(@RequestPart("image") MultipartFile image,
                               @RequestParam("userId") Long userId,
                               @RequestParam("avatar") Boolean isAvatar) throws IOException {
 
