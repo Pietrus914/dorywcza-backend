@@ -20,18 +20,25 @@ public class SwaggerConfiguration {
 
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
+        Docket docket = new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build();
+
+        return docket;
     }
 
     private ApiInfo apiInfo() {
+        String description = "Welcome!\n" +
+                "DORYWCZA API allows you to browse and fetch offers' and users' details stored in dorywcza.pl system.\n" +
+                "Data are provided in JSON format via REST api. Below you can find helpful instructions how to use API to get data from resources.\n" +
+                "Enjoy!";
+
         return new ApiInfoBuilder()
                 .title("Dorywcza.pl API")
-                .description("Welcome! You can find here instructions how to use API to get data from resources. Enjoy!")
+                .description(description)
                 .termsOfServiceUrl("")
                 .version("1.0")
                 .contact(new Contact("Admin", "http://localhost:8080/dorywcza/docs", "admin@dorywcza.pl"))
