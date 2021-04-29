@@ -23,8 +23,6 @@ public class Image {
     private byte[] image;
     @ManyToOne(fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn(name = "image_box_id")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     private ImageBox imageBox;
 
     private String imageName;
@@ -41,15 +39,6 @@ public class Image {
 
     private String getFileName(MultipartFile file) {
         return StringUtils.cleanPath(file.getOriginalFilename());
-    }
-
-    public Image(byte[] file,String type, String imageName, ImageBox imageBox){
-        if (file != null){
-            this.image = file;
-            this.type = type;
-            this.imageName = imageName;
-            this.imageBox = imageBox;
-        }
     }
 
     public boolean hasFile(){

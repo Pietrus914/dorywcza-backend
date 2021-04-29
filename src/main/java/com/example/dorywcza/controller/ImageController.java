@@ -1,9 +1,7 @@
 package com.example.dorywcza.controller;
 
 import com.example.dorywcza.exceptions.ErrorDTO;
-import com.example.dorywcza.model.user.DTO.UserDTO;
-import com.example.dorywcza.model.user.DTO.UserUpdateDTO;
-import com.example.dorywcza.service.ImageService.ImageService;
+import com.example.dorywcza.service.ImageService;
 import com.example.dorywcza.util.ImageDTO;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;

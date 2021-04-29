@@ -1,4 +1,4 @@
-package com.example.dorywcza.repository.ImageRepository;
+package com.example.dorywcza.repository;
 
 
 import com.example.dorywcza.util.Image;

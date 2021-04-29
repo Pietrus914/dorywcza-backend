@@ -8,7 +8,6 @@ import com.example.dorywcza.model.user.Experience;
 import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.model.user.UserProfile;
 import com.example.dorywcza.repository.UserRepository;
-import com.example.dorywcza.service.ImageService.ImageService;
 import com.example.dorywcza.util.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

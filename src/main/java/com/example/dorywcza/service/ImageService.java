@@ -1,8 +1,8 @@
-package com.example.dorywcza.service.ImageService;
+package com.example.dorywcza.service;
 
 import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.model.user.UserProfile;
-import com.example.dorywcza.repository.ImageRepository.ImageRepository;
+import com.example.dorywcza.repository.ImageRepository;
 import com.example.dorywcza.service.UserService;
 import com.example.dorywcza.util.Image;
 import com.example.dorywcza.util.ImageBox;
