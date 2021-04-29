@@ -29,8 +29,8 @@ public class ImageController {
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Image uploaded successfully", response = Void.class),
             @ApiResponse(code = 400, message = "Not valid parameter", response = ErrorDTO.class)})
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "User's id", required = true, dataType = "long", paramType = "form"),
-            @ApiImplicitParam(name = "avatar", value = "true for avatar, false for other images", required = true, dataType = "Boolean", paramType = "form"),
+            @ApiImplicitParam(name = "id",value = "User's id",example = "1", required = true, dataType = "long", paramType = "form"),
+            @ApiImplicitParam(name = "avatar", value = "true for avatar, false for other images", example = "true", required = true, dataType = "Boolean", paramType = "form"),
             @ApiImplicitParam(name = "image", value = "Image", required = true, dataType = "_file", paramType = "form")
     })
     @ResponseStatus(HttpStatus.OK)   //in case of positive scenario it will send 200, if not: 500
@@ -44,14 +44,14 @@ public class ImageController {
 
     @ApiOperation("Gets na imageDT according to passed image id")
     @ApiResponse(code = 200, message = "Gets na imageDTO", response = ImageDTO.class)
-    @GetMapping("/images/{id}")
+    @GetMapping(value = "/images/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ImageDTO getImage(@PathVariable Long id){
         return imageService.findImage(id);
     }
 
     @ApiOperation("Gets a list of images' DTOs")
     @ApiResponse(code = 200, message = "Gets a list of images' DTOs", response = ImageDTO.class, responseContainer = "List")
-    @GetMapping("/images")
+    @GetMapping(value = "/images", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ImageDTO> getAllImages(){
         return imageService.getAllImages();
     }
@@ -59,7 +59,7 @@ public class ImageController {
     @ApiOperation("Retrives an image as byte array as MediaType: jpg, gif, png")
     @ApiResponses(value = { @ApiResponse(code = 200, message = "An image successfully retrieved", response = byte.class, responseContainer = "array")})
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "Image's id", required = true, dataType = "long", paramType = "path")
+            @ApiImplicitParam(name = "id", value = "Image's id",example = "1", required = true, dataType = "long", paramType = "path")
     })
     @GetMapping(value="/resources/{id}", produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_GIF_VALUE,MediaType.IMAGE_PNG_VALUE})
         public @ResponseBody byte[] getRealImage(@PathVariable Long id){

@@ -7,6 +7,7 @@ import com.example.dorywcza.service.UserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "Gets list of users' DTOs", response = UserPublicDTO.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Bad request", response = ErrorDTO.class),
     @ApiResponse(code = 404, message = "The desired resource was not found", response = ErrorDTO.class)})
-    @GetMapping("/users")
+    @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<UserPublicDTO> getUsers(){
         return userService.findAll();
     }
@@ -42,10 +43,10 @@ public class UserController {
     @ApiResponses(value = { @ApiResponse(code = 200, message = "Gets userDTO of a given type", response = UserDTO.class),
             @ApiResponse(code = 400, message = "Not valid parameter: accepted params: update, public, simplified", response = ErrorDTO.class)})
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "User's id", required = true, dataType = "long", paramType = "path"),
-            @ApiImplicitParam(name = "type", value = "DTO's type", required = true, dataType = "String", paramType = "path")
+            @ApiImplicitParam(name = "id", value = "User's id", example = "1", required = true, dataType = "long", paramType = "path"),
+            @ApiImplicitParam(name = "type", value = "DTO's type",example = "update", required = true, dataType = "String", paramType = "query")
     })
-    @GetMapping("/users/{id}")
+    @GetMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Optional<? extends UserDTO> getUser(@PathVariable Long id, @RequestParam String type) {
         List<String> params = new ArrayList<>(List.of("public", "update", "simplified"));
         if (!params.contains(type)){
@@ -72,9 +73,9 @@ public class UserController {
     @ApiOperation("Update user and details in user's profile")
     @ApiResponse(code = 200, message = "User details have been updated", response = UserUpdateDTO.class)
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "User's id", required = true, dataType = "long", paramType = "path"),
+            @ApiImplicitParam(name = "id", value = "User's id",example = "1", required = true, dataType = "long", paramType = "path"),
     })
-    @PutMapping("/users/{id}")
+    @PutMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserUpdateDTO updateUser(@RequestBody UserUpdateDTO userDTO, @PathVariable Long id){
         return userService.updateUser(userDTO, id);
     }
@@ -82,9 +83,9 @@ public class UserController {
     @ApiOperation("Set 'deleted' status of user with value true")
     @ApiResponse(code = 200, message = "User has been marked as deleted", response = UserUpdateDTO.class)
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "User's id", required = true, dataType = "long", paramType = "path"),
+            @ApiImplicitParam(name = "id", value = "User's id",example = "1", required = true, dataType = "long", paramType = "path"),
     })
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping(value = "/users/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserUpdateDTO deleteUser(@PathVariable Long id){
         return userService.deleteUser(id);
     }
