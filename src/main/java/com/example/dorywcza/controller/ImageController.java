@@ -1,7 +1,11 @@
 package com.example.dorywcza.controller;
 
+import com.example.dorywcza.exceptions.ErrorDTO;
+import com.example.dorywcza.model.user.DTO.UserDTO;
+import com.example.dorywcza.model.user.DTO.UserUpdateDTO;
 import com.example.dorywcza.service.ImageService.ImageService;
 import com.example.dorywcza.util.ImageDTO;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +27,14 @@ public class ImageController {
         this.imageService = imageService;
     }
 
+    @ApiOperation("Upload an imageDTO. Necessary parameters: [MultipartFile image , Long userId , Boolean avatar]")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Image uploaded successfully", response = Void.class),
+            @ApiResponse(code = 400, message = "Not valid parameter", response = ErrorDTO.class)})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "User's id", required = true, dataType = "long", paramType = "form-data"),
+            @ApiImplicitParam(name = "avatar", value = "true for avatar, false for other images", required = true, dataType = "Boolean", paramType = "form-data"),
+            @ApiImplicitParam(name = "image", value = "Image", required = true, dataType = "file", paramType = "form-data")
+    })
     @ResponseStatus(HttpStatus.OK)   //in case of positive scenario it will send 200, if not: 500
     @PostMapping("/upload")
     public void uploadImage(@RequestParam("image") MultipartFile image,
@@ -32,16 +44,25 @@ public class ImageController {
             imageService.store(image, userId, isAvatar);
     }
 
+    @ApiOperation("Gets na imageDT according to passed image id")
+    @ApiResponse(code = 200, message = "Gets na imageDTO", response = ImageDTO.class)
     @GetMapping("/images/{id}")
     public ImageDTO getImage(@PathVariable Long id){
         return imageService.findImage(id);
     }
 
+    @ApiOperation("Gets a list of images' DTOs")
+    @ApiResponse(code = 200, message = "Gets a list of images' DTOs", response = ImageDTO.class, responseContainer = "List")
     @GetMapping("/images")
     public List<ImageDTO> getAllImages(){
         return imageService.getAllImages();
     }
 
+    @ApiOperation("Retrives an image as byte array as MediaType: jpg, gif, png")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "An image successfully retrieved", response = byte.class, responseContainer = "array")})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "Image's id", required = true, dataType = "long", paramType = "path")
+    })
     @GetMapping(value="/resources/{id}", produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_GIF_VALUE,MediaType.IMAGE_PNG_VALUE})
         public @ResponseBody byte[] getRealImage(@PathVariable Long id){
             return imageService.findRealImage(id);
