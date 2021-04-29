@@ -21,8 +21,6 @@ public class UserProfile {
 
     @OneToOne
     @MapsId
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     @PrimaryKeyJoinColumn(name = "user_id")
     private User user;
 
