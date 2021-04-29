@@ -3,9 +3,11 @@ package com.example.dorywcza.model.user.DTO;
 import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.util.Image;
 import com.example.dorywcza.util.ImageDTO;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@ApiModel(description = "DTO with basic details of user plus url to avatar image")
 @Data
 @NoArgsConstructor
 public class UserSimplifiedDTO extends UserDTO{
