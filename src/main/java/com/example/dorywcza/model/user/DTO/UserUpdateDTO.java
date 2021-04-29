@@ -3,11 +3,13 @@ package com.example.dorywcza.model.user.DTO;
 import com.example.dorywcza.model.user.Experience;
 import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.model.user.UserProfile;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
+@ApiModel(description = "DTO that extends UserGeneralDTO, contains user details without urls to images")
 @Data
 @NoArgsConstructor
 public class UserUpdateDTO extends UserGeneralDTO {

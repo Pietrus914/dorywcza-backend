@@ -6,6 +6,7 @@ import com.example.dorywcza.model.user.UserProfile;
 import com.example.dorywcza.util.Image;
 import com.example.dorywcza.util.ImageBox;
 import com.example.dorywcza.util.ImageDTO;
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@ApiModel(description = "DTO that extends UserGeneralDTO, contains all public details and url to user's images")
 @Data
 @NoArgsConstructor
 public class UserPublicDTO extends UserGeneralDTO {

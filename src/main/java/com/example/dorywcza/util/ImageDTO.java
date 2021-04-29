@@ -1,8 +1,10 @@
 package com.example.dorywcza.util;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@ApiModel(description = "DTO that provides urls to image and details of it")
 @NoArgsConstructor
 @Data
 public class ImageDTO {

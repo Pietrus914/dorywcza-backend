@@ -1,8 +1,11 @@
 package com.example.dorywcza.exceptions;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@ApiModel(description = "DTO with information about exception: message and level.\nLevels values: INFO, WARN, ERROR")
 @Data
 @NoArgsConstructor
 public class ErrorDTO {
