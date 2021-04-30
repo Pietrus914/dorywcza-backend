@@ -20,10 +20,12 @@ public class OfferLocation {
     private Long id;
     private double xPosition;
     private double yPosition;
+    private String cityName;
 
-    public OfferLocation(double xPosition, double yPosition) {
+    public OfferLocation(double xPosition, double yPosition, String cityName) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
+        this.cityName = cityName;
     }
 
     @Override
