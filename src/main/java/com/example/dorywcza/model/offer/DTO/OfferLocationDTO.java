@@ -8,4 +8,5 @@ import lombok.Data;
 public class OfferLocationDTO {
     private double xPosition;
     private double yPosition;
+    private String cityName;
 }

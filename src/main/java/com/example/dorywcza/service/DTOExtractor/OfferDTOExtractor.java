@@ -55,7 +55,7 @@ public class OfferDTOExtractor {
 
     private OfferLocation getOfferLocation(OfferPostDTO offerPostDTO)  {
         OfferLocation offerLocation = new OfferLocation(offerPostDTO.getOfferLocationDTO().getXPosition(),
-                offerPostDTO.getOfferLocationDTO().getYPosition());
+                offerPostDTO.getOfferLocationDTO().getYPosition(), offerPostDTO.getOfferLocationDTO().getCityName());
         return offerLocation;
     }
 

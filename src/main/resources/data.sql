@@ -44,21 +44,63 @@ INSERT INTO INDUSTRY (INDUSTRY_ID, NAME) VALUES (2, 'Gastronomia & Eventy');
 INSERT INTO SALARY_TIME_UNIT (SALARY_TIME_UNIT_ID, name) VALUES (1, 'per hour');
 INSERT INTO SALARY_TIME_UNIT (SALARY_TIME_UNIT_ID, name) VALUES (2, 'per project');
 
-INSERT INTO salary (MAX_SALARY, MIN_SALARY, SALARY_TIME_UNIT_ID) VALUES (10, 100, 1);
-INSERT INTO salary (MAX_SALARY, MIN_SALARY, SALARY_TIME_UNIT_ID) VALUES (20, 200, 2);
-INSERT INTO salary (MAX_SALARY, MIN_SALARY, SALARY_TIME_UNIT_ID) VALUES (30, 300, 1);
-INSERT INTO salary (MAX_SALARY, MIN_SALARY, SALARY_TIME_UNIT_ID) VALUES (40, 400, 2);
+INSERT INTO salary (MIN_SALARY, MAX_SALARY, SALARY_TIME_UNIT_ID) VALUES (10, 100, 1);
+INSERT INTO salary (MIN_SALARY, MAX_SALARY, SALARY_TIME_UNIT_ID) VALUES (20, 200, 2);
+INSERT INTO salary (MIN_SALARY, MAX_SALARY, SALARY_TIME_UNIT_ID) VALUES (30, 300, 1);
+INSERT INTO salary (MIN_SALARY, MAX_SALARY, SALARY_TIME_UNIT_ID) VALUES (40, 400, 2);
+INSERT INTO salary (MIN_SALARY, MAX_SALARY, SALARY_TIME_UNIT_ID) VALUES (50, 500, 2);
+INSERT INTO salary (MIN_SALARY, MAX_SALARY, SALARY_TIME_UNIT_ID) VALUES (60, 600, 2);
+INSERT INTO salary (MIN_SALARY, MAX_SALARY, SALARY_TIME_UNIT_ID) VALUES (70, 700, 1);
+INSERT INTO salary (MIN_SALARY, MAX_SALARY, SALARY_TIME_UNIT_ID) VALUES (80, 800, 2);
+INSERT INTO salary (MIN_SALARY, MAX_SALARY, SALARY_TIME_UNIT_ID) VALUES (90, 900, 1);
+INSERT INTO salary (MIN_SALARY, MAX_SALARY, SALARY_TIME_UNIT_ID) VALUES (100, 1000, 2);
+INSERT INTO salary (MIN_SALARY, MAX_SALARY, SALARY_TIME_UNIT_ID) VALUES (110, 1100, 2);
+INSERT INTO salary (MIN_SALARY, MAX_SALARY, SALARY_TIME_UNIT_ID) VALUES (120, 1200, 2);
+INSERT INTO salary (MIN_SALARY, MAX_SALARY, SALARY_TIME_UNIT_ID) VALUES (130, 1300, 1);
+INSERT INTO salary (MIN_SALARY, MAX_SALARY, SALARY_TIME_UNIT_ID) VALUES (140, 1400, 2);
+INSERT INTO salary (MIN_SALARY, MAX_SALARY, SALARY_TIME_UNIT_ID) VALUES (150, 1500, 1);
+INSERT INTO salary (MIN_SALARY, MAX_SALARY, SALARY_TIME_UNIT_ID) VALUES (160, 1600, 2);
+INSERT INTO salary (MIN_SALARY, MAX_SALARY, SALARY_TIME_UNIT_ID) VALUES (170, 1700, 2);
+INSERT INTO salary (MIN_SALARY, MAX_SALARY, SALARY_TIME_UNIT_ID) VALUES (180, 1800, 1);
 
 INSERT INTO date_range (start_date, end_date) VALUES ('2012-01-01', '2020-01-01');
 INSERT INTO date_range (start_date, end_date) VALUES ('2012-02-02', '2020-02-02');
 INSERT INTO date_range (start_date, end_date) VALUES ('2012-03-03', '2020-03-03');
 INSERT INTO date_range (start_date, end_date) VALUES ('2012-04-04', '2020-04-04');
+INSERT INTO date_range (start_date, end_date) VALUES ('2011-04-04', '2020-04-04');
+INSERT INTO date_range (start_date, end_date) VALUES ('2012-04-04', '2020-04-04');
+INSERT INTO date_range (start_date, end_date) VALUES ('2013-04-04', '2020-04-04');
+INSERT INTO date_range (start_date, end_date) VALUES ('2014-04-04', '2020-04-04');
+INSERT INTO date_range (start_date, end_date) VALUES ('2015-04-04', '2020-04-04');
+INSERT INTO date_range (start_date, end_date) VALUES ('2016-04-04', '2020-04-04');
+INSERT INTO date_range (start_date, end_date) VALUES ('2017-04-04', '2020-04-04');
+INSERT INTO date_range (start_date, end_date) VALUES ('2018-04-04', '2020-04-04');
+INSERT INTO date_range (start_date, end_date) VALUES ('2017-04-04', '2020-04-04');
+INSERT INTO date_range (start_date, end_date) VALUES ('2019-04-04', '2020-04-04');
+INSERT INTO date_range (start_date, end_date) VALUES ('2019-04-04', '2020-04-04');
+INSERT INTO date_range (start_date, end_date) VALUES ('2001-04-04', '2020-04-04');
+INSERT INTO date_range (start_date, end_date) VALUES ('2002-04-04', '2020-04-04');
+INSERT INTO date_range (start_date, end_date) VALUES ('2011-04-04', '2020-04-04');
 
 
-INSERT INTO offer_location (x_position, y_position) VALUES (50.049683, 	19.944544);
-INSERT INTO offer_location (x_position, y_position) VALUES (52.237049, 21.017532);
-INSERT INTO offer_location (x_position, y_position) VALUES (54.5212, 18.5286);
-INSERT INTO offer_location (x_position, y_position) VALUES (54.372158, 18.638306);
+INSERT INTO offer_location (x_position, y_position, city_name) VALUES (50.049683, 19.944544, 'Kraków');
+INSERT INTO offer_location (x_position, y_position, city_name) VALUES (52.237049, 21.017532, 'Warszawa');
+INSERT INTO offer_location (x_position, y_position, city_name) VALUES (54.5212, 18.5286, 'Gdynia');
+INSERT INTO offer_location (x_position, y_position, city_name) VALUES (54.372158, 18.638306, 'Gdańsk');
+INSERT INTO offer_location (x_position, y_position, city_name) VALUES (54.372158, 18.638306, 'Gdańsk');
+INSERT INTO offer_location (x_position, y_position, city_name) VALUES (54.372158, 18.638306, 'Gdańsk');
+INSERT INTO offer_location (x_position, y_position, city_name) VALUES (54.372158, 18.638306, 'Gdańsk');
+INSERT INTO offer_location (x_position, y_position, city_name) VALUES (54.372158, 18.638306, 'Gdańsk');
+INSERT INTO offer_location (x_position, y_position, city_name) VALUES (54.372158, 18.638306, 'Gdańsk');
+INSERT INTO offer_location (x_position, y_position, city_name) VALUES (54.372158, 18.638306, 'Gdańsk');
+INSERT INTO offer_location (x_position, y_position, city_name) VALUES (54.372158, 18.638306, 'Gdańsk');
+INSERT INTO offer_location (x_position, y_position, city_name) VALUES (54.372158, 18.638306, 'Gdańsk');
+INSERT INTO offer_location (x_position, y_position, city_name) VALUES (54.372158, 18.638306, 'Gdańsk');
+INSERT INTO offer_location (x_position, y_position, city_name) VALUES (54.372158, 18.638306, 'Gdańsk');
+INSERT INTO offer_location (x_position, y_position, city_name) VALUES (54.372158, 18.638306, 'Gdańsk');
+INSERT INTO offer_location (x_position, y_position, city_name) VALUES (54.372158, 18.638306, 'Gdańsk');
+INSERT INTO offer_location (x_position, y_position, city_name) VALUES (54.372158, 18.638306, 'Gdańsk');
+INSERT INTO offer_location (x_position, y_position, city_name) VALUES (54.372158, 18.638306, 'Gdańsk');
 
 INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tuesday_morning, tuesday_afternoon, tuesday_evening,
                             wednesday_morning, wednesday_afternoon, wednesday_evening, thursday_morning, thursday_afternoon, thursday_evening, friday_morning,
@@ -69,6 +111,76 @@ INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tu
                             wednesday_morning, wednesday_afternoon, wednesday_evening, thursday_morning, thursday_afternoon, thursday_evening, friday_morning,
                             friday_afternoon, friday_evening, saturday_morning, saturday_afternoon, saturday_evening, sunday_morning, sunday_afternoon, sunday_evening)
 VALUES (true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
+
+INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tuesday_morning, tuesday_afternoon, tuesday_evening,
+                            wednesday_morning, wednesday_afternoon, wednesday_evening, thursday_morning, thursday_afternoon, thursday_evening, friday_morning,
+                            friday_afternoon, friday_evening, saturday_morning, saturday_afternoon, saturday_evening, sunday_morning, sunday_afternoon, sunday_evening)
+VALUES (true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
+
+INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tuesday_morning, tuesday_afternoon, tuesday_evening,
+                            wednesday_morning, wednesday_afternoon, wednesday_evening, thursday_morning, thursday_afternoon, thursday_evening, friday_morning,
+                            friday_afternoon, friday_evening, saturday_morning, saturday_afternoon, saturday_evening, sunday_morning, sunday_afternoon, sunday_evening)
+VALUES (true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
+
+INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tuesday_morning, tuesday_afternoon, tuesday_evening,
+                            wednesday_morning, wednesday_afternoon, wednesday_evening, thursday_morning, thursday_afternoon, thursday_evening, friday_morning,
+                            friday_afternoon, friday_evening, saturday_morning, saturday_afternoon, saturday_evening, sunday_morning, sunday_afternoon, sunday_evening)
+VALUES (true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
+
+INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tuesday_morning, tuesday_afternoon, tuesday_evening,
+                            wednesday_morning, wednesday_afternoon, wednesday_evening, thursday_morning, thursday_afternoon, thursday_evening, friday_morning,
+                            friday_afternoon, friday_evening, saturday_morning, saturday_afternoon, saturday_evening, sunday_morning, sunday_afternoon, sunday_evening)
+VALUES (true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
+
+INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tuesday_morning, tuesday_afternoon, tuesday_evening,
+                            wednesday_morning, wednesday_afternoon, wednesday_evening, thursday_morning, thursday_afternoon, thursday_evening, friday_morning,
+                            friday_afternoon, friday_evening, saturday_morning, saturday_afternoon, saturday_evening, sunday_morning, sunday_afternoon, sunday_evening)
+VALUES (true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
+
+INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tuesday_morning, tuesday_afternoon, tuesday_evening,
+                            wednesday_morning, wednesday_afternoon, wednesday_evening, thursday_morning, thursday_afternoon, thursday_evening, friday_morning,
+                            friday_afternoon, friday_evening, saturday_morning, saturday_afternoon, saturday_evening, sunday_morning, sunday_afternoon, sunday_evening)
+VALUES (true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
+
+INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tuesday_morning, tuesday_afternoon, tuesday_evening,
+                            wednesday_morning, wednesday_afternoon, wednesday_evening, thursday_morning, thursday_afternoon, thursday_evening, friday_morning,
+                            friday_afternoon, friday_evening, saturday_morning, saturday_afternoon, saturday_evening, sunday_morning, sunday_afternoon, sunday_evening)
+VALUES (true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
+
+INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tuesday_morning, tuesday_afternoon, tuesday_evening,
+                            wednesday_morning, wednesday_afternoon, wednesday_evening, thursday_morning, thursday_afternoon, thursday_evening, friday_morning,
+                            friday_afternoon, friday_evening, saturday_morning, saturday_afternoon, saturday_evening, sunday_morning, sunday_afternoon, sunday_evening)
+VALUES (true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
+
+INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tuesday_morning, tuesday_afternoon, tuesday_evening,
+                            wednesday_morning, wednesday_afternoon, wednesday_evening, thursday_morning, thursday_afternoon, thursday_evening, friday_morning,
+                            friday_afternoon, friday_evening, saturday_morning, saturday_afternoon, saturday_evening, sunday_morning, sunday_afternoon, sunday_evening)
+VALUES (true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
+
+INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tuesday_morning, tuesday_afternoon, tuesday_evening,
+                            wednesday_morning, wednesday_afternoon, wednesday_evening, thursday_morning, thursday_afternoon, thursday_evening, friday_morning,
+                            friday_afternoon, friday_evening, saturday_morning, saturday_afternoon, saturday_evening, sunday_morning, sunday_afternoon, sunday_evening)
+VALUES (true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
+
+INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tuesday_morning, tuesday_afternoon, tuesday_evening,
+                            wednesday_morning, wednesday_afternoon, wednesday_evening, thursday_morning, thursday_afternoon, thursday_evening, friday_morning,
+                            friday_afternoon, friday_evening, saturday_morning, saturday_afternoon, saturday_evening, sunday_morning, sunday_afternoon, sunday_evening)
+VALUES (true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
+
+INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tuesday_morning, tuesday_afternoon, tuesday_evening,
+                            wednesday_morning, wednesday_afternoon, wednesday_evening, thursday_morning, thursday_afternoon, thursday_evening, friday_morning,
+                            friday_afternoon, friday_evening, saturday_morning, saturday_afternoon, saturday_evening, sunday_morning, sunday_afternoon, sunday_evening)
+VALUES (true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
+
+INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tuesday_morning, tuesday_afternoon, tuesday_evening,
+                            wednesday_morning, wednesday_afternoon, wednesday_evening, thursday_morning, thursday_afternoon, thursday_evening, friday_morning,
+                            friday_afternoon, friday_evening, saturday_morning, saturday_afternoon, saturday_evening, sunday_morning, sunday_afternoon, sunday_evening)
+VALUES (true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
+
+INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tuesday_morning, tuesday_afternoon, tuesday_evening,
+                            wednesday_morning, wednesday_afternoon, wednesday_evening, thursday_morning, thursday_afternoon, thursday_evening, friday_morning,
+                            friday_afternoon, friday_evening, saturday_morning, saturday_afternoon, saturday_evening, sunday_morning, sunday_afternoon, sunday_evening)
+VALUES (true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true);
 
 INSERT INTO offer_schedule (monday_morning, monday_afternoon, monday_evening, tuesday_morning, tuesday_afternoon, tuesday_evening,
                             wednesday_morning, wednesday_afternoon, wednesday_evening, thursday_morning, thursday_afternoon, thursday_evening, friday_morning,
@@ -94,8 +206,51 @@ INSERT INTO JOB_OFFER_JOB_OFFER_TAG(JOB_OFFER_ID,JOB_OFFER_TAG_ID) VALUES(2, 2);
 
 INSERT INTO service_offer (user_id,description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
 VALUES (1, 'test SERVICE OFFER 1', 'test SERVICE OFFER 1', 3, false, 3, 3, 3, '2021-04-01', '2021-04-02', 1);
+
 INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
 VALUES (1, 'test SERVICE OFFER 2', 'test SERVICE OFFER 2', 4, false, 4, 4, 4, '2021-04-01', '2021-04-02', 1);
+
+INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
+VALUES (1, 'Szukam pracy jako kelner.', 'Kelner', 5, false, 5, 5, 5, '2021-04-01', '2021-04-02', 1);
+
+INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
+VALUES (1, 'Kucharz z 3 letnim doświadczeniem szuka dodatkowej pracy na weekendy.', 'Kucharz', 6, false, 6, 6, 6, '2021-04-01', '2021-04-02', 1);
+
+INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
+VALUES (1, 'Szukam dodatkowej pracy jako malarz/tapeciarz.', 'Malarz', 7, false, 7, 7, 7, '2021-04-01', '2021-04-02', 1);
+
+INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
+VALUES (1, 'Szukam dotakowej pracy przy sprzątaniu mieszkań.', 'Sprzątaczka', 8, false, 8, 8, 8, '2021-04-01', '2021-04-02', 1);
+
+INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
+VALUES (1, 'Szukam pracy jako kelner na weselach.', 'Kelner', 9, false, 9, 9, 9, '2021-04-01', '2021-04-02', 1);
+
+INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
+VALUES (1, 'Początkujący grafik szuka dorywczej pracy do poszerzenia portfolio.', 'Grafik', 10, false, 10, 10, 10, '2021-04-01', '2021-04-02', 1);
+
+INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
+VALUES (1, 'Przyjmę dodatkową prace przy wykończenia mieszkań.', 'Budowlaniec', 11, false, 11, 11, 11, '2021-04-01', '2021-04-02', 1);
+
+INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
+VALUES (1, 'Jeśli potrzebujesz kierowcy z samochodem - proszę o kontakt.', 'Kierowca', 12, false, 12, 12, 12, '2021-04-01', '2021-04-02', 1);
+
+INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
+VALUES (1, 'Poszukuje dodatkowej pracy przy na poranne zmiany w tygodniu.', 'Kucharz', 13, false, 13, 13, 13, '2021-04-01', '2021-04-02', 1);
+
+INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
+VALUES (1, 'test SERVICE OFFER 2', 'Programista', 14, false, 14, 14, 14, '2021-04-01', '2021-04-02', 1);
+
+INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
+VALUES (1, 'Podejme prace jako korepetytor z matematyki.', 'Nauczyciel', 15, false, 15, 15, 15, '2021-04-01', '2021-04-02', 1);
+
+INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
+VALUES (1, 'Jeśli potrzebujesz kierowcy z samochodem - proszę o kontakt.', 'Kierowca', 16, false, 16, 16, 16, '2021-04-01', '2021-04-02', 1);
+
+INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
+VALUES (1, 'Podejme prace jako korepetytor z fizyki.', 'Nauczyciel', 17, false, 17, 17, 17, '2021-04-01', '2021-04-02', 1);
+
+INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
+VALUES (1, 'Podejme prace jako korepetytor z języka angielskiego.', 'Nauczyciel', 18, false, 18, 18, 18, '2021-04-01', '2021-04-02', 1);
 
 
 

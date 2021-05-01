@@ -16,7 +16,7 @@ public class OfferExtractor {
     }
 
     private OfferLocationDTO getOfferLocationDTO(OfferLocation offerLocation) {
-        return new OfferLocationDTO(offerLocation.getXPosition(), offerLocation.getYPosition());
+        return new OfferLocationDTO(offerLocation.getXPosition(), offerLocation.getYPosition(), offerLocation.getCityName());
     }
 
     private DateRangeDTO getDataRangeDTO(DateRange dateRange) {
