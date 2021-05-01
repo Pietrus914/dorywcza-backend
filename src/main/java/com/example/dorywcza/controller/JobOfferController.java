@@ -3,9 +3,9 @@ package com.example.dorywcza.controller;
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
 import com.example.dorywcza.service.JobOfferService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -21,8 +21,9 @@ public class JobOfferController {
     }
 
     @GetMapping("/jobs")
-    public List<OfferPostDTO> findAll() {
-        return jobOfferService.findAll();
+    public Page<OfferPostDTO> findAll(@RequestParam(name = "page", defaultValue = "0") int page,
+                        @RequestParam(name = "size", defaultValue = "10") int size) {
+        return jobOfferService.findAll(page, size);
     }
 
     @GetMapping("/jobs/{id}")

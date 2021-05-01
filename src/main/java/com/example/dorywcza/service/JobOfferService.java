@@ -5,11 +5,16 @@ import com.example.dorywcza.model.OfferType;
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
 import com.example.dorywcza.model.job_offer.JobOffer;
 import com.example.dorywcza.model.offer.JobOfferTag;
+import com.example.dorywcza.model.service_offer.ServiceOffer;
 import com.example.dorywcza.repository.JobOfferRepository;
 import com.example.dorywcza.service.DTOExtractor.OfferDTOExtractor;
 import com.example.dorywcza.service.DTOExtractor.OfferExtractor;
 import com.example.dorywcza.service.JobOfferTagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,14 +37,17 @@ public class JobOfferService {
         this.jobOfferTagService = jobOfferTagService;
     }
 
-    public List<OfferPostDTO> findAll(){
-        return repository.findAll()
+    public Page<OfferPostDTO> findAll(int page, int size){
+        Pageable pageRequest = PageRequest.of(page, size);
+        Page<JobOffer> jobOffers = repository.findAll(pageRequest);
+
+        return new PageImpl<>(jobOffers
                 .stream()
                 .map(offer -> offerExtractor.getOfferDTO(offer, offer.getJobOfferTags()
                         .stream()
                         .map(JobOfferTag::getName)
                         .collect(Collectors.toList())))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()), pageRequest, jobOffers.getTotalElements());
     }
 
     public Optional<OfferPostDTO> findById(Long id){
