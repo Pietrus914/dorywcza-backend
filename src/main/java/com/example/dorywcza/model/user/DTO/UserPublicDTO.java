@@ -7,6 +7,7 @@ import com.example.dorywcza.util.Image;
 import com.example.dorywcza.util.ImageBox;
 import com.example.dorywcza.util.ImageDTO;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,9 +19,11 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 public class UserPublicDTO extends UserGeneralDTO {
-
+    @ApiModelProperty(value = "Short text about the user's experience")
     private String experienceDescription;
+    @ApiModelProperty(value = "Container for images that show experience of the user")
     private List<ImageDTO> pictures;
+    @ApiModelProperty(value = "Container for an image used as avatar of the user")
     private ImageDTO avatar;
 
 

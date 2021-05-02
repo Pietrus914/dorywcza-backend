@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ErrorDTO {
+    @ApiModelProperty(required = true, value = "Message for user that is carried by the exception.")
     private String message;
+    @ApiModelProperty(value = "Level specifies the kind of error. Levels values: INFO, WARN, ERROR.\n")
     private String level;
 
     public ErrorDTO(String message, ExceptionLevels level) {

@@ -4,6 +4,7 @@ import com.example.dorywcza.model.user.Experience;
 import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.model.user.UserProfile;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.util.Objects;
 @NoArgsConstructor
 public class UserUpdateDTO extends UserGeneralDTO {
 
+    @ApiModelProperty(value = "Short text about the user's experience")
     private String experienceDescription;
 
     public UserUpdateDTO(User user){

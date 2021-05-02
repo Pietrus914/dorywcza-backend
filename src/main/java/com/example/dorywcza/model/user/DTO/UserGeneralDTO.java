@@ -4,6 +4,7 @@ import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.model.user.UserProfile;
 import com.example.dorywcza.util.Address;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,18 +16,29 @@ import java.util.Objects;
 @NoArgsConstructor
 @MappedSuperclass
 public abstract class UserGeneralDTO extends UserDTO{
-
+    @ApiModelProperty(required = true, value = "Identifier")
     private Long id;
+    @ApiModelProperty(required = true, value = "Email of the user")
     private String email;
+    @ApiModelProperty(value = "Phone number of the user")
     private String phoneNumber;
+    @ApiModelProperty(value = "Rating of the user - gained when other users give 'vote-up' mark for him")
     private int overallRating;
+    @ApiModelProperty(value = "First name of the user")
     private String firstName;
+    @ApiModelProperty(value = "Surname of the user")
     private String lastName;
+    @ApiModelProperty(value = "Name used to identify the user")
     private String userName;
+    @ApiModelProperty(value = "Short text about the user that allows him to present himself to others users")
     private String description;
+    @ApiModelProperty(value = "Address field: street, optional")
     private String street;
+    @ApiModelProperty(value = "Address field: flat number, optional")
     private String flatNumber;
+    @ApiModelProperty(value = "Address field: postcode, optional")
     private Integer zipCode;
+    @ApiModelProperty(value = "Address field: city, optional")
     private String city;
 
     public UserGeneralDTO(String email){
