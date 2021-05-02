@@ -1,5 +1,6 @@
 package com.example.dorywcza.service;
 
+import com.example.dorywcza.exceptions.RecordNotFound;
 import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.model.user.UserProfile;
 import com.example.dorywcza.repository.ImageRepository;
@@ -9,6 +10,7 @@ import com.example.dorywcza.util.ImageBox;
 import com.example.dorywcza.util.ImageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -47,13 +49,13 @@ public class ImageService {
     }
 
     public ImageDTO findImage(Long id){
-        if (!imageRepository.existsById(id)) throw new RuntimeException("User Not Found");
+        if (!imageRepository.existsById(id)) throw new RecordNotFound(HttpStatus.BAD_REQUEST, "imageDTO with id " + id );
         Image image = imageRepository.findById(id).get();
         return new ImageDTO(image.getImageName(),image.getType(),"/images/"+ image.getId(), image.getImage().length);
     }
 
     public byte[] findRealImage(Long id){
-        if (!imageRepository.existsById(id)) throw new RuntimeException("User Not Found");
+        if (!imageRepository.existsById(id)) throw new RecordNotFound(HttpStatus.BAD_REQUEST, "image with id " + id );
         byte[] realImage = imageRepository.findById(id).get().getImage();
         return realImage;
     }
@@ -79,5 +81,12 @@ public class ImageService {
         return imageIds.stream()
                 .filter(i -> imageRepository.existsById(i))
                 .map(i -> imageRepository.findById(i).get()).collect(Collectors.toList());
+    }
+
+    public void deleteRealImage(Long id) {
+        if (!imageRepository.existsById(id)){throw new RecordNotFound(HttpStatus.BAD_REQUEST,"image with id " + id );}
+        Image image = imageRepository.findById(id).get();
+        imageRepository.delete(image);
+
     }
 }
