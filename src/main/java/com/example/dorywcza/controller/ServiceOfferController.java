@@ -2,9 +2,9 @@ package com.example.dorywcza.controller;
 
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
 import com.example.dorywcza.service.*;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,9 +17,9 @@ public class ServiceOfferController {
     }
 
     @GetMapping("/service-offers")
-    public List<OfferPostDTO> findAll() {
-        List<OfferPostDTO> a = serviceOfferService.findAll();
-        return serviceOfferService.findAll();
+    public Page<OfferPostDTO> findAll(@RequestParam(name = "page", defaultValue = "0") int page,
+                        @RequestParam(name = "size", defaultValue = "10") int size) {
+        return serviceOfferService.findAll(page, size);
     }
 
 
