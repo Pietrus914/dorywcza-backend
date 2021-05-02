@@ -4,6 +4,7 @@ import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.util.Image;
 import com.example.dorywcza.util.ImageDTO;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,10 +12,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UserSimplifiedDTO extends UserDTO{
+    @ApiModelProperty(required = true, value = "Identifier")
     private Long id;
+    @ApiModelProperty(required = true, value = "Email of the user")
     private String email;
+    @ApiModelProperty(required = true, value ="Rating of the user - gained when other users give 'vote-up' mark for him")
     private int overallRating;
+    @ApiModelProperty(required = true, value = "Name used to identify the user")
     private String userName;
+    @ApiModelProperty(value = "Container for an image used as avatar of the user")
     private ImageDTO avatar;
 
 
