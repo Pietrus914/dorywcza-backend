@@ -30,6 +30,7 @@ public class ImageDTO {
     }
 
     public ImageDTO(Image image){
+        this.id = image.getId();
         this.name = image.getImageName();
         this.type = image.getType();
         this.url =  pathString + image.getId();

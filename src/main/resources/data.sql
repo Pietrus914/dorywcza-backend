@@ -30,10 +30,10 @@ INSERT INTO User (deleted, email, password, overall_rating, verified) VALUES ( f
 
 INSERT INTO user_profile (user_id, first_name, last_name, address_id, description, experience_id, avatar_id)
 VALUES ( 1, 'Mark', 'Markowski', 1, 'brave', 1, 1 );
-INSERT INTO user_profile (user_id, first_name, last_name, address_id, description, experience_id, avatar_id)
-VALUES ( 2, 'Kazik', 'Kaziowski', 2, 'smart', 2, 3 );
-INSERT INTO user_profile (user_id, first_name, last_name, address_id, description, experience_id, avatar_id)
-VALUES ( 3, 'Mati', 'Matiuszka', 3, 'cute', 3, 4 );
+INSERT INTO user_profile (user_id, first_name, last_name, address_id, description, experience_id)
+VALUES ( 2, 'Kazik', 'Kaziowski', 2, 'smart', 2 );
+INSERT INTO user_profile (user_id, first_name, last_name, address_id, description, experience_id)
+VALUES ( 3, 'Mati', 'Matiuszka', 3, 'cute', 3);
 
 
 INSERT INTO rating (score, review, reviewed_by_user_id, user_id) VALUES ( 10, 'OK', 2, 1 );
