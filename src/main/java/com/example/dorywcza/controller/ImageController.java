@@ -62,8 +62,15 @@ public class ImageController {
             @ApiImplicitParam(name = "id", value = "Image's id",example = "1", required = true, dataType = "long", paramType = "path")
     })
     @GetMapping(value="/resources/{id}", produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_GIF_VALUE,MediaType.IMAGE_PNG_VALUE})
-        public @ResponseBody byte[] getRealImage(@PathVariable Long id){
+    public @ResponseBody byte[] getRealImage(@PathVariable Long id){
             return imageService.findRealImage(id);
         }
 
+
+    @ApiOperation("Deleting an image from database")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "An image successfully deleted", response = String.class)})
+    @DeleteMapping(value = "/resources/{id}")
+    public void deleteImage(@PathVariable Long id){
+        imageService.deleteRealImage(id);
+    }
 }
