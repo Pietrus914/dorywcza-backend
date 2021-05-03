@@ -5,6 +5,7 @@ import com.example.dorywcza.service.*;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -21,6 +22,12 @@ public class ServiceOfferController {
                         @RequestParam(name = "size", defaultValue = "10") int size) {
         return serviceOfferService.findAll(page, size);
     }
+
+    @GetMapping("/service-offers-user")
+    public List<OfferPostDTO> findAllForUserId(@RequestParam Long userId) {
+        return serviceOfferService.findAllByUserId(userId);
+    }
+
 
 
     @GetMapping("/service-offers/{id}")

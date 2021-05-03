@@ -2,6 +2,7 @@ package com.example.dorywcza.service;
 
 import com.example.dorywcza.model.OfferType;
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
+import com.example.dorywcza.model.offer.JobOfferTag;
 import com.example.dorywcza.model.offer.Offer;
 import com.example.dorywcza.model.offer.ServiceOfferTag;
 import com.example.dorywcza.model.service_offer.ServiceOffer;
@@ -84,4 +85,15 @@ public class ServiceOfferService {
         serviceOfferTagService.decreaseFrequencyRateWhenTagDeleted(serviceOfferToBeDeleted.getServiceOfferTags());
         serviceOfferRepository.deleteById(id);
     }
+
+    public List<OfferPostDTO> findAllByUserId(Long userId) {
+        return serviceOfferRepository.findJobOfferByUserIdOrderByDateCreatedDesc(userId)
+            .stream()
+            .map(offer -> offerExtractor.getOfferDTO(offer, offer.getServiceOfferTags()
+                .stream()
+                .map(ServiceOfferTag::getName)
+                .collect(Collectors.toList())))
+            .collect(Collectors.toList());
+    }
+
 }
