@@ -8,5 +8,12 @@ import lombok.Data;
 public class IndustryDTO {
     private Long id;
     private String name;
-    private Long parentId;
+//    private Long parentId;
+    private IndustryDTO parentIndustryDTO;
+
+    public  IndustryDTO(Long id, String name){
+        this.id = id;
+        this.name = name;
+    }
+
 }
