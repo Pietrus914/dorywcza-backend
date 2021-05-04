@@ -92,4 +92,13 @@ public class JobOfferService {
         repository.deleteById(id);
     }
 
+    public List<OfferPostDTO> findAllByUserId(Long userId) {
+        return repository.findJobOfferByUserIdOrderByDateCreatedDesc(userId)
+            .stream()
+            .map(offer -> offerExtractor.getOfferDTO(offer, offer.getJobOfferTags()
+                .stream()
+                .map(JobOfferTag::getName)
+                .collect(Collectors.toList())))
+            .collect(Collectors.toList());
+    }
 }
