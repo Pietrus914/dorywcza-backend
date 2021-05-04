@@ -80,7 +80,7 @@ INSERT INTO INDUSTRY (INDUSTRY_ID, NAME) VALUES (39, 'Przetwarzanie danych');
 INSERT INTO INDUSTRY (INDUSTRY_ID, NAME) VALUES (40, 'Inne');
 INSERT INTO INDUSTRY (INDUSTRY_ID, NAME) VALUES (41, 'Ochrona');
 
-INSERT INTO INDUSTRY (INDUSTRY_ID, NAME, PARENT_ID) VALUES (42, 'Korepetycje', 1);
+INSERT INTO INDUSTRY (INDUSTRY_ID, NAME, PARENT_ID) VALUES (42, 'Korepetytor', 1);
 INSERT INTO INDUSTRY (INDUSTRY_ID, NAME, PARENT_ID) VALUES (43, 'Nauczyciel', 1);
 
 INSERT INTO INDUSTRY (INDUSTRY_ID, NAME, PARENT_ID) VALUES (44, 'Język polski', 42);
@@ -99,7 +99,7 @@ INSERT INTO INDUSTRY (INDUSTRY_ID, NAME, PARENT_ID) VALUES (54, 'Catering', 2);
 INSERT INTO INDUSTRY (INDUSTRY_ID, NAME, PARENT_ID) VALUES (55, 'Kucharz', 2);
 INSERT INTO INDUSTRY (INDUSTRY_ID, NAME, PARENT_ID) VALUES (56, 'Kelner', 2);
 INSERT INTO INDUSTRY (INDUSTRY_ID, NAME, PARENT_ID) VALUES (57, 'Pomoc kuchenna', 2);
-INSERT INTO INDUSTRY (INDUSTRY_ID, NAME, PARENT_ID) VALUES (58, 'Shushimaster', 2);
+INSERT INTO INDUSTRY (INDUSTRY_ID, NAME, PARENT_ID) VALUES (58, 'Sushimaster', 2);
 INSERT INTO INDUSTRY (INDUSTRY_ID, NAME, PARENT_ID) VALUES (59, 'Pizzerman', 2);
 INSERT INTO INDUSTRY (INDUSTRY_ID, NAME, PARENT_ID) VALUES (60, 'Inne', 2);
 
@@ -358,9 +358,11 @@ INSERT INTO JOB_OFFER_TAG(name, frequency_rating) VALUES('obsługa klienta', 1);
 INSERT INTO JOB_OFFER_TAG(name, frequency_rating) VALUES('angielski', 1);
 
 INSERT INTO JOB_OFFER (DESCRIPTION, TITLE, USER_ID, DATE_CREATED, DATE_UPDATED, date_range_id, salary_id, offer_location_id, offer_schedule_id, has_experience, industry_id)
-VALUES ('test_description', 'test_title', 1, '2021-04-01', '2021-04-02', 1, 1, 1, 1, true, 1);
+VALUES ('test_description', 'Kelner', 1, '2021-04-01', '2021-04-02', 1, 1, 1, 1, true, 56);
 INSERT INTO JOB_OFFER (DESCRIPTION, TITLE, USER_ID, DATE_CREATED, DATE_UPDATED, date_range_id, salary_id, offer_location_id, offer_schedule_id, has_experience, industry_id)
-VALUES ('test_description 2', 'test_title 2', 2, '2021-04-01', '2021-04-02', 2, 2, 2, 2, true, 2);
+VALUES ('test_description 2', 'Kucharz', 2, '2021-04-01', '2021-04-02', 2, 2, 2, 2, true, 55);
+INSERT INTO JOB_OFFER (DESCRIPTION, TITLE, USER_ID, DATE_CREATED, DATE_UPDATED, date_range_id, salary_id, offer_location_id, offer_schedule_id, has_experience, industry_id)
+VALUES ('test_description', 'Ofrodnik', 1, '2021-04-01', '2021-04-02', 1, 1, 1, 1, true, 62);
 
 INSERT INTO JOB_OFFER_JOB_OFFER_TAG(JOB_OFFER_ID, JOB_OFFER_TAG_ID) VALUES(1, 1);
 INSERT INTO JOB_OFFER_JOB_OFFER_TAG(JOB_OFFER_ID, JOB_OFFER_TAG_ID) VALUES(1, 2);
@@ -373,46 +375,46 @@ INSERT INTO service_offer (user_id, description, title, date_range_id, has_exper
 VALUES (1, 'test SERVICE OFFER 2', 'test SERVICE OFFER 2', 4, false, 4, 4, 4, '2021-04-01', '2021-04-02', 1);
 
 INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
-VALUES (1, 'Szukam pracy jako kelner.', 'Kelner', 5, false, 5, 5, 5, '2021-04-01', '2021-04-02', 1);
+VALUES (1, 'Szukam pracy jako kelner.', 'Kelner', 5, false, 5, 5, 5, '2021-04-01', '2021-04-02', 56);
 
 INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
-VALUES (1, 'Kucharz z 3 letnim doświadczeniem szuka dodatkowej pracy na weekendy.', 'Kucharz', 6, false, 6, 6, 6, '2021-04-01', '2021-04-02', 1);
+VALUES (1, 'Kucharz z 3 letnim doświadczeniem szuka dodatkowej pracy na weekendy.', 'Kucharz', 6, false, 6, 6, 6, '2021-04-01', '2021-04-02', 55);
 
 INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
-VALUES (1, 'Szukam dodatkowej pracy jako malarz/tapeciarz.', 'Malarz', 7, false, 7, 7, 7, '2021-04-01', '2021-04-02', 1);
+VALUES (1, 'Szukam dodatkowej pracy jako malarz/tapeciarz.', 'Malarz', 7, false, 7, 7, 7, '2021-04-01', '2021-04-02', 75);
 
 INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
-VALUES (1, 'Szukam dotakowej pracy przy sprzątaniu mieszkań.', 'Sprzątaczka', 8, false, 8, 8, 8, '2021-04-01', '2021-04-02', 1);
+VALUES (1, 'Szukam dotakowej pracy przy sprzątaniu mieszkań.', 'Sprzątaczka', 8, false, 8, 8, 8, '2021-04-01', '2021-04-02', 38);
 
 INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
-VALUES (1, 'Szukam pracy jako kelner na weselach.', 'Kelner', 9, false, 9, 9, 9, '2021-04-01', '2021-04-02', 1);
+VALUES (1, 'Szukam pracy jako kelner na weselach.', 'Kelner', 9, false, 9, 9, 9, '2021-04-01', '2021-04-02', 56);
 
 INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
-VALUES (1, 'Początkujący grafik szuka dorywczej pracy do poszerzenia portfolio.', 'Grafik', 10, false, 10, 10, 10, '2021-04-01', '2021-04-02', 1);
+VALUES (1, 'Początkujący grafik szuka dorywczej pracy do poszerzenia portfolio.', 'Grafik', 10, false, 10, 10, 10, '2021-04-01', '2021-04-02', 100);
 
 INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
-VALUES (1, 'Przyjmę dodatkową prace przy wykończenia mieszkań.', 'Budowlaniec', 11, false, 11, 11, 11, '2021-04-01', '2021-04-02', 1);
+VALUES (1, 'Przyjmę dodatkową prace przy wykończenia mieszkań.', 'Budowlaniec', 11, false, 11, 11, 11, '2021-04-01', '2021-04-02', 78);
 
 INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
-VALUES (1, 'Jeśli potrzebujesz kierowcy z samochodem - proszę o kontakt.', 'Kierowca', 12, false, 12, 12, 12, '2021-04-01', '2021-04-02', 1);
+VALUES (1, 'Jeśli potrzebujesz kierowcy z samochodem - proszę o kontakt.', 'Kierowca', 12, false, 12, 12, 12, '2021-04-01', '2021-04-02',110 );
 
 INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
-VALUES (1, 'Poszukuje dodatkowej pracy przy na poranne zmiany w tygodniu.', 'Kucharz', 13, false, 13, 13, 13, '2021-04-01', '2021-04-02', 1);
+VALUES (1, 'Poszukuje dodatkowej pracy przy na poranne zmiany w tygodniu.', 'Kucharz', 13, false, 13, 13, 13, '2021-04-01', '2021-04-02', 55);
 
 INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
-VALUES (1, 'test SERVICE OFFER 2', 'Programista', 14, false, 14, 14, 14, '2021-04-01', '2021-04-02', 1);
+VALUES (1, 'test SERVICE OFFER 2', 'Programista', 14, false, 14, 14, 14, '2021-04-01', '2021-04-02', 32);
 
 INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
-VALUES (1, 'Podejme prace jako korepetytor z matematyki.', 'Nauczyciel', 15, false, 15, 15, 15, '2021-04-01', '2021-04-02', 1);
+VALUES (1, 'Podejme prace jako korepetytor z matematyki.', 'Nauczyciel', 15, false, 15, 15, 15, '2021-04-01', '2021-04-02', 46);
 
 INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
-VALUES (1, 'Jeśli potrzebujesz kierowcy z samochodem - proszę o kontakt.', 'Kierowca', 16, false, 16, 16, 16, '2021-04-01', '2021-04-02', 1);
+VALUES (1, 'Jeśli potrzebujesz kierowcy z samochodem - proszę o kontakt.', 'Kierowca', 16, false, 16, 16, 16, '2021-04-01', '2021-04-02', 111);
 
 INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
-VALUES (1, 'Podejme prace jako korepetytor z fizyki.', 'Nauczyciel', 17, false, 17, 17, 17, '2021-04-01', '2021-04-02', 1);
+VALUES (1, 'Podejme prace jako korepetytor z plastyki.', 'Korepetytor', 17, false, 17, 17, 17, '2021-04-01', '2021-04-02', 48);
 
 INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
-VALUES (1, 'Podejme prace jako korepetytor z języka angielskiego.', 'Nauczyciel', 18, false, 18, 18, 18, '2021-04-01', '2021-04-02', 1);
+VALUES (1, 'Podejme prace jako korepetytor z języka angielskiego.', 'Korepetytor', 18, false, 18, 18, 18, '2021-04-01', '2021-04-02', 45);
 
 
 
