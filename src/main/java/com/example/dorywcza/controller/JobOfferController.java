@@ -53,5 +53,12 @@ public class JobOfferController {
         jobOfferService.delete(id);
     }
 
+    @GetMapping("/jobs-industry/{id}")
+    public Page<OfferPostDTO> findAllForIndustry(@PathVariable Long id,
+                                                 @RequestParam(name = "page", defaultValue = "0") int page,
+                                                 @RequestParam(name = "size", defaultValue = "10") int size){
+        return jobOfferService.findAllForIndustry(id, page, size);
+    }
+
 }
 
