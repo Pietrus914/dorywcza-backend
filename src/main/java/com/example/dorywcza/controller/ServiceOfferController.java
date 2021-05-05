@@ -52,4 +52,11 @@ public class ServiceOfferController {
     public void deleteServiceOffer(@PathVariable Long id) {
         serviceOfferService.deleteServiceOffer(id);
     }
+
+    @GetMapping("/service-industry/{id}")
+    public Page<OfferPostDTO> findAllForIndustry(@PathVariable Long id,
+                                                 @RequestParam(name = "page", defaultValue = "0") int page,
+                                                 @RequestParam(name = "size", defaultValue = "10") int size){
+        return serviceOfferService.findAllForIndustry(id, page, size);
+    }
 }
