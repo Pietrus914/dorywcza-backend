@@ -20,11 +20,24 @@ public interface JobOfferRepository extends JpaRepository<JobOffer, Long> {
     List<JobOffer> findJobOfferByUserIdOrderByDateCreatedDesc(Long userId);
 
 
-    @Query(value ="SELECT * FROM  JOB_OFFER " +
-            "LEFT JOIN INDUSTRY  ON  JOB_OFFER.INDUSTRY_ID = INDUSTRY.INDUSTRY_ID" +
-            " WHERE JOB_OFFER.INDUSTRY_ID = :industryId OR INDUSTRY.PARENT_ID = :industryId",
-            countQuery = "SELECT count (*) FROM JOB_OFFER LEFT JOIN INDUSTRY  ON  JOB_OFFER.INDUSTRY_ID = INDUSTRY.INDUSTRY_ID " +
-                     "WHERE JOB_OFFER.INDUSTRY_ID = :industryId OR INDUSTRY.PARENT_ID = :industryId",
+    @Query(value = "SELECT * FROM JOB_OFFER WHERE INDUSTRY_ID IN (" +
+            "SELECT INDUSTRY_ID FROM (" +
+            "WITH RECURSIVE RESULTS ( INDUSTRY_ID, NAME,  PARENT_ID ) AS(" +
+            "SELECT INDUSTRY.INDUSTRY_ID, INDUSTRY.NAME, INDUSTRY.PARENT_ID " +
+            "FROM INDUSTRY WHERE INDUSTRY_ID = :industryId " +
+            "UNION  ALL " +
+            "SELECT INDUSTRY.INDUSTRY_ID, INDUSTRY.NAME, INDUSTRY.PARENT_ID " +
+            "FROM INDUSTRY INNER JOIN RESULTS ON INDUSTRY.PARENT_ID = RESULTS.INDUSTRY_ID) " +
+            "SELECT * FROM RESULTS) AS INDUSTRY_IDS)",
+            countQuery = "SELECT * FROM JOB_OFFER WHERE INDUSTRY_ID IN (" +
+            "SELECT INDUSTRY_ID FROM (" +
+            "WITH RECURSIVE RESULTS ( INDUSTRY_ID, NAME,  PARENT_ID ) AS(" +
+            "SELECT INDUSTRY.INDUSTRY_ID, INDUSTRY.NAME, INDUSTRY.PARENT_ID " +
+            "FROM INDUSTRY WHERE INDUSTRY_ID = :industryId " +
+            "UNION  ALL " +
+            "SELECT INDUSTRY.INDUSTRY_ID, INDUSTRY.NAME, INDUSTRY.PARENT_ID " +
+            "FROM INDUSTRY INNER JOIN RESULTS ON INDUSTRY.PARENT_ID = RESULTS.INDUSTRY_ID) " +
+            "SELECT * FROM RESULTS) AS INDUSTRY_IDS)",
             nativeQuery = true)
     Page<JobOffer> findJobOfferByIndustryIdOrParentIndustryId(@Param("industryId") Long industryId, Pageable pageRequest);
 

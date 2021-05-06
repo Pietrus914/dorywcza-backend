@@ -23,7 +23,7 @@ public interface ServiceOfferRepository extends JpaRepository<ServiceOffer, Long
 //            nativeQuery = true)
 
     @Query(value = "SELECT * FROM SERVICE_OFFER WHERE INDUSTRY_ID IN (" +
-            "SELECT INDUSTRY_ID FROM (\n" +
+            "SELECT INDUSTRY_ID FROM (" +
             "WITH RECURSIVE RESULTS ( INDUSTRY_ID, NAME,  PARENT_ID ) AS(" +
             "SELECT INDUSTRY.INDUSTRY_ID, INDUSTRY.NAME, INDUSTRY.PARENT_ID " +
             "FROM INDUSTRY WHERE INDUSTRY_ID = :industryId " +
