@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -97,6 +98,7 @@ public class ServiceOfferService {
             .collect(Collectors.toList());
     }
 
+    @Transactional
     public Page<OfferPostDTO> findAllForIndustry(Long industryId, int page, int size) {
         Pageable pageRequest = PageRequest.of(page, size);
         Page<ServiceOffer> serviceOffers = serviceOfferRepository.findServiceOfferByIndustryIdOrParentIndustryId(industryId, pageRequest);
