@@ -23,7 +23,7 @@ public interface JobOfferRepository extends JpaRepository<JobOffer, Long> {
     @Query(value ="SELECT * FROM  JOB_OFFER " +
             "LEFT JOIN INDUSTRY  ON  JOB_OFFER.INDUSTRY_ID = INDUSTRY.INDUSTRY_ID" +
             " WHERE JOB_OFFER.INDUSTRY_ID = :industryId OR INDUSTRY.PARENT_ID = :industryId",
-            countQuery = "SELECT count (*) FROM JOB_OFFER LEFT JOIN INDUSTRY  ON  JOB_OFFER.INDUSTRY_ID = INDUSTRY.INDUSTRY_ID" +
+            countQuery = "SELECT count (*) FROM JOB_OFFER LEFT JOIN INDUSTRY  ON  JOB_OFFER.INDUSTRY_ID = INDUSTRY.INDUSTRY_ID " +
                      "WHERE JOB_OFFER.INDUSTRY_ID = :industryId OR INDUSTRY.PARENT_ID = :industryId",
             nativeQuery = true)
     Page<JobOffer> findJobOfferByIndustryIdOrParentIndustryId(@Param("industryId") Long industryId, Pageable pageRequest);

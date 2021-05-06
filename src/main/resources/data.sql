@@ -414,7 +414,7 @@ INSERT INTO service_offer (user_id, description, title, date_range_id, has_exper
 VALUES (1, 'Podejme prace jako korepetytor z plastyki.', 'Korepetytor', 17, false, 17, 17, 17, '2021-04-01', '2021-04-02', 48);
 
 INSERT INTO service_offer (user_id, description, title, date_range_id, has_experience, salary_id, offer_location_id, offer_schedule_id, DATE_CREATED, DATE_UPDATED, industry_id)
-VALUES (1, 'Podejme prace jako korepetytor z języka angielskiego.', 'Korepetytor', 18, false, 18, 18, 18, '2021-04-01', '2021-04-02', 45);
+VALUES (1, 'Podejme prace jako korepetytor z języka angielskiego.', 'Korepetytor', 18, false, 18, 18, 18, '2021-04-01', '2021-04-02', 42);
 
 
 
