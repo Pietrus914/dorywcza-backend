@@ -20,6 +20,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name="`user`")
 @Entity
 public class User {
 

@@ -51,7 +51,7 @@ public class ImageService {
     public ImageDTO findImage(Long id){
         if (!imageRepository.existsById(id)) throw new RecordNotFound(HttpStatus.BAD_REQUEST, "imageDTO with id " + id );
         Image image = imageRepository.findById(id).get();
-        return new ImageDTO(image.getImageName(),image.getType(),"/images/"+ image.getId(), image.getImage().length);
+        return new ImageDTO(image.getImageName(),image.getType(),"/resources/"+ image.getId(), image.getImage().length);
     }
 
     public byte[] findRealImage(Long id){
