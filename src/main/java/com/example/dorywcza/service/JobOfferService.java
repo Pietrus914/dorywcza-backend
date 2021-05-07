@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -100,5 +101,17 @@ public class JobOfferService {
                 .map(JobOfferTag::getName)
                 .collect(Collectors.toList())))
             .collect(Collectors.toList());
+    }
+
+    public Page<OfferPostDTO> findAllForIndustry(Long industryId, int page, int size) {
+        Pageable pageRequest = PageRequest.of(page, size);
+        Page<JobOffer> jobOffers = repository.findJobOfferByIndustryIdOrParentIndustryId(industryId, pageRequest);
+        return new PageImpl<>(jobOffers
+                .stream()
+                .map(offer -> offerExtractor.getOfferDTO(offer, offer.getJobOfferTags()
+                        .stream()
+                        .map(JobOfferTag::getName)
+                        .collect(Collectors.toList())))
+                .collect(Collectors.toList()), pageRequest, jobOffers.getTotalElements());
     }
 }
