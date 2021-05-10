@@ -94,6 +94,7 @@ public class JobOfferService {
         repository.deleteById(id);
     }
 
+    @Transactional
     public List<OfferPostDTO> findAllByUserId(Long userId) {
         return repository.findJobOfferByUserIdOrderByDateCreatedDesc(userId)
             .stream()
