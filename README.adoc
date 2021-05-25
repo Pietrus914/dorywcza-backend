@@ -1,3 +1,7 @@
+_Project in progress since April 2021. (Codecool course)_ 
+_Developers: Katarzyna Grabowska, Joanna Rzeszótko-Doniec, Jakub Zieliński, Piotr Wójcik_
+
+
 = EL PROJECTE GRANDE - DESIGN DOCUMENT
 KATARZYNA GRABOWSKA, JOANNA RZESZÓTKO-DONIEC, JAKUB ZIELIŃSKI, PIOTR WÓJCIK
 14.03/2021
