@@ -1,6 +1,7 @@
 package com.example.dorywcza.service;
 
 import com.example.dorywcza.model.OfferType;
+import com.example.dorywcza.model.job_offer.JobOffer;
 import com.example.dorywcza.model.offer.DTO.OfferPostDTO;
 import com.example.dorywcza.model.offer.JobOfferTag;
 import com.example.dorywcza.model.offer.Offer;
@@ -94,6 +95,18 @@ public class ServiceOfferService {
                 .map(ServiceOfferTag::getName)
                 .collect(Collectors.toList())))
             .collect(Collectors.toList());
+    }
+
+    public Page<OfferPostDTO> findAllForIndustry(Long industryId, int page, int size) {
+        Pageable pageRequest = PageRequest.of(page, size);
+        Page<ServiceOffer> serviceOffers = serviceOfferRepository.findServiceOfferByIndustryIdOrParentIndustryId(industryId, pageRequest);
+        return new PageImpl<>(serviceOffers
+                .stream()
+                .map(offer -> offerExtractor.getOfferDTO(offer, offer.getServiceOfferTags()
+                        .stream()
+                        .map(ServiceOfferTag::getName)
+                        .collect(Collectors.toList())))
+                .collect(Collectors.toList()), pageRequest, serviceOffers.getTotalElements());
     }
 
 }
