@@ -1,8 +1,9 @@
 package com.example.dorywcza.controller;
 
-import com.example.dorywcza.model.user.UserDTO;
+import com.example.dorywcza.model.user.DTO.UserPublicDTO;
+import com.example.dorywcza.model.user.DTO.UserUpdateDTO;
 import com.example.dorywcza.service.UserService;
-import com.example.dorywcza.util.ImageToByteArrayConverter;
+import com.example.dorywcza.util.ImageDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -19,13 +20,11 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @AutoConfigureMockMvc
@@ -56,20 +55,25 @@ class UserControllerTest {
                 .andReturn();
 
         String responseAsString = mvcResult.getResponse().getContentAsString();
-        List<UserDTO> returnedUserList = objectMapper.readValue(responseAsString, new TypeReference<>() {
+        List<UserPublicDTO> returnedUserList = objectMapper.readValue(responseAsString, new TypeReference<>() {
         });
 
         int expectedSize = 3;
         List<String> expectedEmails = new ArrayList<>(List.of("mark@gmail.com", "kazik@gmail.com","mati@gmail.com" )) ;
         List<String> expectedStreets = new ArrayList<>(List.of("SunnyStreet", "StormyStreet", "RainyStreet"));
+        List<ImageDTO> expectedExperienceImages = null;
 
         assertAll(
             () -> assertEquals(expectedSize,returnedUserList.size()),
-            () -> assertEquals(expectedEmails, returnedUserList.stream().map(UserDTO::getEmail).collect(Collectors.toList())),
-                () -> assertEquals(expectedStreets, returnedUserList.stream()
-                        .map(UserDTO::getStreet)
-                        .collect(Collectors.toList())
-                )
+            () -> assertEquals(expectedEmails, returnedUserList.stream().map(UserPublicDTO::getEmail).collect(Collectors.toList())),
+            () -> assertEquals(expectedStreets, returnedUserList.stream()
+                    .map(UserPublicDTO::getStreet)
+                    .collect(Collectors.toList()))
+//            () -> assertEquals(expectedExperienceImages,returnedUserList.stream()
+//                        .map(UserPublicDTO::getPictures)
+//                        .flatMap(List::stream)
+////                        .map(ImageDTO::getType)
+//                        .collect(Collectors.toList()))
             );
     }
 
@@ -77,13 +81,14 @@ class UserControllerTest {
     @DirtiesContext
     void givenNewUserWithoutProfile_whenAdding_ShouldReturnExpectedUser() throws Exception {
 
-        UserDTO newUserDTO = new UserDTO("emailTest@gmail.com");
-        newUserDTO.setExperienceDescription("funny guy");
+        UserUpdateDTO newUserDTO = new UserUpdateDTO("emailTest@gmail.com");
+        newUserDTO.setEmail("emailTest@gmail.com");
+
         String newUserDTOInJson = objectMapper.writeValueAsString(newUserDTO);
 
         MvcResult mvcResult;
         mvcResult = this.mockMvc.perform(
-                MockMvcRequestBuilders.post("/user")
+                MockMvcRequestBuilders.post("/users")
                         .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
                         .param(csrfToken.getParameterName(), csrfToken.getToken())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -92,27 +97,27 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        UserDTO returnedUserDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), UserDTO.class);
+        newUserDTO.setOverallRating(0);
+
+        UserUpdateDTO returnedUserDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), UserUpdateDTO.class);
 
         assertAll(
                 () -> assertEquals(newUserDTO, returnedUserDTO)
         );
-
-
     }
 
     @Test
     @DirtiesContext
     void givenUserWithoutProfile_whenUpdateUser_ShouldReturnUpdatedUser() throws Exception {
 
-        UserDTO userDTOToUpdate = userService.findById(1L).get();
-        userDTOToUpdate.setUser_name("newNick");
+        UserUpdateDTO userDTOToUpdate = userService.findUpdateDTOById(1L).get();
+        userDTOToUpdate.setUserName("newNick");
         userDTOToUpdate.setExperienceDescription("strong man");
         String userDTOToUpdateInJson = objectMapper.writeValueAsString(userDTOToUpdate);
 
         MvcResult mvcResult;
         mvcResult = this.mockMvc.perform(
-                MockMvcRequestBuilders.put("/user/1")
+                MockMvcRequestBuilders.put("/users/1")
                         .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
                         .param(csrfToken.getParameterName(), csrfToken.getToken())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -121,7 +126,7 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        UserDTO returnedUserDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), UserDTO.class);
+        UserUpdateDTO returnedUserDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), UserUpdateDTO.class);
 
         assertAll(
                 () -> assertEquals(userDTOToUpdate,
@@ -133,18 +138,14 @@ class UserControllerTest {
 
     @Test
     @DirtiesContext
-    void givenUserWithAvatar_whenAddUser_ShouldReturnBytesArray() throws Exception {
-        String fileName = "./images/birds_rainbow-lorakeets.png";
-        File avatar = new File(fileName);
-        UserDTO userDTOToAdd = userService.findById(1L).get();
-        userDTOToAdd.setId(null);
-        userDTOToAdd.setUser_name("NickWithAvatar");
-        userDTOToAdd.setAvatar(ImageToByteArrayConverter.convertImageToByteArray(avatar));
-        String userDTOToUpdateInJson = objectMapper.writeValueAsString(userDTOToAdd);
+    void givenUserDTOWithoutProfile_whenDeleteUser_ShouldReturnUserDTOWithDeletedStatus() throws Exception {
+
+        UserUpdateDTO userDTOToUpdate = userService.findUpdateDTOById(1L).get();
+        String userDTOToUpdateInJson = objectMapper.writeValueAsString(userDTOToUpdate);
 
         MvcResult mvcResult;
         mvcResult = this.mockMvc.perform(
-                MockMvcRequestBuilders.put("/user/1")
+                MockMvcRequestBuilders.delete("/users/1")
                         .sessionAttr(TOKEN_ATTR_NAME, csrfToken)
                         .param(csrfToken.getParameterName(), csrfToken.getToken())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -153,13 +154,14 @@ class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
 
-        UserDTO returnedUserDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), UserDTO.class);
+        UserUpdateDTO returnedUserDTO = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), UserUpdateDTO.class);
 
         assertAll(
-                () -> assertEquals(avatar,
-                        ImageToByteArrayConverter.convertByteArrayToFile(returnedUserDTO.getAvatar(), fileName))
+                () -> assertEquals(userDTOToUpdate,
+                        returnedUserDTO),
+                () -> assertThrows(RuntimeException.class, () -> {
+                    userService.findUserById(1L);})
         );
-
-
     }
+
 }

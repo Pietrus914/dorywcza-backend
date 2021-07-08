@@ -1,10 +1,12 @@
 package com.example.dorywcza.util;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.util.Objects;
 
 
@@ -21,28 +23,30 @@ public class Image {
     private byte[] image;
     @ManyToOne(fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn(name = "image_box_id")
-    @JsonBackReference
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     private ImageBox imageBox;
 
     private String imageName;
     private String type;
 
-
-    public Image(byte[] file){
+    public Image(MultipartFile file, ImageBox imageBox) throws IOException {
         if (file != null){
-            this.image = file;
+            this.image = file.getBytes();
+            this.type = file.getContentType();
+            this.imageName = getFileName(file);
+            this.imageBox = imageBox;
         }
     }
 
-    public Image(byte[] file,String type, String imageName, ImageBox imageBox){
-        if (file != null){
-            this.image = file;
-            this.type = type;
-            this.imageName = imageName;
-            this.imageBox = imageBox;
-        }
+    private String getFileName(MultipartFile file) {
+        return StringUtils.cleanPath(file.getOriginalFilename());
+    }
+
+    public boolean hasFile(){
+        return image != null;
+    }
+
+    public ImageDTO convert(Image image){
+        return new ImageDTO(image.getImageName(), image.getType(), "/images/"+ image.getId(), image.getImage().length );
     }
 
     @Override

@@ -1,51 +1,65 @@
-package com.example.dorywcza.service.ImageService;
+package com.example.dorywcza.service;
 
+import com.example.dorywcza.exceptions.RecordNotFound;
 import com.example.dorywcza.model.user.User;
 import com.example.dorywcza.model.user.UserProfile;
-import com.example.dorywcza.repository.ImageRepository.ImageRepository;
-import com.example.dorywcza.repository.UserRepository;
+import com.example.dorywcza.repository.ImageRepository;
+import com.example.dorywcza.service.UserService;
 import com.example.dorywcza.util.Image;
 import com.example.dorywcza.util.ImageBox;
 import com.example.dorywcza.util.ImageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class ImageService {
 
-    @Autowired
     private ImageRepository imageRepository;
+    private UserService userService;
+
     @Autowired
-    private UserRepository userRepository;
+    public ImageService(ImageRepository imageRepository, @Lazy UserService userService) {
+        this.imageRepository = imageRepository;
+        this.userService = userService;
+    }
 
     public Image store(MultipartFile file, Long userId, Boolean isAvatar) throws IOException {
+        User user = userService.findUserById(userId);
+        if (!user.hasProfile()){
+            user.setUserProfile(new UserProfile(user));
+            userService.updateUser(user);
+        }
         if (isAvatar){
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-            Image image = new Image(file.getBytes(), file.getContentType(), fileName,null);
-            User user = userRepository.findById(userId).get();
+            Image image = new Image(file,null);
             image.setId(user.getUserProfile().getAvatar().getId());
             return imageRepository.save(image);
         }
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-        ImageBox imageBox = userRepository.findById(userId).get().getUserProfile().getExperience().getImageBox();
-        Image image = new Image(file.getBytes(), file.getContentType(), fileName, imageBox);
+        ImageBox imageBox = user.getUserProfile().getExperience().getImageBox();
+        Image image = new Image(file, imageBox);
         return imageRepository.save(image);
     }
 
     public ImageDTO findImage(Long id){
-        if (!imageRepository.existsById(id)) throw new RuntimeException("User Not Found");
+        if (!imageRepository.existsById(id)) throw new RecordNotFound(HttpStatus.BAD_REQUEST, "imageDTO with id " + id );
         Image image = imageRepository.findById(id).get();
         return new ImageDTO(image.getImageName(),image.getType(),"/images/"+ image.getId(), image.getImage().length);
     }
+
+    public byte[] findRealImage(Long id){
+        if (!imageRepository.existsById(id)) throw new RecordNotFound(HttpStatus.BAD_REQUEST, "image with id " + id );
+        byte[] realImage = imageRepository.findById(id).get().getImage();
+        return realImage;
+    }
+
 
     public List<ImageDTO> getAllImages(){
         List<Image> images =  imageRepository.findAll();
@@ -61,5 +75,18 @@ public class ImageService {
         }).collect(Collectors.toList());
 
         return imageDTOList;
+    }
+
+    public List<Image> findRealImagesByIds(List<Long> imageIds) {
+        return imageIds.stream()
+                .filter(i -> imageRepository.existsById(i))
+                .map(i -> imageRepository.findById(i).get()).collect(Collectors.toList());
+    }
+
+    public void deleteRealImage(Long id) {
+        if (!imageRepository.existsById(id)){throw new RecordNotFound(HttpStatus.BAD_REQUEST,"image with id " + id );}
+        Image image = imageRepository.findById(id).get();
+        imageRepository.delete(image);
+
     }
 }

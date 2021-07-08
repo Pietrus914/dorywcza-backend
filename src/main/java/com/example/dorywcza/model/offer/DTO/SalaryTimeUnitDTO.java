@@ -5,8 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class OfferLocationDTO {
-    private double xPosition;
-    private double yPosition;
-    private String cityName;
+public class SalaryTimeUnitDTO {
+    private Long id;
+    private String name;
 }

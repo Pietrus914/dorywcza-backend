@@ -1,44 +1,76 @@
 package com.example.dorywcza.controller;
 
-import com.example.dorywcza.service.ImageService.ImageService;
-import com.example.dorywcza.util.Image;
+import com.example.dorywcza.exceptions.ErrorDTO;
+import com.example.dorywcza.service.ImageService;
 import com.example.dorywcza.util.ImageDTO;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
-@RestController
-public class ImageController {
-    @Autowired
-    ImageService imageService;
 
+@RestController
+@CrossOrigin(origins = "http://localhost:4200")
+public class ImageController {
+
+    private final ImageService imageService;
+
+    @Autowired
     public ImageController(ImageService imageService) {
         this.imageService = imageService;
     }
 
-    @PostMapping("/upload")
-    public String uploadImage(@RequestParam("image") MultipartFile image,
+    @ApiOperation("Upload an imageDTO. Necessary parameters: [MultipartFile image , Long userId , Boolean avatar]")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Image uploaded successfully", response = Void.class),
+            @ApiResponse(code = 400, message = "Not valid parameter", response = ErrorDTO.class)})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "User's id",example = "1", required = true, dataType = "long", paramType = "form"),
+            @ApiImplicitParam(name = "avatar", value = "true for avatar, false for other images", example = "true", required = true, dataType = "Boolean", paramType = "form"),
+            @ApiImplicitParam(name = "image", value = "Image", required = true, dataType = "_file", paramType = "form")
+    })
+    @ResponseStatus(HttpStatus.OK)   //in case of positive scenario it will send 200, if not: 500
+    @PostMapping(value = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public void uploadImage(@RequestPart("image") MultipartFile image,
                               @RequestParam("userId") Long userId,
-                              @RequestParam("avatar") Boolean isAvatar){
+                              @RequestParam("avatar") Boolean isAvatar) throws IOException {
 
-        try {
-            Image uploadedImage = imageService.store(image, userId, isAvatar);
-            return "File " + uploadedImage.getImageName() + " uploaded";
-        } catch (Exception e) {
-            return "File " + image.getOriginalFilename() + " could not be uploaded";
-        }
-
+            imageService.store(image, userId, isAvatar);
     }
 
-    @GetMapping("/images/{id}")
+    @ApiOperation("Gets na imageDT according to passed image id")
+    @ApiResponse(code = 200, message = "Gets na imageDTO", response = ImageDTO.class)
+    @GetMapping(value = "/images/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ImageDTO getImage(@PathVariable Long id){
         return imageService.findImage(id);
     }
 
-    @GetMapping("/images")
+    @ApiOperation("Gets a list of images' DTOs")
+    @ApiResponse(code = 200, message = "Gets a list of images' DTOs", response = ImageDTO.class, responseContainer = "List")
+    @GetMapping(value = "/images", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ImageDTO> getAllImages(){
         return imageService.getAllImages();
+    }
+
+    @ApiOperation("Retrives an image as byte array as MediaType: jpg, gif, png")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "An image successfully retrieved", response = byte.class, responseContainer = "array")})
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "Image's id",example = "1", required = true, dataType = "long", paramType = "path")
+    })
+    @GetMapping(value="/resources/{id}", produces = {MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_GIF_VALUE,MediaType.IMAGE_PNG_VALUE})
+    public @ResponseBody byte[] getRealImage(@PathVariable Long id){
+            return imageService.findRealImage(id);
+        }
+
+
+    @ApiOperation("Deleting an image from database")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "An image successfully deleted", response = String.class)})
+    @DeleteMapping(value = "/resources/{id}")
+    public void deleteImage(@PathVariable Long id){
+        imageService.deleteRealImage(id);
     }
 }

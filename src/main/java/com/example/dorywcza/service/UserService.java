@@ -1,10 +1,16 @@
 package com.example.dorywcza.service;
 
+import com.example.dorywcza.exceptions.RecordNotFound;
+import com.example.dorywcza.model.user.DTO.UserPublicDTO;
+import com.example.dorywcza.model.user.DTO.UserSimplifiedDTO;
+import com.example.dorywcza.model.user.DTO.UserUpdateDTO;
+import com.example.dorywcza.model.user.Experience;
 import com.example.dorywcza.model.user.User;
-import com.example.dorywcza.model.user.UserDTO;
 import com.example.dorywcza.model.user.UserProfile;
 import com.example.dorywcza.repository.UserRepository;
+import com.example.dorywcza.util.Address;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.PersistenceContext;
@@ -17,55 +23,119 @@ import java.util.stream.Collectors;
 @PersistenceContext(type = PersistenceContextType.EXTENDED)
 public class UserService {
 
-    @Autowired
     private final UserRepository userRepository;
+    private ImageService imageService;
 
-
-    public UserService(UserRepository userRepository) {
+    @Autowired
+    public UserService(UserRepository userRepository, ImageService imageService) {
         this.userRepository = userRepository;
+        this.imageService = imageService;
     }
 
-    public List<UserDTO> findAll() {
-
-        return userRepository.findAll().stream().map(this::convert).collect(Collectors.toList());
+    public List<UserPublicDTO> findAll() {
+        return userRepository.findAll().stream().map(this::getUserPublicDTOFrom).collect(Collectors.toList());
     }
 
-    public Optional<UserDTO> findById(Long id) {
-        return userRepository.findById(id).map(this::convert);
+    public User findUserById(Long id) {
+        return findOrThrowException(id).get();
     }
 
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    private Optional<User> findOrThrowException(Long id) {
+        if (!userRepository.existsById(id)){throw new RecordNotFound(HttpStatus.BAD_REQUEST, "user with id " + id );}
+        return userRepository.findById(id);
     }
 
-    public UserDTO addUser(UserDTO userDTO) {
-        userDTO.setId(null);
-        User toAddUser = convert(userDTO);
-        toAddUser.setDeleted(false);
+    public Optional<UserSimplifiedDTO> findSimplifiedDTOById(Long id){
+        return findOrThrowException(id).map(this::getSimplifiedDTOById);
+    }
+
+    public Optional<UserPublicDTO> findPublicDTOById(Long id) {
+        return findOrThrowException(id).map(this::getUserPublicDTOFrom);
+    }
+
+    public Optional<UserUpdateDTO> findUpdateDTOById(Long id) {
+        return findOrThrowException(id).map(this::getUserUpdateDTOFrom);
+    }
+
+
+    /** function that marks user as deleted **/
+    public UserUpdateDTO deleteUser(Long id) {
+        User userToDelete = findOrThrowException(id).get();
+        userToDelete.setDeleted(true);
+        User markedAsDeleted = userRepository.save(userToDelete);
+        return getUserUpdateDTOFrom(markedAsDeleted);
+    }
+
+    /** function that saves user without userProfile **/
+    public UserUpdateDTO addUser(UserUpdateDTO userUpdateDTO) {
+        User toAddUser = createFrom(userUpdateDTO);
+        userUpdateDTO.setId(null);
         User addedUser = userRepository.save(toAddUser);
 
-        return convert(addedUser);
+        return getUserUpdateDTOFrom(addedUser);
     }
 
-    public UserDTO updateUser(UserDTO userDTO, Long id) {
-        if (!userRepository.existsById(id)) throw new RuntimeException("User Not Found");
-        User userToUpdate = convert(userDTO);
-        userToUpdate.setId(id);
-        userToUpdate.getUserProfile().setId(id);
-        User updatedUser = userRepository.save(userToUpdate);
-
-        return convert(updatedUser);
-    }
-
-    public User convert(UserDTO userDTO){
-        User fromDTO = new User(userDTO);
-        fromDTO.setUserProfile(new UserProfile(fromDTO, userDTO.getFirst_name(),userDTO.getLast_name(),
-                userDTO.getUser_name(), userDTO.getDescription(), userDTO.getStreet(), userDTO.getExperienceDescription(),
-                userDTO.getPictures(), userDTO.getAvatar()));
+    /** function that creates user without userProfile **/
+    public User createFrom(UserUpdateDTO userUpdateDTO){
+        User fromDTO = new User(userUpdateDTO);
         return fromDTO;
     }
 
-    private UserDTO convert(User user){
-        return new UserDTO(user);
+    /** function that update user existing in DB **/
+    public void updateUser(User user){
+        userRepository.save(user);
+    }
+
+    /** function that update user with userProfile (without images) **/
+    public UserUpdateDTO updateUser(UserUpdateDTO userUpdateDTO, Long id) {
+        User userFromDb = findOrThrowException(id).get();
+
+        User userToUpdate = updateUserFromDb(userFromDb, userUpdateDTO);
+        User updatedUser = userRepository.save(userToUpdate);
+
+        return getUserUpdateDTOFrom(updatedUser);
+    }
+
+    /** function that updates user from DB with data from UserDTO (without images) **/
+    private User updateUserFromDb(User userFromDb, UserUpdateDTO userUpdateDTO){
+        userFromDb.setPhoneNumber(userUpdateDTO.getPhoneNumber());
+        if (!userFromDb.hasProfile()){
+            userFromDb.setUserProfile(new UserProfile(userFromDb));
+        }
+        UserProfile profile = userFromDb.getUserProfile();
+        updateProfileData(userUpdateDTO, profile);
+
+        return userFromDb;
+    }
+
+    private void updateProfileData(UserUpdateDTO userUpdateDTO, UserProfile profile) {
+        profile.setFirstName(userUpdateDTO.getFirstName());
+        profile.setLastName(userUpdateDTO.getLastName());
+        profile.setUserName(userUpdateDTO.getUserName());
+        profile.setDescription(userUpdateDTO.getDescription());
+        Address address = profile.getAddress();
+        address.setStreet(userUpdateDTO.getStreet());
+        address.setFlatNumber(userUpdateDTO.getFlatNumber());
+        address.setZipCode(userUpdateDTO.getZipCode());
+        address.setCity(userUpdateDTO.getCity());
+        Experience experience = profile.getExperience();
+        experience.setDescription(userUpdateDTO.getExperienceDescription());
+    }
+
+    public User getUserFromUpdateDTO(UserUpdateDTO userUpdateDTO, Long id){
+        User userFromDb = findOrThrowException(id).get();
+        return updateUserFromDb(userFromDb,userUpdateDTO);
+    }
+
+    private UserPublicDTO getUserPublicDTOFrom(User user){
+        return new UserPublicDTO(user);
+    }
+
+    private UserUpdateDTO getUserUpdateDTOFrom(User user){
+        return new UserUpdateDTO(user);
+    }
+
+    public UserSimplifiedDTO getSimplifiedDTOById(User user) {
+        return new UserSimplifiedDTO(user);
     }
 }

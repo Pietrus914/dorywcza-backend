@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
@@ -79,4 +80,22 @@ public class Offer {
         this.offerSchedule = offerSchedule;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Offer offer = (Offer) o;
+        return hasExperience == offer.hasExperience && Objects.equals(title, offer.title) &&
+                Objects.equals(description, offer.description) &&
+                Objects.equals(user, offer.user) && Objects.equals(offerLocation, offer.offerLocation) &&
+                Objects.equals(dateRange, offer.dateRange) &&
+                Objects.equals(industry, offer.industry) &&
+                Objects.equals(salary, offer.salary) &&
+                Objects.equals(offerSchedule, offer.offerSchedule);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, description, user, hasExperience, offerLocation, dateRange, industry, salary, offerSchedule);
+    }
 }

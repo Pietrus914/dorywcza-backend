@@ -4,6 +4,8 @@ KATARZYNA GRABOWSKA, JOANNA RZESZÓTKO-DONIEC, JAKUB ZIELIŃSKI, PIOTR WÓJCIK
 :project_name: El Grande
 :imagesdir: ./images
 :journey: https://journey.code.cool/v2/project/curriculum/project/el-proyecte-grande-design/team/general
+:api-ui: http://localhost:8080/dorywcza/swagger-ui/
+:api-docs: http://localhost:8080/dorywcza/docs
 
 
 image::birds_rainbow-lorakeets.png[Birds,200,100]
@@ -25,6 +27,7 @@ Application {project_name} can be used on every computer connected to the Intern
 {journey}[description from Journey]
 
 === CONTENT
+* <<api_documentation>>
 * <<main_page>>
 ** <<head>>
 ** <<brief_job_offer_layout>>
@@ -42,6 +45,13 @@ Application {project_name} can be used on every computer connected to the Intern
 
 * <<authors>>
 
+
+[#api_documentation]
+== API DOCUMENTATION
+
+{api-docs}[API DOCS]
+
+{api-ui}[API UI]
 
 
 [#main_page]
